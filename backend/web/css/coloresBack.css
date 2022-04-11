@@ -1,0 +1,20 @@
+:root {
+    /*color para logo*/
+    --primary: rgb(0, 112, 180);
+    /*color para letras de botón*/
+    --text-bottom: #ffff;
+    /*color para letras de generales*/
+    --text-letras: #ffff;
+    /*color para botón*/
+    --primary-bottom: rgb(0, 112, 180);
+    /*color para cuando se presiona el botón*/
+    --second-bottom: rgb(18, 84, 189);
+    /*color para cuando esta activo el botón*/
+    --primary-dark: #ffff;
+    /*color de la caja*/
+    --caja: #4e4d4d;
+    /*color del sombreado de la caja*/
+    --caja-sombreado: #000;
+    /*color del cuadro de texto*/
+    --cuadro-texto: #252323;
+}

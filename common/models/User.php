@@ -3,50 +3,55 @@
 namespace common\models;
 
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+use yii\mongodb\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
  * User model
  *
- * @property integer $id
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $verification_token
- * @property string $email
- * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ * @property \MongoId|string $_id
+ * @property string $usu_nombre
+ * @property string $usu_Apellido
+ * @property string $usu_edad
+ * @property string $usu_tipo
+ * @property string $usu_correo
+ * @property string $usu_contra
+ * @property integer $usu_estado
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-
-
+    const ESTADO = "N";
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public static function tableName()
+    public static function collectionName()
     {
-        return '{{%user}}';
+        $bd = validarBase();
+        return [$bd, 'usuarios'];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function behaviors()
+    public function attributes()
     {
         return [
-            TimestampBehavior::className(),
+            '_id',
+            'usu_nombre',
+            'usu_Apellido',
+            'usu_edad',
+            'usu_tipo',
+            'usu_correo',
+            'usu_contra',
+            'usu_estado',
+            'auth_key',
+
         ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -60,19 +65,34 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public static function findIdentity($id)
+    public function attributeLabels()
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return [
+            '_id' => Yii::t('app', 'ID'),
+            'usu_correo' => Yii::t('app', 'Correo electrónico'),
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
+    public static function findIdentity($id)
+    {
+        if (is_array($id)) {
+            $id = $id['$oid'];
+        }
+        return static::findOne($id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    /* modified */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
@@ -83,7 +103,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return User::find()->where([
+            'usu_correo' => $username,
+            'usu_estado' => 'N',
+        ])->one();
     }
 
     /**
@@ -110,7 +133,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -166,7 +190,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        $validado = false;
+
+        if ($this->usu_contra == $password) {
+            $validado = true;
+        }
+        return $validado;
     }
 
     /**
@@ -176,7 +205,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->usu_contra = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**

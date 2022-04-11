@@ -1,0 +1,86 @@
+/*Estilo para la imagen del login*/
+.class-img {
+    width: 100%;
+    background: var(--primary) !important;
+    margin: -10px auto 0 auto;
+    padding: 1rem;
+}
+
+.class-img>a>img {
+    display: block;
+    margin: auto;
+    height: 140px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/*Estilo para el cuadro del login*/
+.form-login {
+    color: var(--text-letras) !important;
+}
+
+.form-contenido {
+    background-color: var(--caja);
+    padding: 20px 30px;
+    border-top: 4px solid var(--primary);
+    box-shadow: 7px 13px 37px var(--caja-sombreado);
+}
+
+.controls {
+    width: 100%;
+    border: 1px solid var(--primary);
+    margin-bottom: 3%;
+    padding: 2%;
+    background: var(--cuadro-texto);
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.form-login a:hover {
+    text-decoration: underline;
+}
+
+.site-login {
+    max-width: 660px;
+    padding: 20px 20px;
+}
+
+.center-contenido {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login p {
+    height: 40px;
+    text-align: center;
+    border-bottom: 1px solid;
+}
+
+/*Estilo para colores de botones*/
+.btn-primary {
+    color: var(--text-bottom) !important;
+    background: var(--primary-bottom);
+    border-color: var(--primary-bottom);
+}
+
+.btn-primary:hover {
+    background-color: var(--second-bottom);
+    border-color: var(--second-bottom);
+}
+
+.btn-primary:focus {
+    background-color: var(--second-bottom);
+    border-color: var(--second-bottom);
+}
+
+.btn-primary:active {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-primary:focus:active {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
