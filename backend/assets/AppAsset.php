@@ -15,9 +15,10 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/login.css',
         'css/coloresBack.css',
-
     ];
     public $js = [
+        'js/login.js',
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

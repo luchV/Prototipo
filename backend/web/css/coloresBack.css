@@ -1,6 +1,8 @@
 :root {
-    /*color para logo*/
-    --primary: rgb(0, 112, 180);
+    /*color para la ventana*/
+    --color-doby: #cc3367;
+    /*color para borde*/
+    --primary: #eee;
     /*color para letras de botón*/
     --text-bottom: #ffff;
     /*color para letras de generales*/
@@ -9,12 +11,34 @@
     --primary-bottom: rgb(0, 112, 180);
     /*color para cuando se presiona el botón*/
     --second-bottom: rgb(18, 84, 189);
+    /*color del boton de inicio*/
+    --bottom-segundo: #FF4081;
+    /*color del borbe boton de inicio*/
+    --bottom-segundo-dorder: #FF4081;
     /*color para cuando esta activo el botón*/
     --primary-dark: #ffff;
     /*color de la caja*/
-    --caja: #4e4d4d;
+    --caja: #fff;
     /*color del sombreado de la caja*/
-    --caja-sombreado: #000;
+    --caja-sombreado: rgba(0, 0, 0, 0.15);
     /*color del cuadro de texto*/
     --cuadro-texto: #252323;
+    /*color h1*/
+    --cuadro-h1: #FF4081;
+    /*color alerta*/
+    --alerta-color: #f00;
+
+    /*color oso*/
+    --cara: #fff;
+    --oido-interno: #000;
+    --oido-externo: #fff;
+    --ojo-exterior: #000;
+    --ojo-medio: #fff;
+    --ojo-interior: #000;
+    --nariz: #000;
+    --cuerpo: #fff;
+    --manos: #000;
+    --pies: #000;
+    --pies-dedos: #222;
+    --pies-planta: #222;
 }

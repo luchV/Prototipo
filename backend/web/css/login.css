@@ -1,61 +1,275 @@
-/*Estilo para la imagen del login*/
-.class-img {
-    width: 100%;
-    background: var(--primary) !important;
-    margin: -10px auto 0 auto;
-    padding: 1rem;
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script|Roboto);
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
 }
 
-.class-img>a>img {
-    display: block;
-    margin: auto;
-    height: 140px;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-/*Estilo para el cuadro del login*/
-.form-login {
-    color: var(--text-letras) !important;
-}
-
-.form-contenido {
-    background-color: var(--caja);
-    padding: 20px 30px;
-    border-top: 4px solid var(--primary);
-    box-shadow: 7px 13px 37px var(--caja-sombreado);
-}
-
-.controls {
-    width: 100%;
-    border: 1px solid var(--primary);
-    margin-bottom: 3%;
-    padding: 2%;
-    background: var(--cuadro-texto);
-    font-size: 100%;
-    font-weight: bold;
-}
-
-.form-login a:hover {
-    text-decoration: underline;
-}
-
-.site-login {
-    max-width: 660px;
-    padding: 20px 20px;
-}
-
-.center-contenido {
-    display: flex;
-    min-height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-login p {
-    height: 40px;
+body {
+    background: var(--color-doby);
     text-align: center;
-    border-bottom: 1px solid;
+    font-family: 'Roboto', sans-serif;
+}
+
+/*Estilo del tema*/
+.panda {
+    position: relative;
+    width: 200px;
+    margin: 50px auto;
+}
+
+/*Estilo de la cara*/
+.face {
+    width: 200px;
+    height: 200px;
+    background: var(--cara);
+    border-radius: 100%;
+    margin: 50px auto;
+    box-shadow: 0 10px 15px var(--caja-sombreado);
+    z-index: 50;
+    position: relative;
+}
+
+/*Estilo de los oidos*/
+.ear,
+.ear:after {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--oido-interno);
+    z-index: 5;
+    border: 10px solid var(--oido-externo);
+    left: -15px;
+    top: -15px;
+    border-radius: 100%;
+}
+
+.ear:after {
+    content: '';
+    left: 125px;
+}
+
+/*Estilo de los ojos*/
+.eye-shade {
+    background: var(--ojo-exterior);
+    width: 50px;
+    height: 80px;
+    margin: 10px;
+    position: absolute;
+    top: 35px;
+    left: 25px;
+    transform: rotate(220deg);
+    border-radius: 25px/20px 30px 35px 40px;
+}
+
+.eye-shade.rgt {
+    transform: rotate(140deg);
+    left: 105px;
+}
+
+.eye-white {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background: var(--ojo-medio);
+    z-index: 500;
+    left: 40px;
+    top: 80px;
+    overflow: hidden;
+}
+
+.eye-white.rgt {
+    right: 40px;
+    left: auto;
+}
+
+.eye-ball {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    left: 20px;
+    top: 20px;
+    max-width: 10px;
+    max-height: 10px;
+    transition: 0.1s;
+}
+
+.eye-ball:after {
+    content: '';
+    background: var(--ojo-interior);
+    position: absolute;
+    border-radius: 100%;
+    right: 0;
+    bottom: 0px;
+    width: 20px;
+    height: 20px;
+}
+
+/*Estilo de los nariz*/
+.nose {
+    position: absolute;
+    height: 20px;
+    width: 35px;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 50px 20px/30px 15px;
+    transform: rotate(15deg);
+    background: var(--nariz);
+}
+
+/*Estilo del cuerpo*/
+.body {
+    background: var(--cuerpo);
+    position: absolute;
+    top: 350px;
+    left: -20px;
+    border-radius: 100px 100px 100px 100px/126px 126px 96px 96px;
+    width: 250px;
+    height: 300px;
+    box-shadow: 0 5px 10px var(--caja-sombreado);
+}
+
+/*Estilo de las manos*/
+.hand,
+.hand:after,
+.hand:before {
+    width: 40px;
+    height: 30px;
+    border-radius: 50px;
+    box-shadow: 0 2px 3px var(--caja-sombreado);
+    background: var(--manos);
+    margin: 5px;
+    position: absolute;
+    top: 70px;
+    left: -25px;
+}
+
+.hand:after,
+.hand:before {
+    content: '';
+    left: -5px;
+    top: 11px;
+}
+
+.hand:before {
+    top: 26px;
+}
+
+.hand.rgt,
+.rgt.hand:after,
+.rgt.hand:before {
+    left: auto;
+    right: -25px;
+}
+
+.hand.rgt:after,
+.hand.rgt:before {
+    left: auto;
+    right: -5px;
+}
+
+/*Estilo de los pies*/
+.foot {
+    top: 530px;
+    left: -100px;
+    position: absolute;
+    background: var(--pies);
+    z-index: 1400;
+    box-shadow: 0 5px 5px var(--caja-sombreado);
+    border-radius: 40px 40px 39px 40px/26px 26px 63px 63px;
+    width: 82px;
+    height: 120px;
+}
+
+.foot:after {
+    content: '';
+    width: 55px;
+    height: 65px;
+    background: var(--pies-planta);
+    border-radius: 100%;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.foot .finger,
+.foot .finger:after,
+.foot .finger:before {
+    position: absolute;
+    width: 25px;
+    height: 35px;
+    background: var(--pies-dedos);
+    border-radius: 100%;
+    top: 10px;
+    right: 5px;
+}
+
+.foot .finger:after,
+.foot .finger:before {
+    content: '';
+    right: 30px;
+    width: 20px;
+    top: 0;
+}
+
+.foot .finger:before {
+    right: 55px;
+    top: 5px;
+}
+
+.foot.rgt {
+    left: auto;
+    right: -110px
+}
+
+.foot.rgt .finger,
+.foot.rgt .finger:after,
+.foot.rgt .finger:before {
+    left: 5px;
+    right: auto;
+}
+
+.foot.rgt .finger:after {
+    left: 30px;
+    right: auto;
+}
+
+.foot.rgt .finger:before {
+    left: 55px;
+    right: auto;
+}
+
+/*Estilo del Form*/
+
+#login-form {
+    display: none;
+    max-width: 500px;
+    padding: 20px 40px;
+    background: var(--caja);
+    height: 100%;
+    margin: auto;
+    display: block;
+    box-shadow: 0 10px 15px var(--caja-sombreado);
+    transition: 0.3s;
+    position: relative;
+    transform: translateY(-100px);
+    z-index: 500;
+    border: 1px solid var(--primary);
+}
+
+#login-form.up {
+    transform: translateY(-180px);
+}
+
+h1 {
+    color: var(--cuadro-h1);
+    font-family: 'Dancing Script', cursive;
 }
 
 /*Estilo para colores de botones*/
@@ -83,4 +297,120 @@
 .btn-primary:focus:active {
     background-color: var(--primary-dark);
     border-color: var(--primary-dark);
+}
+/*Estilo del botones*/
+
+.btn-login {
+    background: var(--text-bottom);
+    padding: 5px;
+    width: 150px;
+    height: 35px;
+    border: 1px solid var(--bottom-segundo-dorder);
+    margin-top: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 50px var(--bottom-segundo) inset;
+}
+
+.btn-login:hover {
+    box-shadow: 0 0 var(--bottom-segundo-dorder) inset;
+}
+
+.btn-login:focus {
+    outline: none;
+}
+
+/*Estilo de las alertas flotantes*/
+.alert {
+    position: absolute;
+    color: var(--alerta-color);
+    font-size: 16px;
+    right: -120px;
+    top: -160px;
+    z-index: 200;
+    padding: 30px 25px;
+    background: var(--caja);
+    box-shadow: 0 3px 5px var(--caja-sombreado);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0, 0);
+    transition: linear 0.4s 0.6s;
+}
+
+.alert:after,
+.alert:before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: var(--caja);
+    left: -19px;
+    bottom: -8px;
+    box-shadow: 0 2px 5px var(--caja-sombreado);
+    border-radius: 50%;
+}
+
+.alert:before {
+    width: 15px;
+    height: 15px;
+    left: -35px;
+    bottom: -25px;
+}
+
+.wrong-entry {
+    -webkit-animation: wrong-log 0.3s;
+    animation: wrong-log 0.3s;
+}
+
+.wrong-entry .alert {
+    opacity: 1;
+    transform: scale(1, 1);
+}
+
+@-webkit-keyframes eye-blink {
+    to {
+        height: 30px;
+    }
+}
+
+@keyframes eye-blink {
+    to {
+        height: 30px;
+    }
+}
+
+@-webkit-keyframes wrong-log {
+
+    0%,
+    100% {
+        left: 0px;
+    }
+
+    20%,
+    60% {
+        left: 20px;
+    }
+
+    40%,
+    80% {
+        left: -20px;
+    }
+}
+
+@keyframes wrong-log {
+
+    0%,
+    100% {
+        left: 0px;
+    }
+
+    20%,
+    60% {
+        left: 20px;
+    }
+
+    40%,
+    80% {
+        left: -20px;
+    }
 }
