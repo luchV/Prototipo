@@ -1,6 +1,6 @@
 :root {
     /*color para la ventana*/
-    --color-doby: #cc3367;
+    --color-doby: #add8e6;
     /*color para borde*/
     --primary: #eee;
     /*color para letras de botón*/
@@ -27,6 +27,16 @@
     --cuadro-h1: #FF4081;
     /*color alerta*/
     --alerta-color: #f00;
+    /*Color de menu letras principal*/
+    --color-letras-header: #000;
+    /*Color barra principal*/
+    --color-barra-principal: #1783db;
+    /*Color barra secundaria*/
+    --color-barra-secundaria: #fff;
+    /*Color de menu letras secundario*/
+    --color-letras-secundaria: #000;
+    /*Color del dondo de la imagen*/
+    --color-fondo-img: #1783db;
 
     /*color oso*/
     --cara: #fff;

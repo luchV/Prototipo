@@ -67,7 +67,7 @@ a.desc:after {
 /* align the logout "link" (button in form) of the navbar */
 .nav li > form > button.logout {
     padding-top: 7px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-letras-header);
 }
 
 @media(max-width:767px) {
@@ -87,4 +87,20 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+.navbar-dark .navbar-brand {
+    color: var(--color-letras-header) !important;
+}
+
+.navbar-dark .navbar-nav .show > .nav-link, .navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .nav-link.active {
+    color: var(--color-doby) !important;
+}
+
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
+     width: 100%; 
+     padding-right: 15px; 
+     padding-left: 15px; 
+     margin-right: auto; 
+     margin-left: auto; 
 }

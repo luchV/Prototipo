@@ -10,6 +10,7 @@ use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use common\models\Params;
+use common\widgets\MenuCarga;
 
 AppAsset::register($this);
 ?>
@@ -26,20 +27,24 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" id="body">
     <?php $this->beginBody() ?>
 
     <header>
+
+        <div class="icon__menu">
+            <em class="fas fa-bars" id="btn_open"></em>
+        </div>
         <?php
         NavBar::begin([
-            'brandLabel' => Yii::$app->name,
-            'brandUrl' => Yii::$app->homeUrl,
             'options' => [
-                'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
+                'class' => 'navbar-expand-md navbar-dark bg-dark fixed-top',
             ],
         ]);
+        ?>
+        <?php
         $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => Yii::$app->user->identity->usu_Apellido, 'url' => ['/site/index']],
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -47,7 +52,7 @@ AppAsset::register($this);
             $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->usu_nombre . ')',
+                    'Cerrar sesión',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
@@ -58,8 +63,14 @@ AppAsset::register($this);
             'items' => $menuItems,
         ]);
         NavBar::end();
+        $this->registerJsFile(
+            'js/barraLateral.js'
+        );
         ?>
+
     </header>
+
+    <?= MenuCarga::widget(); ?>
 
     <main role="main" class="flex-shrink-0">
         <div class="container">
@@ -73,12 +84,13 @@ AppAsset::register($this);
 
     <footer class="footer mt-auto py-3 text-muted">
         <div class="container">
-            <p class="float-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-            <p class="float-right"><?= Yii::powered() ?></p>
+            <p class="float-left">&copy; <?= Params::NOMBREPROGRAMA ?> <?= date('Y') ?></p>
+            <p class="float-right"> Powered by Luis Vásconez</p>
         </div>
     </footer>
 
     <?php $this->endBody() ?>
+
 </body>
 
 </html>
