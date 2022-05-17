@@ -1,5 +1,10 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine on
-    RewriteCond %{REQUEST_URI} !^public
-    RewriteRule ^(.*)$ backend/web/$1 [L]
+  # prevent directory listings
+  Options -Indexes
+  IndexIgnore */*
+
+  # follow symbolic links
+  Options FollowSymlinks
+  RewriteEngine on
+  RewriteRule ^(.+)?$ backend/web/$1
 </IfModule>
