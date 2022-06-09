@@ -6,7 +6,7 @@ use common\models\Params;
 $usu = Yii::$app->user->identity;
 if (!is_null($usu)) {
   // Guardamos el menu si ya estamos logueados
-  $menus = Menus::listarMenuBackoffice(
+  $menus = Menus::listarMenu(
     Params::ins_codigo,
     (int) Yii::$app->user->identity->usu_tipo
   );

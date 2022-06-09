@@ -16,11 +16,13 @@ class AppAsset extends AssetBundle
         'css/login.css',
         'css/coloresBack.css',
         'css/barraLateral.css',
+        'css/general.css',
 
     ];
     public $js = [
         'js/login.js',
         'https://kit.fontawesome.com/41bcea2ae3.js',
+        'js/reproductor.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

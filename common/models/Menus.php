@@ -39,7 +39,8 @@ class Menus extends \yii\mongodb\ActiveRecord
       'men_url',
       'men_roles',
       'ins_codigo',
-      'men_ordena'
+      'men_ordena',
+      'id_Padre',
     ];
   }
 
@@ -49,7 +50,7 @@ class Menus extends \yii\mongodb\ActiveRecord
   public function rules()
   {
     return [
-      [['men_nombre', 'men_icono', 'men_url', 'men_roles', 'ins_codigo','men_ordena'], 'safe']
+      [['men_nombre', 'men_icono', 'men_url', 'men_roles', 'ins_codigo', 'men_ordena', 'id_Padre'], 'safe']
     ];
   }
 
@@ -72,7 +73,7 @@ class Menus extends \yii\mongodb\ActiveRecord
    * @return Menus[]
    *
    */
-  public static function listarMenuBackoffice(
+  public static function listarMenu(
     string $ins_codigo,
     int $men_roles
   ): array {
@@ -82,5 +83,13 @@ class Menus extends \yii\mongodb\ActiveRecord
         'men_roles' => $men_roles
       ])->orderBy('men_ordena ASC')
       ->asArray()->all();
+  }
+
+  public static function findByIdPadre($id_Padre, $ins_codigo)
+  {
+    return Menus::find()->where([
+      'id_Padre' => $id_Padre,
+      'ins_codigo' => $ins_codigo,
+    ])->one();
   }
 }

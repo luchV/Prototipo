@@ -239,4 +239,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public static function roleInArray($arr_role)
+    {
+      return in_array(Yii::$app->user->identity->usu_tipo, $arr_role);
+    }
+  
+    public static function isActive()
+    {
+      return Yii::$app->user->identity->usu_estado == self::ESTADO;
+    }
 }
