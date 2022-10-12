@@ -249,8 +249,8 @@ body {
 
 #login-form {
     display: none;
-    max-width: 500px;
-    padding: 20px 40px;
+    max-width: 40%;
+    padding: 10px 40px;
     background: var(--caja);
     height: 100%;
     margin: auto;
@@ -269,7 +269,7 @@ body {
 
 h1 {
     color: var(--cuadro-h1);
-    font-family: 'Dancing Script', cursive;
+    font-family: 'sans-serif';
 }
 
 /*Estilo para colores de botones*/
@@ -318,43 +318,6 @@ h1 {
 
 .btn-login:focus {
     outline: none;
-}
-
-/*Estilo de las alertas flotantes*/
-.alert {
-    position: absolute;
-    color: var(--alerta-color);
-    font-size: 16px;
-    right: -120px;
-    top: -160px;
-    z-index: 200;
-    padding: 30px 25px;
-    background: var(--caja);
-    box-shadow: 0 3px 5px var(--caja-sombreado);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0, 0);
-    transition: linear 0.4s 0.6s;
-}
-
-.alert:after,
-.alert:before {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    background: var(--caja);
-    left: -19px;
-    bottom: -8px;
-    box-shadow: 0 2px 5px var(--caja-sombreado);
-    border-radius: 50%;
-}
-
-.alert:before {
-    width: 15px;
-    height: 15px;
-    left: -35px;
-    bottom: -25px;
 }
 
 .wrong-entry {

@@ -1,6 +1,6 @@
 :root {
     /*color para la ventana*/
-    --color-doby: #add8e6;
+    --color-doby: #eee;
     /*color para borde*/
     --primary: #eee;
     /*color para letras de botón*/
@@ -10,11 +10,11 @@
     /*color para botón*/
     --primary-bottom: rgb(0, 112, 180);
     /*color para cuando se presiona el botón*/
-    --second-bottom: rgb(18, 84, 189);
+    --second-bottom: #45c4c8;
     /*color del boton de inicio*/
-    --bottom-segundo: #FF4081;
+    --bottom-segundo: #3cb16f;
     /*color del borbe boton de inicio*/
-    --bottom-segundo-dorder: #FF4081;
+    --bottom-segundo-dorder: #3cb16f;
     /*color para cuando esta activo el botón*/
     --primary-dark: #ffff;
     /*color de la caja*/
@@ -24,7 +24,7 @@
     /*color del cuadro de texto*/
     --cuadro-texto: #252323;
     /*color h1*/
-    --cuadro-h1: #FF4081;
+    --cuadro-h1: #0f0106;
     /*color alerta*/
     --alerta-color: #f00;
     /*Color de menu letras principal*/

@@ -3,20 +3,26 @@
 namespace common\models;
 
 use Yii;
-use yii\mongodb\ActiveRecord;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
  * User model
  *
- * @property \MongoId|string $_id
- * @property string $usu_nombre
- * @property string $usu_Apellido
- * @property string $usu_edad
- * @property string $usu_tipo
- * @property string $usu_correo
- * @property string $usu_contra
- * @property integer $usu_estado
+ * @property string $usuCodigo
+ * @property string $correo
+ * @property string $contrasena
+ * @property string $cedula
+ * @property string $nombre1
+ * @property string $apellido1
+ * @property string $edad
+ * @property string $nivelInstruccion
+ * @property string $tipoDiscapacidad
+ * @property string $nivelEducacion
+ * @property string $tipoEscuela
+ * @property string $estado
+ * @property string $rolCodigo
+ * @property string $insCodigo
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -27,10 +33,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function collectionName()
+    public static function tableName()
     {
-        $bd = validarBase();
-        return [$bd, 'usuarios'];
+        return '{{%usuarios}}';
     }
 
     /**
@@ -39,16 +44,23 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributes()
     {
         return [
-            '_id',
-            'usu_nombre',
-            'usu_Apellido',
-            'usu_edad',
-            'usu_tipo',
-            'usu_correo',
-            'usu_contra',
-            'usu_estado',
+            'usuCodigo',
+            'correo',
+            'contrasena',
+            'cedula',
+            'nombre1',
+            'nombre2',
+            'apellido1',
+            'apellido2',
+            'edad',
+            'nivelInstruccion',
+            'tipoDiscapacidad',
+            'nivelEducacion',
+            'tipoEscuela',
+            'estado',
+            'rolCodigo',
+            'insCodigo',
             'auth_key',
-
         ];
     }
 
@@ -72,6 +84,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             '_id' => Yii::t('app', 'ID'),
             'usu_correo' => Yii::t('app', 'Correo electrónico'),
+            'nombre1' => Yii::t('app', 'Nombre'),
+            'apellido1' => Yii::t('app', 'Apellido'),
         ];
     }
 
@@ -99,13 +113,15 @@ class User extends ActiveRecord implements IdentityInterface
      * Finds user by username
      *
      * @param string $username
+     * @param string $institucion
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username, $institucion)
     {
         return User::find()->where([
-            'usu_correo' => $username,
-            'usu_estado' => 'N',
+            'insCodigo' => $institucion,
+            'correo' => $username,
+            'estado' => 'N',
         ])->one();
     }
 
@@ -191,8 +207,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         $validado = false;
-
-        if ($this->usu_contra == $password) {
+        if ($this->contrasena == $password) {
             $validado = true;
         }
         return $validado;
@@ -205,7 +220,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->usu_contra = Yii::$app->security->generatePasswordHash($password);
+        $this->contrasena = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
@@ -224,13 +239,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    /**
-     * Generates new token for email verification
-     */
-    public function generateEmailVerificationToken()
-    {
-        $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
 
     /**
      * Removes password reset token
@@ -242,11 +250,11 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function roleInArray($arr_role)
     {
-      return in_array(Yii::$app->user->identity->usu_tipo, $arr_role);
+        return in_array(Yii::$app->user->identity->rolCodigo, $arr_role);
     }
-  
+
     public static function isActive()
     {
-      return Yii::$app->user->identity->usu_estado == self::ESTADO;
+        return Yii::$app->user->identity->estado == self::ESTADO;
     }
 }

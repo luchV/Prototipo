@@ -2,33 +2,32 @@
 
 namespace common\helpers;
 
+use common\models\Accesos;
 use Yii;
 use common\models\User;
-use common\models\Params;
-use common\models\RolesMenus;
+use common\models\TieneRolesAccesos;
 
 class ControlRoles
 {
 
   static function Roles($tipoRol)
   {
+    $acceso = Accesos::listarAccesos($tipoRol);
+    $rolesAcessos = TieneRolesAccesos::listarRolesAccesos($acceso['0']['accCodigo']);
+    $arrayRoles = [];
+    foreach ($rolesAcessos as  $accesoRol) {
 
-    $numeroRol = (int) Yii::$app->user->identity->usu_tipo;
-    $query = RolesMenus::find()->where([
-      'ins_codigo' => Params::ins_codigo,
-      'role_numero' => (string)$numeroRol,
-    ]);
+      array_push($arrayRoles, $accesoRol['nombreAcceso']);
+    }
 
-    $rolesMenu = $query->asArray()->all();
-
-    if (isset($rolesMenu[0]['role_accesos'][$tipoRol])) {
-      $acciones = $rolesMenu[0]['role_accesos'][$tipoRol];
+    if (isset($arrayRoles)) {
+      $acciones = $arrayRoles;
       $respuesta = [
         'actions' => $acciones,
         'allow' => true,
         'roles' => ['@'],
         'matchCallback' => function ($rule, $action) {
-          $validacion = [(int) Yii::$app->user->identity->usu_tipo];
+          $validacion = [(int) Yii::$app->user->identity->rolCodigo];
           return User::roleInArray($validacion) && User::isActive();
         },
       ];

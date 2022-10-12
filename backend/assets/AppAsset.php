@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'js/login.js',
         'https://kit.fontawesome.com/41bcea2ae3.js',
         'js/reproductor.js',
+        'js/contraerMenu.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

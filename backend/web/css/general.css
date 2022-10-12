@@ -1,187 +1,197 @@
 .col-md-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 100%;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 100%;
 }
 
 .col-md-1 {
-    -ms-flex: 0 0 8.333333%;
-    flex: 0 0 8.333333%;
-    max-width: 8.333333%;
+  -ms-flex: 0 0 8.333333%;
+  flex: 0 0 8.333333%;
+  max-width: 8.333333%;
 }
 
 .col-md-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
+  -ms-flex: 0 0 16.666667%;
+  flex: 0 0 16.666667%;
+  max-width: 16.666667%;
 }
 
 .col-md-3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 25%;
+  -ms-flex: 0 0 25%;
+  flex: 0 0 25%;
+  max-width: 25%;
 }
 
 .col-md-4 {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
+  -ms-flex: 0 0 33.333333%;
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
 }
 
 .col-md-5 {
-    -ms-flex: 0 0 41.666667%;
-    flex: 0 0 41.666667%;
-    max-width: 41.666667%;
+  -ms-flex: 0 0 41.666667%;
+  flex: 0 0 41.666667%;
+  max-width: 41.666667%;
 }
 
 .col-md-6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
 }
 
 .col-md-7 {
-    -ms-flex: 0 0 58.333333%;
-    flex: 0 0 58.333333%;
-    max-width: 58.333333%;
+  -ms-flex: 0 0 58.333333%;
+  flex: 0 0 58.333333%;
+  max-width: 58.333333%;
 }
 
 .col-md-8 {
-    -ms-flex: 0 0 66.666667%;
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
+  -ms-flex: 0 0 66.666667%;
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
 }
 
 .col-md-9 {
-    -ms-flex: 0 0 75%;
-    flex: 0 0 75%;
-    max-width: 75%;
+  -ms-flex: 0 0 75%;
+  flex: 0 0 75%;
+  max-width: 75%;
 }
 
 .col-md-10 {
-    -ms-flex: 0 0 83.333333%;
-    flex: 0 0 83.333333%;
-    max-width: 83.333333%;
+  -ms-flex: 0 0 83.333333%;
+  flex: 0 0 83.333333%;
+  max-width: 83.333333%;
 }
 
 .col-md-11 {
-    -ms-flex: 0 0 91.666667%;
-    flex: 0 0 91.666667%;
-    max-width: 91.666667%;
+  -ms-flex: 0 0 91.666667%;
+  flex: 0 0 91.666667%;
+  max-width: 91.666667%;
 }
 
 .col-md-12 {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
-    text-align: initial;
-    font-weight: bold;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  text-align: initial;
+  font-weight: bold;
 }
 
 .name-tag h1 {
-    color: var(--cuadro-texto);
-    font-family: sans-serif;
+  color: var(--cuadro-texto);
+  font-family: sans-serif;
 }
 
 .btnPersonalizado {
-    background: var(--color-doby);
-    border: transparent;
+  background: var(--color-doby);
+  border: transparent;
 }
 
 .btnPersonalizado2 {
-    font-size: 300%;
-    background: var(--color-doby);
-    border: transparent;
+  font-size: 300%;
+  background: var(--color-doby);
+  border: transparent;
+  cursor: auto !important;
 }
 
 img {
-    margin: 2%;
+  margin: 2%;
 }
 
 .checkeable input {
-    display: none;
+  display: none;
 }
 
 .checkeable img {
-    border: solid transparent;
+  border: solid transparent;
 }
 
 .checkeable input {
-    display: none;
+  display: none;
 }
 
 .checkeable {
-    margin: 2%;
+  margin: 2%;
 }
 
-.checkeable input:checked+img {
-    border-color: blue;
+.checkeable input:checked + img {
+  border-color: blue;
 }
 
-input[type=checkbox] {
-    visibility: hidden;
+input[type="checkbox"] {
+  visibility: hidden;
 }
 
 .checkbox-JASoft {
-    display: inline-block;
-    position: relative;
-    width: 70px;
-    height: 30px;
-    background: #555;
-    border-radius: 15px;
-    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.6), 0px 1px 0px rgba(255, 255, 255, 0.3);
+  display: inline-block;
+  position: relative;
+  width: 70px;
+  height: 30px;
+  background: #555;
+  border-radius: 15px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.6),
+    0px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
 .checkbox-JASoft label {
+  /* aspecto */
+  display: block;
+  width: 34px;
+  height: 20px;
+  border-radius: 17px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
+  background: #fcfff4;
+  background: linear-gradient(to top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  cursor: pointer;
 
-    /* aspecto */
-    display: block;
-    width: 34px;
-    height: 20px;
-    border-radius: 17px;
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
-    background: #fcfff4;
-    background: linear-gradient(to top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    cursor: pointer;
+  /* Posicionamiento */
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
 
-    /* Posicionamiento */
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    z-index: 1;
+  /* Comportamiento */
+  transition: all 0.4s ease;
 
-    /* Comportamiento */
-    transition: all .4s ease;
-
-    /* ocultar el posible texto que tenga */
-    overflow: hidden;
-    text-indent: 35px;
-    transition: text-indent 0s;
+  /* ocultar el posible texto que tenga */
+  overflow: hidden;
+  text-indent: 35px;
+  transition: text-indent 0s;
 }
 
-.checkbox-JASoft input[type=checkbox]:checked+label {
-    left: auto;
-    right: 5px;
+.checkbox-JASoft input[type="checkbox"]:checked + label {
+  left: auto;
+  right: 5px;
 }
 
 .checkbox-JASoft:after {
-    content: 'NO';
-    font: 12px/30px Arial, sans-serif;
-    color: #AAA;
-    position: absolute;
-    right: 10px;
-    z-index: 0;
-    font-weight: bold;
-    text-shadow: 1px 1px 0px rgba(255, 255, 255, .20);
+  content: "NO";
+  font: 12px/30px Arial, sans-serif;
+  color: #aaa;
+  position: absolute;
+  right: 10px;
+  z-index: 0;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.2);
 }
 
 .checkbox-JASoft:before {
-    content: 'SÍ';
-    font: 12px/30px Arial, sans-serif;
-    color: lime;
-    position: absolute;
-    left: 10px;
-    z-index: 0;
-    font-weight: bold;
+  content: "SÍ";
+  font: 12px/30px Arial, sans-serif;
+  color: lime;
+  position: absolute;
+  left: 10px;
+  z-index: 0;
+  font-weight: bold;
+}
+
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  visibility: hidden;
 }

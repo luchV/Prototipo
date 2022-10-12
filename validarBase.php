@@ -1,9 +1,9 @@
 <?php
 function validarBase()
 {
-  $bd = 'prototipo';
+  $bd = 'tesisfonoaudiologia';
   if (!YII_DEBUG) {
-    $bd = 'prototipo';
+    $bd = 'tesisfonoaudiologia';
   }
   return $bd;
 }

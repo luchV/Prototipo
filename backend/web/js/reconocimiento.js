@@ -1,10 +1,8 @@
-var textError = document.querySelector('.error');
-var escucha = document.querySelector('#start_img');
-var activo = false;
-const btnStartRecord = document.getElementById('btncomienzo');
-const checkAvanzado = document.getElementById('checkAvanzado');
 const texto = document.getElementById('texto');
+var activo = false;
+
 if (!("webkitSpeechRecognition" in window)) {
+	let textError = document.querySelector('.error');
 	textError.textContent = 'Disculpas, no puedes usar el reconocimiento de voz en tu navegador';
 }
 let recognition = new webkitSpeechRecognition();
@@ -16,8 +14,10 @@ recognition.onresult = (event) => {
 	const frase = results[results.length - 1][0].transcript;
 	texto.innerHTML = frase;
 }
-btnStartRecord.addEventListener('click', () => {
-	var cont = 4;
+function realizarReconocimiento() {
+	let textError = document.querySelector('.error');
+	let escucha = document.querySelector('#start_img');
+	let cont = document.getElementById('cantidadOpciones').value;
 	if (activo) {
 		recognition.abort();
 		escucha.className = 'fas fa-microphone-alt';
@@ -43,9 +43,9 @@ btnStartRecord.addEventListener('click', () => {
 		activo = true;
 		recognition.start();
 	}
-});
-
-checkAvanzado.addEventListener('click', () => {
+}
+function activar(checkAvanzado) {
+	let textError = document.querySelector('.error');
 	if (checkAvanzado.checked) {
 		document.getElementById("reconocimientoVoz").style.display = "grid";
 	} else {
@@ -53,4 +53,4 @@ checkAvanzado.addEventListener('click', () => {
 		textError.textContent = '';
 		texto.innerHTML = '';
 	}
-});
+}

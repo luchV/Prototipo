@@ -44,13 +44,13 @@ AppAsset::register($this);
         ?>
         <?php
         $menuItems = [
-            ['label' => Yii::$app->user->identity->usu_Apellido, 'url' => ['/site/index']],
+            ['label' => Yii::$app->user->identity->nombre1, 'url' => ['/site/index']],
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
         } else {
             $menuItems[] = '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'], ['onclick' => 'ingresarVariableMenu("menu", "")'])
                 . Html::submitButton(
                     'Cerrar sesión',
                     ['class' => 'btn btn-link logout']
@@ -73,11 +73,11 @@ AppAsset::register($this);
     <?= MenuCarga::widget(); ?>
 
     <main role="main" class="flex-shrink-0">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-            <?= Alert::widget() ?>
-            <?= $content ?>
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+        <?= Alert::widget() ?>
+        <?= $content ?>
     </main>
 
     <footer class="footer mt-auto py-3 text-muted">
