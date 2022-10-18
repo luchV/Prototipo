@@ -3,7 +3,7 @@
 /** @var yii\web\View $this */
 
 $this->title = 'My Yii Application';
-//var_dump(bin2hex(openssl_random_pseudo_bytes(20)));
+var_dump(bin2hex(openssl_random_pseudo_bytes(20)));
 ?>
 <div class="site-index">
 

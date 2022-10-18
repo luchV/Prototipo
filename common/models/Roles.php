@@ -3,6 +3,7 @@
 namespace common\models;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 use Yii;
 
@@ -60,12 +61,77 @@ class Roles extends ActiveRecord
    * @return Roles[]
    *
    */
-  public static function listarRol(
+  public static function BusquedaRol(
     string $rolCodigo
   ): array {
     return Roles::find()
       ->where([
         'rolCodigo' => $rolCodigo,
       ])->asArray()->all();
+  }
+
+  public static function listarRoles()
+  {
+
+    $list = ArrayHelper::map(Roles::find()->all(), function ($model_aux) {
+      return (string)$model_aux->rolCodigo;
+    }, 'rolNombre');
+    $Opcion1 = array(null => "Seleccionar");
+    $listCompleto = $Opcion1 + $list;
+
+    return  $listCompleto;
+  }
+
+  public static function listarRolesFiltro()
+  {
+
+    $list = ArrayHelper::map(Roles::find()->all(), function ($model_aux) {
+      return (string)$model_aux->rolCodigo;
+    }, 'rolNombre');
+    $Opcion1 = array(null => "Todos");
+    $listCompleto = $Opcion1 + $list;
+
+    return  $listCompleto;
+  }
+
+  public static function indiceRol($arrayBuscar, $valorBuscar)
+  {
+    $parametro = "";
+    foreach ($arrayBuscar as $indice => $valor) {
+      if ($valor == $valorBuscar) {
+        $parametro = $indice;
+        break;
+      }
+    }
+    return  $parametro;
+  }
+
+  public static function detectarRoles($rolCodigoUsuario)
+  {
+    $listaRoles = [];
+    if (strlen($rolCodigoUsuario) == 1) {
+      $rolUsuario = $rolCodigoUsuario;
+      $listaRoles = self::listarRolesFiltro();
+    } else {
+      $rolUsuario = self::BusquedaRol($rolCodigoUsuario)[0]['rolNumero'];
+      $listaRoles = self::listarRoles();
+    }
+    switch ($rolUsuario) {
+      case '3':
+        $datoEliminar = self::indiceRol($listaRoles, 'Super Administrador');
+        unset($listaRoles[$datoEliminar]);
+        $datoEliminar = self::indiceRol($listaRoles, 'Administrador');
+        unset($listaRoles[$datoEliminar]);
+        break;
+      case '4':
+        $datoEliminar = self::indiceRol($listaRoles, 'Super Administrador');
+        unset($listaRoles[$datoEliminar]);
+        $datoEliminar = self::indiceRol($listaRoles, 'Administrador');
+        unset($listaRoles[$datoEliminar]);
+        $datoEliminar = self::indiceRol($listaRoles, 'Profesor');
+        unset($listaRoles[$datoEliminar]);
+        break;
+    }
+    return $listaRoles;
   }
 }

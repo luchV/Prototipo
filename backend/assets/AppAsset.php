@@ -17,13 +17,14 @@ class AppAsset extends AssetBundle
         'css/coloresBack.css',
         'css/barraLateral.css',
         'css/general.css',
-
+        'css/botonCheckBox.css',
     ];
     public $js = [
         'js/login.js',
         'https://kit.fontawesome.com/41bcea2ae3.js',
         'js/reproductor.js',
         'js/contraerMenu.js',
+        'js/funcionesGenerales.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

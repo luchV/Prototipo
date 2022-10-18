@@ -20,7 +20,6 @@ $(document).on("mousemove", function (event) {
 
 // validation
 
-
 $('.btn').click(function () {
     $('form').addClass('wrong-entry');
     setTimeout(function () {

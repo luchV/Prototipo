@@ -7,5 +7,4 @@ class Params extends \yii\mongodb\ActiveRecord
     const ESTADOOK="N";
     const ESTADOINACTIVO="P";
     const ICONO = '../../img/Icono.ico';
-    const IMAGEN = '../../img/Imagen.png';
 }

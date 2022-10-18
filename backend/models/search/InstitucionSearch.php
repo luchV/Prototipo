@@ -2,14 +2,15 @@
 
 namespace backend\models\search;
 
+use common\helpers\FuncionesGenerales;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\User;
+use common\models\Institucion;
 
 /**
  * BannersSearch represents the model behind the search form about `common\models\Menus`.
  */
-class UsuariosSearch extends User
+class InstitucionSearch extends Institucion
 {
     /**
      * @inheritdoc
@@ -17,7 +18,7 @@ class UsuariosSearch extends User
     public function rules()
     {
         return [
-            [['usuCodigo', 'nombre1', 'apellido1', 'correo', 'usuEncargado', 'insCodigo', 'estado','rolCodigo'], 'safe']
+            [['insCodigo', 'ubicación', 'insNombre', 'insEstado'], 'safe']
         ];
     }
 
@@ -39,7 +40,7 @@ class UsuariosSearch extends User
      */
     public function search($params)
     {
-        $query = User::find();
+        $query = Institucion::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -52,14 +53,11 @@ class UsuariosSearch extends User
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'usuCodigo', $this->usuCodigo])
-            ->andFilterWhere(['like', 'nombre1', $this->nombre1])
-            ->andFilterWhere(['like', 'apellido1', $this->apellido1])
-            ->andFilterWhere(['like', 'correo', $this->correo])
-            ->andFilterWhere(['like', 'insCodigo', $this->insCodigo])
-            ->andFilterWhere(['like', 'usuEncargado', $this->usuEncargado])
-            ->andFilterWhere(['like', 'estado', $this->estado])
-            ->andFilterWhere(['like', 'rolCodigo', $this->rolCodigo]);
+
+        $query->andFilterWhere(['like', 'insCodigo', $this->insCodigo])
+            ->andFilterWhere(['like', 'ubicación', $this->ubicación])
+            ->andFilterWhere(['like', 'insEstado', $this->insEstado])
+            ->andFilterWhere(['like', 'insNombre', $this->insNombre]);
 
         return $dataProvider;
     }

@@ -65,7 +65,7 @@ if (!is_null($usu)) {
 
 <div class="menu__side" id="menu_side">
   <div class="color_fondo">
-    <img style="width: 90%;" src=<?= Params::IMAGEN ?> alt="<?= Params::NOMBREPROGRAMA ?>">
+    <img style="width: 68%;" id="logoI" alt="<?= Params::NOMBREPROGRAMA ?>">
   </div>
 
   <div class="options__menu list-unstyled">

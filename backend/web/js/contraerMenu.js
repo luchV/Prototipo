@@ -8,11 +8,13 @@ $(document).ready(function () {
       $("#menu_side").toggleClass("");
       quitarCampo(elementosNombres);
       quitarCampo(elementosTitulo);
+      document.getElementById("logoI").src="img/Icono.png";
     } else {
       body.classList.add("body_move");
       side_menu.classList.add("menu__side_move");
       ponerCampo(elementosNombres);
       ponerCampo(elementosTitulo);
+      document.getElementById("logoI").src="img/Imagen.png";
     }
   }
   $("#btn_open").on("click", function () {
@@ -21,10 +23,13 @@ $(document).ready(function () {
       ingresarVariableMenu("menu", "inactivo");
       ponerCampo(elementosNombres);
       ponerCampo(elementosTitulo);
+      document.getElementById("logoI").src="img/Imagen.png";
     } else {
       ingresarVariableMenu("menu", "activo");
       quitarCampo(elementosNombres);
       quitarCampo(elementosTitulo);
+      document.getElementById("logoI").src="img/Icono.png";
+
     }
     $("#menu_side").toggleClass("")
   });

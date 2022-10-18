@@ -19,7 +19,6 @@ main {
 
 header {
     width: 100%;
-    height: 80px;
     background: var(--color-barra-principal);
     display: flex;
     align-items: center;
@@ -28,10 +27,10 @@ header {
 }
 .color_fondo {
     background: var(--color-fondo-img) !important;
-    height: 80px
+    height: 7.5%;
 }
 .icon__menu {
-    width: 50px;
+    width: 5%;
     height: 100%;
     display: flex;
     justify-content: center;

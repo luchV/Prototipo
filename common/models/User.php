@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -61,18 +62,56 @@ class User extends ActiveRecord implements IdentityInterface
             'rolCodigo',
             'insCodigo',
             'auth_key',
+            'usuEncargado',
         ];
     }
 
-
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [
+                [
+                    'usuCodigo',
+                    'correo',
+                    'contrasena',
+                    'cedula',
+                    'nombre1',
+                    'nombre2',
+                    'apellido1',
+                    'apellido2',
+                    'edad',
+                    'nivelInstruccion',
+                    'tipoDiscapacidad',
+                    'nivelEducacion',
+                    'tipoEscuela',
+                    'estado',
+                    'rolCodigo',
+                    'insCodigo',
+                    'usuEncargado'
+                ], 'safe'
+            ], [
+                [
+                    'nombre1',
+                    'apellido1',
+                    'edad',
+                    'cedula',
+                    'nivelInstruccion',
+                    'tipoEscuela',
+                    'rolCodigo',
+                    'insCodigo',
+                    'nivelEducacion',
+                    'tipoDiscapacidad',
+                    'estado',
+                    'usuEncargado',
+                    'correo',
+                    'contrasena',
+                ], 'required', 'message' => 'Campo obligatorio.', 'on' => 'registro'
+            ],
+            ['edad', 'validacionFecha', 'on' => 'registro'],
+            ['correo', 'email', 'message' => 'Correo electrónico no es una dirección de correo electrónico válida.', 'on' => 'registro'],
         ];
     }
 
@@ -82,10 +121,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            '_id' => Yii::t('app', 'ID'),
-            'usu_correo' => Yii::t('app', 'Correo electrónico'),
             'nombre1' => Yii::t('app', 'Nombre'),
             'apellido1' => Yii::t('app', 'Apellido'),
+            'edad' => Yii::t('app', 'Fecha de Nacimiento'),
+            'cedula' => Yii::t('app', 'Cédula'),
+            'nivelInstruccion' => Yii::t('app', 'Nivel de instrucción'),
+            'tipoEscuela' => Yii::t('app', 'Tipo de institución'),
+            'rolCodigo' => Yii::t('app', 'Tipo de usuario'),
+            'insCodigo' => Yii::t('app', 'Institución'),
+            'nivelEducacion' => Yii::t('app', 'Grado de Educación'),
+            'tipoDiscapacidad' => Yii::t('app', 'Tipo de discapacidad'),
+            'estado' => Yii::t('app', 'Estado del Usuario'),
+            'correo' => Yii::t('app', 'Correo electrónico'),
+            'contrasena' => Yii::t('app', 'Contraseña'),
+            'usuEncargado' => Yii::t('app', 'Encargado del Usuario'),
         ];
     }
 
@@ -98,6 +147,15 @@ class User extends ActiveRecord implements IdentityInterface
             $id = $id['$oid'];
         }
         return static::findOne($id);
+    }
+
+    public function validacionFecha($attribute)
+    {
+        $hoy = date("Y-m-d");
+        // Si la fecha es de apartir de hoy => true 
+        if ($hoy >= $attribute) {
+            $this->addError($attribute, 'La fecha no puede sobrepasar a la fecha actual.');
+        }
     }
 
     /**
@@ -207,7 +265,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         $validado = false;
-        if ($this->contrasena == $password) {
+        if ($this->contrasena == hash('sha512', $password)) {
             $validado = true;
         }
         return $validado;
@@ -256,5 +314,44 @@ class User extends ActiveRecord implements IdentityInterface
     public static function isActive()
     {
         return Yii::$app->user->identity->estado == self::ESTADO;
+    }
+
+    public static function listarUsuarios($codigoInstitucion)
+    {
+        $respuesta = new \stdClass;
+        $respuesta->correcto = false;
+        $respuesta->listCompleto = [];
+
+        $consulta = User::find()
+            ->select(["usuCodigo", "nombre1", "apellido1"])
+            ->where(['estado' => Params::ESTADOOK, 'insCodigo' => $codigoInstitucion])
+            ->all();
+
+        $list = ArrayHelper::map($consulta, function ($model_aux) {
+            return (string)$model_aux['usuCodigo'];
+        }, function ($model_aux) {
+            return $model_aux['nombre1'] . " " . $model_aux['apellido1'];
+        });
+
+        if (count($list) > 0) {
+            $Opcion1 = array(null => "Seleccionar");
+            $respuesta->listCompleto = $Opcion1 + $list;
+            $respuesta->correcto = true;
+        }
+
+        return  $respuesta;
+    }
+
+    /**
+     * @return User[]
+     *
+     */
+    public static function BusquedaUsuario(
+        string $usuCodigo
+    ): array {
+        return User::find()
+            ->where([
+                'usuCodigo' => $usuCodigo,
+            ])->asArray()->all();
     }
 }
