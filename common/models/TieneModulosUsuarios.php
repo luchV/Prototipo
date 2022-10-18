@@ -77,4 +77,18 @@ class TieneModulosUsuarios extends ActiveRecord
       'ins_codigo' => $ins_codigo,
     ])->one();
   }
+
+  /**
+   * @return TieneModulosUsuarios[]
+   *
+   */
+  public static function BusquedaModulosUsuarioModelo(
+    string $usuCodigo
+  ) {
+    return TieneModulosUsuarios::find()->where(['usuCodigo' => $usuCodigo, 'tieEstado' => Params::ESTADOOK])->all();
+  }
+  public static function primaryKey()
+  {
+    return ["usuCodigo"];
+  }
 }

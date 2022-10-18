@@ -73,7 +73,7 @@ class telefonousuario extends ActiveRecord
     public static function BusquedaTelefonoModelo(
         string $usuCodigo
     ) {
-        return telefonousuario::find(['usuCodigo' => $usuCodigo])->all();
+        return telefonousuario::find()->where(['usuCodigo' => $usuCodigo])->all();
     }
     public static function primaryKey()
     {

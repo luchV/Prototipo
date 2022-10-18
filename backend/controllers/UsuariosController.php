@@ -11,10 +11,13 @@ use yii\filters\AccessControl;
 use common\helpers\ControlRoles;
 use common\models\Institucion;
 use common\models\Params;
+use common\models\RelacionModulos;
 use common\models\Roles;
 use common\models\telefonousuario;
+use common\models\TieneModulosUsuarios;
 use common\widgets\TelefonoModal;
 use Exception;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
 
 /**
  * BannersController implements the CRUD actions for User model.
@@ -54,10 +57,10 @@ class UsuariosController extends Controller
         $busqueda = new UsuariosSearch();
         switch ($rolTomado[0]['rolNumero']) {
             case '3':
-                $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
+                $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
                 break;
             case '4':
-                $busqueda->usuEncargado = Yii::$app->user->identity->usuEncargado;
+                $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
                 break;
         }
 
@@ -97,33 +100,33 @@ class UsuariosController extends Controller
         $modelTelefono = [];
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->usuCodigo = bin2hex(openssl_random_pseudo_bytes(20));
-            $model->contrasena = hash('sha512', $_POST['User']['contrasena']);
-            if ($_POST['User']['rolCodigo'] == Roles::indiceRol(Roles::listarRoles(), "Super Administrador")) {
-                $model->usuEncargado = $model->usuCodigo;
-            }
-            try {
-                if ($model->save()) {
-                    if (isset($_POST['tablaDatos'])) {
-                        $datos = $_POST['tablaDatos'];
-                        foreach ($datos as $dato) {
-                            $modelTelefono = new telefonousuario();
-                            $modelTelefono->usuCodigo = $model->usuCodigo;
-                            $modelTelefono->NumeroTelf = $dato;
-                            $modelTelefono->save();
-                        }
-                    }
-                    return $this->redirect(['index']);
-                } else {
-                    $error = 'Se produjo un error al momento de realizar la acción ';
-                }
-            } catch (Exception $e) {
-                $error = 'Validar que la cédula o correo no pertenezcan a otro usuario.';
-            }
+            if (isset($_POST['tablaDatos'])) {
 
-            $model->contrasena = $_POST['User']['contrasena'];
+                $model->usuCodigo = bin2hex(openssl_random_pseudo_bytes(20));
+                $model->contrasena = hash('sha512', $_POST['User']['contrasena']);
+                if ($_POST['User']['rolCodigo'] == Roles::indiceRol(Roles::listarRoles(), "Super Administrador")) {
+                    $model->usuEncargado = $model->usuCodigo;
+                }
+
+                try {
+                    if ($model->save()) {
+
+                        self::GuardarTelefonos($model, $_POST['tablaDatos']);
+                        self::GuardarModulosUsuario($model);
+                        return $this->redirect(['index']);
+                    } else {
+                        $error = 'Se produjo un error al momento de realizar la acción ';
+                    }
+                } catch (Exception $e) {
+                    $error = 'Validar que la cédula o correo no pertenezcan a otro usuario.';
+                }
+                $model->contrasena = $_POST['User']['contrasena'];
+            }
             if (isset($_POST['tablaDatos'])) {
                 $modelTelefono = $_POST['tablaDatos'];
+            } else {
+                $modelTelefono = [];
+                $error = 'Por favor ingresar un número de teléfono para el usuario.';
             }
         }
         Yii::$app->view->params['modalTelefono'] = TelefonoModal::widget(['modelTelefono' => $modelTelefono]);
@@ -137,6 +140,43 @@ class UsuariosController extends Controller
             'institucionLista' => Institucion::detectarInstituciones($rolUsuario, $insUsuario),
         ]);
     }
+
+    private function GuardarTelefonos($model, $tablaDatos, $accion = 'create', $id = "")
+    {
+
+        if ($accion == 'update') {
+            $modelTelefonoEliminar = telefonousuario::BusquedaTelefonoModelo($id);
+            foreach ($modelTelefonoEliminar as $value) {
+                $value->delete();
+            }
+        }
+        $datos = $tablaDatos;
+        foreach ($datos as $dato) {
+            $modelTelefono = new telefonousuario();
+            $modelTelefono->usuCodigo = $model->usuCodigo;
+            $modelTelefono->NumeroTelf = $dato;
+            $modelTelefono->save();
+        }
+    }
+
+    private function GuardarModulosUsuario($model, $accion = 'create', $id = "")
+    {
+        if ($accion == 'update') {
+            $modelRelacionModulosUsuarioEliminar = TieneModulosUsuarios::BusquedaModulosUsuarioModelo($id);
+            foreach ($modelRelacionModulosUsuarioEliminar as $value) {
+                $value->delete();
+            }
+        }
+        $relacionesModulosRoles = RelacionModulos::listarRelacionModulosRol($model->rolCodigo);
+        foreach ($relacionesModulosRoles as $datoModulos) {
+            $modelModulosUsuarios = new TieneModulosUsuarios();
+            $modelModulosUsuarios->relCodigo = $datoModulos['relCodigo'];
+            $modelModulosUsuarios->usuCodigo = $model->usuCodigo;
+            $modelModulosUsuarios->tieEstado = Params::ESTADOOK;
+            $modelModulosUsuarios->save();
+        }
+    }
+
 
     /**
      * Updates an existing User model.
@@ -164,19 +204,8 @@ class UsuariosController extends Controller
                 }
                 try {
                     if ($model->save()) {
-                        $modelTelefonoEliminar = telefonousuario::BusquedaTelefonoModelo($id);
-                        foreach ($modelTelefonoEliminar as $value) {
-                            $value->delete();
-                        }
-                        if (isset($_POST['tablaDatos'])) {
-                            $datos = $_POST['tablaDatos'];
-                            foreach ($datos as $dato) {
-                                $modelTelefono = new telefonousuario();
-                                $modelTelefono->usuCodigo = $model->usuCodigo;
-                                $modelTelefono->NumeroTelf = $dato;
-                                $modelTelefono->save();
-                            }
-                        }
+                        self::GuardarTelefonos($model, $_POST['tablaDatos'], 'update', $id);
+                        self::GuardarModulosUsuario($model, 'update', $id);
                         return $this->redirect(['index']);
                     } else {
                         $error = 'Se produjo un error al momento de realizar la acción.';
@@ -245,8 +274,8 @@ class UsuariosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionBuscarUsuarios($idInstitucion)
+    public function actionBuscarUsuarios($idInstitucion, $rolSeleccionado)
     {
-        return  json_encode(User::listarUsuarios($idInstitucion));
+        return  json_encode(User::listarUsuarios($idInstitucion, $rolSeleccionado));
     }
 }

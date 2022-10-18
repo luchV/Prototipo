@@ -154,21 +154,31 @@ if ($model->edad != "") {
   });
 
   $("#user-rolcodigo").change(function() {
-    if ((document.getElementById('user-rolcodigo').value).substring(0, 10) == "<?= $parametro ?>" && document.getElementById('user-usuencargado').value == "") {
-      $("#user-usuencargado").empty().append('');
-      let select = document.getElementById("user-usuencargado");
-      let option = document.createElement("option");
-      option.textContent = "Ninguno";
-      option.value = "<?= $parametro ?>";
-      select.add(option);
-      $("#error").hide();
-      $("#error").text("");
+
+    let combo = document.getElementById("user-usuencargado");
+    let comboRoles = document.getElementById("user-rolcodigo");
+
+    if (document.getElementById('user-inscodigo').value != "") {
+      if (comboRoles.options[comboRoles.selectedIndex].text == "Super Administrador") {
+        $("#user-usuencargado").empty().append('');
+        let option = document.createElement("option");
+        option.textContent = "Ninguno";
+        option.value = "<?= $parametro ?>";
+        combo.add(option);
+        $("#error").hide();
+        $("#error").text("");
+      } else {
+        consultarUsuarios();
+      }
+    } else {
+      $("#error").show();
+      $("#error").text("Por favor seleccione una Institución antes de seleccionar un Encargado.");
     }
   });
 
-  $("#user-inscodigo").change(function() {
+  function consultarUsuarios() {
     $("#user-usuencargado").empty().append('');
-    $.get("index.php?r=usuarios/buscar-usuarios&idInstitucion=" + document.getElementById('user-inscodigo').value, function(result, status, xhr) {
+    $.get("index.php?r=usuarios/buscar-usuarios&idInstitucion=" + document.getElementById('user-inscodigo').value + "&rolSeleccionado=" + document.getElementById('user-rolcodigo').value, function(result, status, xhr) {
       if (status == "success") {
         let resultado = new Array(0);
         try {
@@ -185,18 +195,18 @@ if ($model->edad != "") {
             $("#error").text("");
           } else {
             $("#error").show();
-            $("#error").text("No se tienen encargados registrados en esa institución");
+            $("#error").text("No se tiene (" + resultado.seleccionFaltante + ") para seleccionar en Encargado.");
           }
         } catch (err) {
           $("#error").show();
-          $("#error").text("Error al momento de obtener los encargados");
+          $("#error").text("Error al momento de obtener los encargados.");
         }
       }
     }).fail(function() {
       $("#error").show();
-      $("#error").text("Error al momento de obtener los encargados");
+      $("#error").text("Error al momento de obtener los encargados.");
     });
-  });
+  }
 
   function activarCampo($campo) {
 

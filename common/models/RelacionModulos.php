@@ -71,4 +71,18 @@ class RelacionModulos extends ActiveRecord
                 'relEstado' => Params::ESTADOOK
             ])->asArray()->all();
     }
+
+    /**
+     * @return RelacionModulos[]
+     *
+     */
+    public static function listarRelacionModulosRol(
+        string $rolCodigo
+    ): array {
+        return RelacionModulos::find()
+            ->where([
+                'rolCodigo' => $rolCodigo,
+                'relEstado' => Params::ESTADOOK
+            ])->asArray()->all();
+    }
 }

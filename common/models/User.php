@@ -316,16 +316,26 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->user->identity->estado == self::ESTADO;
     }
 
-    public static function listarUsuarios($codigoInstitucion)
+    public static function listarUsuarios($codigoInstitucion, $rolSeleccionado = "")
     {
         $respuesta = new \stdClass;
         $respuesta->correcto = false;
         $respuesta->listCompleto = [];
+        $rolUsuario = Yii::$app->user->identity->rolCodigo;
+        $rolTomado = Roles::BusquedaRol($rolUsuario);
 
-        $consulta = User::find()
-            ->select(["usuCodigo", "nombre1", "apellido1"])
-            ->where(['estado' => Params::ESTADOOK, 'insCodigo' => $codigoInstitucion])
-            ->all();
+        if ($rolTomado[0]['rolNumero'] == '4' && $rolSeleccionado != "") {
+            $consulta = User::find()
+                ->select(["usuCodigo", "nombre1", "apellido1"])
+                ->where(['estado' => Params::ESTADOOK, 'insCodigo' => $codigoInstitucion, 'usuCodigo' => Yii::$app->user->identity->usuCodigo])
+                ->all();
+        } else {
+            $respuestaConsulta = Self::realizarConsulta($rolSeleccionado);
+            $consulta = User::find()
+                ->select(["usuCodigo", "nombre1", "apellido1"])
+                ->where(['estado' => Params::ESTADOOK, 'insCodigo' => $codigoInstitucion, 'rolCodigo' => $respuestaConsulta->rolBusqueda])
+                ->all();
+        }
 
         $list = ArrayHelper::map($consulta, function ($model_aux) {
             return (string)$model_aux['usuCodigo'];
@@ -337,9 +347,41 @@ class User extends ActiveRecord implements IdentityInterface
             $Opcion1 = array(null => "Seleccionar");
             $respuesta->listCompleto = $Opcion1 + $list;
             $respuesta->correcto = true;
+        } else {
+            if ($rolTomado[0]['rolNumero'] == '4' && $rolSeleccionado != "") {
+                $respuesta->seleccionFaltante = "Profesor";
+            } else {
+                $respuesta->seleccionFaltante = $respuestaConsulta->tipo;
+            }
         }
 
         return  $respuesta;
+    }
+
+    private static function realizarConsulta($rolSeleccionado)
+    {
+        $respuesta = new \stdClass;
+
+        $DetallesRol = Roles::listarRoles();
+        switch ($DetallesRol[$rolSeleccionado]) {
+            case 'Administrador':
+                $respuesta->rolBusqueda = array_search('Super Administrador', $DetallesRol);
+                $respuesta->tipo = 'Super Administrador';
+                break;
+            case 'Profesor':
+                $respuesta->rolBusqueda  = array_search('Administrador', $DetallesRol);
+                $respuesta->tipo = 'Administrador';
+                break;
+            case 'Estudiante':
+                $respuesta->rolBusqueda  = array_search('Profesor', $DetallesRol);
+                $respuesta->tipo = 'Profesor';
+                break;
+            default:
+                $respuesta->rolBusqueda  = 'No Existe';
+                $respuesta->tipo = 'Ninguno';
+                break;
+        }
+        return $respuesta;
     }
 
     /**
