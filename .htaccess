@@ -1,11 +1,5 @@
-<IfModule mod_rewrite.c>
-  # prevent directory listings
-  Options -Indexes
-  IndexIgnore */*
 
-  # follow symbolic links
-  Options FollowSymlinks
   RewriteEngine on
-  RewriteCond %{REQUEST_URI} !^public
-  RewriteRule ^(.*)$ backend/web/$1
-</IfModule>
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ index.php/$1 [L]
