@@ -50,7 +50,7 @@ class Accesos extends ActiveRecord
   public function attributeLabels()
   {
     return [
-      'accNumero' => Yii::t('app', 'Numero de acceso'),
+      'accNumero' => Yii::t('app', 'Número de acceso'),
     ];
   }
 

@@ -123,7 +123,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'nombre1' => Yii::t('app', 'Nombre'),
             'apellido1' => Yii::t('app', 'Apellido'),
-            'edad' => Yii::t('app', 'Fecha de Nacimiento'),
+            'edad' => Yii::t('app', 'Fecha de nacimiento'),
             'cedula' => Yii::t('app', 'Cédula'),
             'nivelInstruccion' => Yii::t('app', 'Nivel de instrucción'),
             'tipoEscuela' => Yii::t('app', 'Tipo de institución'),
@@ -131,10 +131,10 @@ class User extends ActiveRecord implements IdentityInterface
             'insCodigo' => Yii::t('app', 'Institución'),
             'nivelEducacion' => Yii::t('app', 'Grado de Educación'),
             'tipoDiscapacidad' => Yii::t('app', 'Tipo de discapacidad'),
-            'estado' => Yii::t('app', 'Estado del Usuario'),
+            'estado' => Yii::t('app', 'Estado del usuario'),
             'correo' => Yii::t('app', 'Correo electrónico'),
             'contrasena' => Yii::t('app', 'Contraseña'),
-            'usuEncargado' => Yii::t('app', 'Encargado del Usuario'),
+            'usuEncargado' => Yii::t('app', 'Encargado del usuario'),
         ];
     }
 
@@ -316,7 +316,7 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->user->identity->estado == self::ESTADO;
     }
 
-    public static function listarUsuarios($codigoInstitucion, $rolSeleccionado = "")
+    public static function listarUsuarios($codigoInstitucion, $rolSeleccionado)
     {
         $respuesta = new \stdClass;
         $respuesta->correcto = false;
@@ -324,16 +324,16 @@ class User extends ActiveRecord implements IdentityInterface
         $rolUsuario = Yii::$app->user->identity->rolCodigo;
         $rolTomado = Roles::BusquedaRol($rolUsuario);
 
-        if ($rolTomado[0]['rolNumero'] == '4' && $rolSeleccionado != "") {
-            $consulta = User::find()
-                ->select(["usuCodigo", "nombre1", "apellido1"])
-                ->where(['estado' => Params::ESTADOOK, 'insCodigo' => $codigoInstitucion, 'usuCodigo' => Yii::$app->user->identity->usuCodigo])
-                ->all();
-        } else {
-            $respuestaConsulta = Self::realizarConsulta($rolSeleccionado);
+        $respuestaConsulta = Self::realizarConsulta($rolSeleccionado);
+        if ($respuestaConsulta->tipo != 'Super Administrador') {
             $consulta = User::find()
                 ->select(["usuCodigo", "nombre1", "apellido1"])
                 ->where(['estado' => Params::ESTADOOK, 'insCodigo' => $codigoInstitucion, 'rolCodigo' => $respuestaConsulta->rolBusqueda])
+                ->all();
+        } else {
+            $consulta = User::find()
+                ->select(["usuCodigo", "nombre1", "apellido1"])
+                ->where(['estado' => Params::ESTADOOK, 'rolCodigo' => $respuestaConsulta->rolBusqueda])
                 ->all();
         }
 
@@ -395,5 +395,13 @@ class User extends ActiveRecord implements IdentityInterface
             ->where([
                 'usuCodigo' => $usuCodigo,
             ])->asArray()->all();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function busquedaUsuarioCedula($Consulta)
+    {
+        return User::findOne($Consulta);
     }
 }

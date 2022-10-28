@@ -1,7 +1,7 @@
 <?php
 namespace common\models;
 
-class Params extends \yii\mongodb\ActiveRecord
+class Params extends \yii\db\ActiveRecord
 {
     const NOMBREPROGRAMA = 'Prototipo de Software';
     const ESTADOOK="N";

@@ -5,7 +5,7 @@ use common\models\Menus;
 use common\models\Params;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\BannersSearch */
+/* @var $searchModel common\models\MenusSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $menus = Menus::findByIdPadre(
@@ -17,7 +17,7 @@ $this->title = $menus["men_nombre"];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div id="contenedor-Preguntas">
-    <div class="banners-create">
+    <div class="Menus-create">
         <div class="col-md-12" id="btn_next">
             <br>
             <div class="form-group" style="text-align: end !important;">

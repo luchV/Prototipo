@@ -1,21 +1,46 @@
 {
-    "name": "luisv/prototipo",
-    "description": "Trabajo",
-    "autoload": {
-        "psr-4": {
-            "Luisv\\Prototipo\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "LuisVUazuay",
-            "email": "lvasconez@es.uazuay.edu.ec"
-        }
-    ],
-    "require": {},
-    "config": {
-        "allow-plugins": {
-            "yiisoft/yii2-composer": true
-        }
+  "name": "luisv/prototipo",
+  "description": "Trabajo",
+  "autoload": {
+    "psr-4": {
+      "Luisv\\Prototipo\\": "src/"
     }
+  },
+  "authors": [
+    {
+      "name": "LuisVUazuay",
+      "email": "lvasconez@es.uazuay.edu.ec"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.4.0",
+    "yiisoft/yii2": "~2.0.38",
+    "yiisoft/yii2-bootstrap4": "^2.0",
+    "ptrnov/yii2-fusionchart": "*"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "~2.1.0",
+    "yiisoft/yii2-gii": "~2.2.0",
+    "yiisoft/yii2-faker": "~2.0.0",
+    "codeception/codeception": "^4.0",
+    "codeception/module-asserts": "^1.0",
+    "codeception/module-yii2": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "phpunit/phpunit": "~5.7.27 || ~6.5.5",
+    "codeception/verify": "~0.5.0 || ~1.1.0",
+    "symfony/browser-kit": ">=2.7 <=4.2.4"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "robloach/component-installer": true
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
 }

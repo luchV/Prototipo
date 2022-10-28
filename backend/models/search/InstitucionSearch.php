@@ -2,13 +2,12 @@
 
 namespace backend\models\search;
 
-use common\helpers\FuncionesGenerales;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Institucion;
 
 /**
- * BannersSearch represents the model behind the search form about `common\models\Menus`.
+ * InstitucionSearch represents the model behind the search form about `common\models\Menus`.
  */
 class InstitucionSearch extends Institucion
 {

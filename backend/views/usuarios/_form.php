@@ -1,8 +1,6 @@
 <?php
 
 use common\helpers\FuncionesGenerales;
-use common\models\Institucion;
-use common\models\Roles;
 use common\models\User;
 use yii\bootstrap4\ActiveForm;
 use common\widgets\GuardarCambios;
@@ -104,7 +102,7 @@ if ($model->edad != "") {
       <br />
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'usuEncargado')->dropDownList(User::listarUsuarios($model->insCodigo)->listCompleto, array(
+      <?= $form->field($model, 'usuEncargado')->dropDownList(User::listarUsuarios($model->insCodigo, $model->rolCodigo)->listCompleto, array(
         'style' => 'float:left;',
       ));
       ?>
@@ -139,10 +137,25 @@ if ($model->edad != "") {
 <?php ActiveForm::end(); ?>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
+<script type="text/javascript">
+  let combo = document.getElementById("user-usuencargado");
+  let comboRoles = document.getElementById("user-rolcodigo");
+
+  if (comboRoles.options[comboRoles.selectedIndex].text == "Super Administrador") {
+    $("#user-usuencargado").empty().append('');
+    let option = document.createElement("option");
+    option.textContent = "Ninguno";
+    option.value = "<?= $parametro ?>";
+    combo.add(option);
+    $("#error").hide();
+    $("#error").text("");
+  }
+
   if ("<?= $errorMensaje ?>" != '') {
     $("#error").show();
+    $("#error").text("<?= $errorMensaje ?>");
   }
+
   var fechaActual = new Date();
   $("#user-edad").change(function() {
     texto = " años"
@@ -154,10 +167,6 @@ if ($model->edad != "") {
   });
 
   $("#user-rolcodigo").change(function() {
-
-    let combo = document.getElementById("user-usuencargado");
-    let comboRoles = document.getElementById("user-rolcodigo");
-
     if (document.getElementById('user-inscodigo').value != "") {
       if (comboRoles.options[comboRoles.selectedIndex].text == "Super Administrador") {
         $("#user-usuencargado").empty().append('');
@@ -174,6 +183,10 @@ if ($model->edad != "") {
       $("#error").show();
       $("#error").text("Por favor seleccione una Institución antes de seleccionar un Encargado.");
     }
+  });
+
+  $("#user-inscodigo").change(function() {
+    $("#user-usuencargado").empty().append('');
   });
 
   function consultarUsuarios() {
@@ -194,8 +207,10 @@ if ($model->edad != "") {
             $("#error").hide();
             $("#error").text("");
           } else {
-            $("#error").show();
-            $("#error").text("No se tiene (" + resultado.seleccionFaltante + ") para seleccionar en Encargado.");
+            if (resultado.seleccionFaltante != 'Ninguno') {
+              $("#error").show();
+              $("#error").text("No se tiene (" + resultado.seleccionFaltante + ") para seleccionar en Encargado.");
+            }
           }
         } catch (err) {
           $("#error").show();

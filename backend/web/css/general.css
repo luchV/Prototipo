@@ -216,3 +216,33 @@ input[type="checkbox"] {
   transform: translateY(-50%);
   visibility: hidden;
 }
+
+.panel-heading {
+  padding: 3%;
+}
+.panel-default > .panel-heading {
+  background-color: #ffffff;
+  border-color: #cfdbe2;
+}
+.pull-left {
+  float: left !important;
+}
+.label-success {
+  font-weight: bold;
+}
+.page-item.active .page-link {
+  z-index: 3;
+  color: var(--color-barra-secundaria);
+  background-color: var(--primary-bottom);
+  border-color: var(--primary-bottom);
+}
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #007bff;
+  background-color: var(--color-barra-secundaria);
+  border: 1px solid #dee2e6;
+}

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
+use common\models\User;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -77,12 +78,32 @@ class SiteController extends Controller
         }
         $this->layout = 'blank';
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())) {
+
+            $usuarioCorrecto = User::findByUsername($model->username, $model->institucion);
+            if (!is_null($usuarioCorrecto)) {
+                $usuario = new User();
+                $usuario->contrasena = $usuarioCorrecto->contrasena;
+                $validarContra = $usuario->validatePassword($model->password);
+                if ($validarContra) {
+                    $encargado = User::BusquedaUsuario($usuarioCorrecto->usuEncargado);
+                    if (count($encargado) > 0) {
+                        if ($model->login()) {
+                            return $this->goBack();
+                        }
+                    } else {
+                        $error = "El usuario no tiene un encargado, </br> por favor comuníquese con un administrador.";
+                    }
+                } else {
+                    $error = "La contraseña están incorrecta.";
+                }
+            } else {
+                $error = "El correo están incorrecto.";
+            }
         }
-        $model->password = '';
         return $this->render('login', [
             'model' => $model,
+            'mensajeError' => $error ?? "",
         ]);
     }
 

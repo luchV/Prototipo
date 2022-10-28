@@ -27,7 +27,6 @@ header {
 }
 .color_fondo {
     background: var(--color-fondo-img) !important;
-    height: 7.5%;
 }
 .icon__menu {
     width: 5%;

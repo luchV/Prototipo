@@ -9,6 +9,10 @@ use yii\bootstrap4\Html;
 use common\models\Institucion;
 
 $this->title = 'Inicio de sesión';
+
+if ($mensajeError == "") {
+    $estilo = "display:none;";
+}
 ?>
 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 <div class="hand"></div>
@@ -19,5 +23,6 @@ $this->title = 'Inicio de sesión';
 <?= $form->field($model, 'username')->textInput(['class' => 'form-control', 'placeholder' => 'Correo electrónico']) ?>
 <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control', 'placeholder' => 'Contraseña']) ?>
 <?= $form->field($model, 'rememberMe')->checkbox() ?>
+<p class="alert" style="<?= $estilo ?? "" ?>"><?= $mensajeError ?></p>
 <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary btn-login', 'name' => 'login-button']) ?>
 <?php ActiveForm::end(); ?>

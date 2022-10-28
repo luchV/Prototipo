@@ -7,13 +7,13 @@ use common\widgets\ContenedorTablas;
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"> Telefonos del usuario</h5>
+        <h5 class="modal-title"> Teléfonos del usuario</h5>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-8">
             <div class="form-group">
-              <label class="control-label">Telefono</label>
+              <label class="control-label">Teléfono</label>
               <input type="number" id="telefono" class="form-control" name="telefono" />
             </div>
           </div>
@@ -26,7 +26,7 @@ use common\widgets\ContenedorTablas;
         <table aria-describedby="Descripción" class="table table-hover" id="telefonosTabla" name="telefonosTabla">
           <thead>
             <tr>
-              <th scope="col">Telefono</th>
+              <th scope="col">Teléfono</th>
               <th scope="col"></th>
             </tr>
           </thead>

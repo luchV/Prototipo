@@ -1,6 +1,7 @@
 <?php
 
 use common\helpers\FuncionesGenerales;
+use common\models\Params;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\widgets\ContenedorTablas;
@@ -8,11 +9,18 @@ use common\widgets\BotonActualizarEliminar;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Banners */
 
 $this->title = $model->insNombre;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Instituciones'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+if ($model->insEstado == Params::ESTADOINACTIVO) {
+    $botonDesactivar = false;
+}
+
+if ($rolActivo[0]['rolNumero'] == "2" || $rolActivo[0]['rolNumero'] == "3") {
+    $activarBoton = true;
+}
 ?>
 <div class="institucion-view">
 
@@ -20,10 +28,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= BotonActualizarEliminar::widget([
         'editarBoton' => true,
-        'eliminarBoton' => true,
+        'desactivarBoton' => $botonDesactivar ?? true,
+        'accionDesactivar' => 'disabled',
+        'mensajeMuestraDesactivar' => 'Está seguro que desea desactivar',
+        'eliminarBoton' => $activarBoton ?? false,
+        'accionEliminar' => 'delete',
+        'mensajeMuestraEliminar' => 'Está seguro que desea eliminar permanentemente la institución, se eliminaran todas las relaciones que tiene vinculado',
         'idBoton' => (string)$model->insCodigo,
-        'mensajeEliminar' => $model->insNombre
+        'mensajeNombre' => $this->title,
+        'controller' => 'institucion',
     ]); ?>
+
+    <div class="alert alert-danger" name='error' id="error" role="alert" style="display: none;"></div>
 
     <?php ContenedorTablas::begin();  ?>
     <?= DetailView::widget([

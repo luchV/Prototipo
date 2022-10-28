@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use common\models\Menus;
 
 /**
- * BannersSearch represents the model behind the search form about `common\models\Menus`.
+ * MenusSearch represents the model behind the search form about `common\models\Menus`.
  */
 class MenusSearch extends Menus
 {

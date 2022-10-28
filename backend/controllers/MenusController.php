@@ -16,7 +16,7 @@ use common\models\Empresa;
 use common\models\Params;
 
 /**
- * BannersController implements the CRUD actions for Menu model.
+ * MenusController implements the CRUD actions for Menu model.
  */
 class MenusController extends Controller
 {
@@ -59,7 +59,7 @@ class MenusController extends Controller
 
 
     /**
-     * Displays a single Banners model.
+     * Displays a single Menus model.
      * @param integer $_id
      * @return mixed
      */
@@ -97,10 +97,10 @@ class MenusController extends Controller
     }
 
     /**
-     * Finds the Banners model based on its primary key value.
+     * Finds the Menus model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $_id
-     * @return Banners the loaded model
+     * @return Menus the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

@@ -4,14 +4,13 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Banners */
 /* @var $form yii\bootstrap4\ActiveForm */
 ?>
 
 
 <?php $form = ActiveForm::begin(); ?>
 
-<div class="banners-form">
+<div class="menus-form">
 
     <div class="row">
         <div class="col-md-6">

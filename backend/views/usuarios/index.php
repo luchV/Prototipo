@@ -89,7 +89,3 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ContenedorTablas::end();  ?>
 
 </div>
-
-<script>
-
-</script>

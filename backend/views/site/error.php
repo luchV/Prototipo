@@ -48,7 +48,7 @@ $this->title = $name;
                     Póngase en contacto con nosotros si cree que se trata de un error del servidor. Gracias.
                 </p>
                 <a onclick="history.back(-1)" class="link-button link-back-button">Regresar</a>
-                <a href="/" class="link-button">Ir a la página de inicio</a>
+                <a href="../web/index" class="link-button">Ir a la página de inicio</a>
         </div>
     </div>
 </div>

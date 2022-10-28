@@ -17,6 +17,8 @@ if (!is_null($usu)) {
   );
 
   $menus = [];
+  $rolesReportes = [];
+
   foreach ($tieneModulos as $value) {
     $relacioModulos = RelacionModulos::listarRelacionModulos(
       $value['relCodigo']
@@ -25,8 +27,20 @@ if (!is_null($usu)) {
       $menu = Modulos::listarModulos(
         $relacion['modCodigo']
       );
-      array_push($menus, $menu[0]);
+      if ($menu[0]['modSeccion'] == 'actividades') {
+        array_push($rolesReportes, $menu[0]);
+      } else {
+        array_push($menus, $menu[0]);
+      }
     }
+  }
+  function storey_sort($building_a, $building_b)
+  {
+    return $building_a["modOrden"] - $building_b["modOrden"];
+  }
+  usort($rolesReportes, "storey_sort");
+  foreach ($rolesReportes as $ingreso) {
+      array_push($menus, $ingreso);
   }
 
   $MenusCargados = '';

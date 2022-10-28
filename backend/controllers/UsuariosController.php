@@ -17,10 +17,9 @@ use common\models\telefonousuario;
 use common\models\TieneModulosUsuarios;
 use common\widgets\TelefonoModal;
 use Exception;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
 
 /**
- * BannersController implements the CRUD actions for User model.
+ * UsuariosController implements the CRUD actions for User model.
  */
 class UsuariosController extends Controller
 {
@@ -53,21 +52,26 @@ class UsuariosController extends Controller
     {
         $rolUsuario = Yii::$app->user->identity->rolCodigo;
         $insUsuario = Yii::$app->user->identity->insCodigo;
+        $parametros = Yii::$app->request->queryParams;
         $rolTomado = Roles::BusquedaRol($rolUsuario);
         $busqueda = new UsuariosSearch();
         switch ($rolTomado[0]['rolNumero']) {
+            case '2':
+                $dataProvider = $busqueda->search($parametros);
+                break;
             case '3':
-                $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
+                $busqueda->insCodigo = $insUsuario;
+                $dataProvider = $busqueda->searchAdmin($parametros);
                 break;
             case '4':
                 $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
+                $dataProvider = $busqueda->search($parametros);
                 break;
         }
 
-        $dataProvider = $busqueda->search(Yii::$app->request->queryParams);
         return $this->render('index', [
             'searchModel' => $busqueda,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider ?? "",
             'institucionLista' => Institucion::detectarInstituciones($rolUsuario, $insUsuario),
             'rolActivo' => $rolTomado[0]['rolNumero'],
         ]);
@@ -75,14 +79,28 @@ class UsuariosController extends Controller
 
 
     /**
-     * Displays a single Banners model.
+     * Displays a single Usuarios model.
      * @param integer $_id
      * @return mixed
      */
     public function actionView($id)
     {
+        $rolUsuario = Yii::$app->user->identity->rolCodigo;
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'rolActivo' => Roles::BusquedaRol($rolUsuario)
+        ]);
+    }
+
+    /**
+     * Displays a single Usuarios model.
+     * @param integer $_id
+     * @return mixed
+     */
+    public function actionInformacion()
+    {
+        return $this->render('informacion', [
+            'model' => $this->findModel(Yii::$app->user->identity->usuCodigo),
         ]);
     }
 
@@ -115,7 +133,7 @@ class UsuariosController extends Controller
                         self::GuardarModulosUsuario($model);
                         return $this->redirect(['index']);
                     } else {
-                        $error = 'Se produjo un error al momento de realizar la acción ';
+                        $error = 'Se produjo un error al momento de realizar la acción.';
                     }
                 } catch (Exception $e) {
                     $error = 'Validar que la cédula o correo no pertenezcan a otro usuario.';
@@ -238,10 +256,10 @@ class UsuariosController extends Controller
     }
 
     /**
-     * Finds the Banners model based on its primary key value.
+     * Finds the Usuarios model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $_id
-     * @return Banners the loaded model
+     * @return Usuarios the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -259,14 +277,58 @@ class UsuariosController extends Controller
      * @param integer $_id
      * @return mixed
      */
+    public function actionDisabled($id)
+    {
+        $respuesta = new \stdClass;
+        $respuesta->correcto = false;
+
+        $model = $this->findModel($id);
+        $rolUsuario = Yii::$app->user->identity->rolCodigo;
+        $rolTomado = Roles::BusquedaRol($rolUsuario);
+        if (($model->usuEncargado == Yii::$app->user->identity->usuCodigo || $rolTomado[0]['rolNumero'] == '2') || ($rolTomado[0]['rolNumero'] == '3' && $model->insCodigo == Yii::$app->user->identity->insCodigo)) {
+            $model->estado = Params::ESTADOINACTIVO;
+            if ($model->save()) {
+                $respuesta->correcto = true;
+                $respuesta->url = "index.php?r=usuarios/index";
+                $respuesta->mensajeCorrecto = "Se ha desactivado correctamente: " . $model->nombre1 . ' ' . $model->apellido1;
+                $respuesta->tiempoActualizar = 3000;
+            } else {
+                $respuesta->error = "No se ha podido desactivar el usuario, por favor volver a intentarlo.";
+            }
+        } else {
+            $respuesta->error = "No puede desactivar este usuario sin permiso, por favor contáctese con el super administrador.";
+        }
+        return  json_encode($respuesta);
+    }
+
+    /**
+     * Deletes an existing User model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $_id
+     * @return mixed
+     */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
+        $respuesta = new \stdClass;
+        $respuesta->correcto = false;
 
-        $model->estado = Params::ESTADOINACTIVO;
-        if ($model->save()) {
-            return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $rolTomado = Roles::BusquedaRol(Yii::$app->user->identity->rolCodigo);
+        if ($rolTomado[0]['rolNumero'] == '3' || $rolTomado[0]['rolNumero'] == '2') {
+            $nombreUsuario = $model->nombre1 . ' ' . $model->apellido1;
+            if ($model->delete()) {
+                $respuesta->correcto = true;
+                $respuesta->url = "index.php?r=usuarios/index";
+                $respuesta->mensajeCorrecto = "Se ha eliminado todas las relaciones que tiene el usuario: " . $nombreUsuario;
+                $respuesta->tiempoActualizar  = 10000;
+            } else {
+                $respuesta->error = "No se ha podido eliminar el usuario, por favor volver a intentarlo.";
+            }
+        } else {
+            $respuesta->error = "No puede eliminar este usuario sin permiso, por favor contáctese con el super administrador.";
         }
+
+        return  json_encode($respuesta);
     }
 
     /**

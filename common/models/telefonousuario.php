@@ -49,7 +49,7 @@ class telefonousuario extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'NumeroTelf' => Yii::t('app', 'Numero de telefono'),
+            'NumeroTelf' => Yii::t('app', 'Número de teléfono'),
         ];
     }
 

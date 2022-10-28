@@ -1,4 +1,6 @@
 <?php
+use yii\web\View;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -15,10 +17,17 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'csrfCookie' => [
+              'httpOnly' => true,
+              'secure' => IS_SECURE,
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            'enableSession' => true,
+            'autoRenewCookie' => true,
+            'authTimeout' => 60 * 60,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
@@ -37,6 +46,7 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

@@ -74,6 +74,6 @@ class Modulos extends ActiveRecord
         return Modulos::find()
             ->where([
                 'modCodigo' => $modCodigo,
-            ])->orderBy('modOrden')->asArray()->all();
+            ])->asArray()->all();
     }
 }

@@ -40,6 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}{view}',
+            ],
             'insNombre',
             'ubicación',
             [
@@ -48,10 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return FuncionesGenerales::TiposEstados()[$model->insEstado];
                 },
                 'filter' => Html::activeDropDownList($searchModel, 'insEstado', ['' => 'Todos', 'N' => 'Activado', 'P' => 'Inactivo'], ['class' => 'form-control']),
-            ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}{view}',
             ],
         ],
     ]); ?>

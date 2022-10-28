@@ -10,9 +10,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use common\helpers\ControlRoles;
+use common\models\Roles;
 
 /**
- * BannersController implements the CRUD actions for Institucion model.
+ * InstitucionController implements the CRUD actions for Institucion model.
  */
 class InstitucionController extends Controller
 {
@@ -60,8 +61,10 @@ class InstitucionController extends Controller
      */
     public function actionView($id)
     {
+        $rolUsuario = Yii::$app->user->identity->rolCodigo;
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'rolActivo' => Roles::BusquedaRol($rolUsuario),
         ]);
     }
 
@@ -83,7 +86,7 @@ class InstitucionController extends Controller
             if ($model->save()) {
                 return $this->redirect(['index']);
             } else {
-                $error = 'Se produjo un error al momento de realizar la acción ';
+                $error = 'Se produjo un error al momento de realizar la acción.';
             }
         }
         return $this->render('create', [
@@ -110,7 +113,7 @@ class InstitucionController extends Controller
             if ($model->save()) {
                 return $this->redirect(['index']);
             } else {
-                $error = 'Se produjo un error al momento de realizar la acción ';
+                $error = 'Se produjo un error al momento de realizar la acción.';
             }
         }
         return $this->render('update', [
@@ -125,21 +128,54 @@ class InstitucionController extends Controller
      * @param integer $_id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDisabled($id)
     {
-        $model = $this->findModel($id);
+        $respuesta = new \stdClass;
+        $respuesta->correcto = false;
 
+        $model = $this->findModel($id);
         $model->insEstado = Params::ESTADOINACTIVO;
         if ($model->save()) {
-            return $this->redirect(['index']);
+            $respuesta->correcto = true;
+            $respuesta->url = "index.php?r=institucion/index";
+            $respuesta->mensajeCorrecto = "Se ha desactivado correctamente: " . $model->insNombre;
+            $respuesta->tiempoActualizar = 3000;
+        } else {
+            $respuesta->error = "No se ha podido desactivar la institución, por favor volver a intentarlo.";
         }
+        return  json_encode($respuesta);
     }
 
     /**
-     * Finds the Banners model based on its primary key value.
+     * Deletes an existing User model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $_id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $respuesta = new \stdClass;
+        $respuesta->correcto = false;
+
+        $model = $this->findModel($id);
+        $nombreInstitucion = $model->insNombre;
+        if ($model->delete()) {
+            $respuesta->correcto = true;
+            $respuesta->url = "index.php?r=institucion/index";
+            $respuesta->mensajeCorrecto = "Se ha eliminado todas las relaciones que tiene la institución: " . $nombreInstitucion;
+            $respuesta->tiempoActualizar  = 10000;
+        } else {
+            $respuesta->error = "No se ha podido eliminar la institución, por favor volver a intentarlo.";
+        }
+
+        return  json_encode($respuesta);
+    }
+
+    /**
+     * Finds the Institucion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $_id
-     * @return Banners the loaded model
+     * @return Institucion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

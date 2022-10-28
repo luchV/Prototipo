@@ -3,7 +3,7 @@ var activo = false;
 
 if (!("webkitSpeechRecognition" in window)) {
 	let textError = document.querySelector('.error');
-	textError.textContent = 'Disculpas, no puedes usar el reconocimiento de voz en tu navegador';
+	textError.textContent = 'Disculpas, no puedes usar el reconocimiento de voz en tu navegador.';
 }
 let recognition = new webkitSpeechRecognition();
 recognition.lang = 'es-VE';
@@ -33,7 +33,7 @@ function realizarReconocimiento() {
 		}
 		if (!seleccionCorrecta) {
 			document.getElementById("errorMensaje").style.display = "grid";
-			textError.textContent = 'No se seleccionó ninguna opción, vuelva a intentarlo';
+			textError.textContent = 'No se seleccionó ninguna opción, vuelva a intentarlo.';
 		} else {
 			textError.textContent = '';
 			document.getElementById("errorMensaje").style.display = "none";
