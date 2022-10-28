@@ -1,10 +1,14 @@
 {
   "name": "luisv/prototipo",
   "description": "Trabajo",
-  "autoload": {
-    "psr-4": {
-      "Luisv\\Prototipo\\": "src/"
-    }
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "http://www.yiiframework.com/forum/",
+    "wiki": "http://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
   },
   "authors": [
     {
@@ -32,9 +36,14 @@
     "symfony/browser-kit": ">=2.7 <=4.2.4"
   },
   "config": {
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true,
     "allow-plugins": {
-      "yiisoft/yii2-composer": true,
-      "robloach/component-installer": true
+      "yiisoft/yii2-composer": true
     }
   },
   "repositories": [
