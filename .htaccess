@@ -6,5 +6,6 @@
   # follow symbolic links
   Options FollowSymlinks
   RewriteEngine on
+  RewriteCond %{REQUEST_URI} !^public
   RewriteRule ^(.*)$ backend/web/$1
 </IfModule>
