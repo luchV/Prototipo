@@ -262,7 +262,7 @@ class SonidosinicialesController extends Controller
                 } else {
                     $resultado->transaccion = false;
                 }
-            } else {
+            } else { 
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
         } catch (\SoapFault $e) {
