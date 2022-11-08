@@ -2,9 +2,11 @@
 
 namespace common\models;
 
+use DateTime;
 use yii\db\ActiveRecord;
 use Yii;
 use Exception;
+use ReflectionObject;
 
 /**
  * This is the model class for collection "Reportes".
@@ -12,7 +14,7 @@ use Exception;
  * @property mixed|string $usuCodigo
  * @property mixed $NumeroTelf
  */
-class Reportes extends ActiveRecord
+class RegistroActividad extends ActiveRecord
 {
 
     /**
@@ -37,6 +39,8 @@ class Reportes extends ActiveRecord
             'usuCodigo',
             'insCodigo',
             'usuEncargado',
+            'secCodigo',
+            'modCodigo'
         ];
     }
 
@@ -46,7 +50,7 @@ class Reportes extends ActiveRecord
     public function rules()
     {
         return [
-            [['numeroAciertos', 'tiempoTrascurrido', 'fechaEjecucion', 'numeroErrores', 'usuCodigo', 'insCodigo'], 'safe']
+            [['numeroAciertos', 'tiempoTrascurrido', 'fechaEjecucion', 'numeroErrores', 'usuCodigo', 'insCodigo', 'secCodigo', 'modCodigo'], 'safe']
         ];
     }
 
@@ -63,24 +67,28 @@ class Reportes extends ActiveRecord
             'usuCodigo' => Yii::t('app', 'Usuario'),
             'insCodigo' => Yii::t('app', 'Institución'),
             'usuEncargado' => Yii::t('app', 'Usuario encargado'),
+            'secCodigo' => Yii::t('app', 'Última actividad'),
+            'modCodigo' => Yii::t('app', 'Módulo'),
         ];
     }
 
-    public static function guardarRegistroActividad($numeroAciertos, $tiempoTrascurrido, $numeroErrores, $usuCodigo, $insCodigo)
+    public static function guardarRegistroActividad($numeroAciertos, $tiempoTrascurrido, $numeroErrores, $secCodigo, $modCodigo)
     {
         $respuesta = new \stdClass();
         $respuesta->correcto = false;
         try {
-            $reporteGuardar = new Reportes();
+            $reporteGuardar = new RegistroActividad();
             $reporteGuardar->regCodigo = bin2hex(openssl_random_pseudo_bytes(20));
             $reporteGuardar->numeroAciertos = $numeroAciertos;
             $reporteGuardar->tiempoTrascurrido = $tiempoTrascurrido;
             $reporteGuardar->numeroErrores = $numeroErrores;
-            $reporteGuardar->fechaEjecucion =  date('Y-m-d');
-            $reporteGuardar->usuCodigo =  $usuCodigo;
-            $reporteGuardar->insCodigo =  $insCodigo;
+            $fecha = new DateTime("now");
+            $reporteGuardar->fechaEjecucion =  $fecha->format("Y-m-d");
+            $reporteGuardar->usuCodigo =  Yii::$app->user->identity->usuCodigo;
+            $reporteGuardar->insCodigo =  Yii::$app->user->identity->insCodigo;
             $reporteGuardar->usuEncargado =  Yii::$app->user->identity->usuEncargado;
-
+            $reporteGuardar->secCodigo = $secCodigo;
+            $reporteGuardar->modCodigo = $modCodigo;
             if ($reporteGuardar->save()) {
                 $respuesta->correcto = true;
             } else {

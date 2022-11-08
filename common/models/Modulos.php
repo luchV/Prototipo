@@ -5,15 +5,17 @@ namespace common\models;
 use yii\db\ActiveRecord;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for collection "Menus".
+ * This is the model class for collection "Modulos".
  *
  * @property mixed|string $modCodigo
  * @property mixed $modNombre
  * @property mixed $modUrl
  * @property mixed $modIcono
  * @property mixed $modOrden
+ * @property mixed $modSeccion
  */
 class Modulos extends ActiveRecord
 {
@@ -41,6 +43,7 @@ class Modulos extends ActiveRecord
             'modUrl',
             'modIcono',
             'modOrden',
+            'modSeccion',
         ];
     }
 
@@ -50,7 +53,7 @@ class Modulos extends ActiveRecord
     public function rules()
     {
         return [
-            [['modCodigo', 'modNombre', 'modUrl', 'modIcono', 'modOrden'], 'safe']
+            [['modCodigo', 'modNombre', 'modUrl', 'modIcono', 'modOrden', 'modSeccion'], 'safe']
         ];
     }
 
@@ -60,7 +63,7 @@ class Modulos extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'modNombre' => Yii::t('app', 'Nombre'),
+            'modNombre' => Yii::t('app', 'Nombre de la actividad'),
         ];
     }
 
@@ -75,5 +78,28 @@ class Modulos extends ActiveRecord
             ->where([
                 'modCodigo' => $modCodigo,
             ])->asArray()->all();
+    }
+
+    public static function listarModulosFiltro()
+    {
+        $list = ArrayHelper::map(Modulos::find()->where(['modSeccion'=>'actividades'])->orderBy('modOrden')->all(), function ($model_aux) {
+            return (string)$model_aux->modNombre;
+        }, 'modNombre');
+
+        $Opcion1 = array(null => "Seleccionar");
+        $listCompleto = $Opcion1 + $list;
+
+        return  $listCompleto;
+    }
+    public static function listarModulosCodigoFiltro()
+    {
+        $list = ArrayHelper::map(Modulos::find()->where(['modSeccion'=>'actividades'])->orderBy('modOrden')->all(), function ($model_aux) {
+            return (string)$model_aux->modCodigo;
+        }, 'modNombre');
+
+        $Opcion1 = array(null => "Seleccionar");
+        $listCompleto = $Opcion1 + $list;
+
+        return  $listCompleto;
     }
 }

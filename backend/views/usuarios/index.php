@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= BotonAgregar::widget([
         'textoBoton' => 'Agregar Usuario',
-        'accionRealizar' => 'create',
+        'accionRealizar' => ['create'],
         'iconoBoton' => '<em class="fa fa-plus"></em>'
     ]); ?>
 
@@ -47,15 +47,33 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update}{view}',
             ],
-            'nombre1',
-            'apellido1',
-            'correo',
+            [
+                'attribute' => 'nombre1',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar nombre'
+                ]
+            ],
+            [
+                'attribute' => 'apellido1',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar apellido'
+                ]
+            ],
+            [
+                'attribute' => 'correo',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar correo'
+                ]
+            ],
             [
                 'attribute' => 'estado',
                 'value' => function ($model) {
                     return FuncionesGenerales::TiposEstados()[$model->estado];
                 },
-                'filter' => Html::activeDropDownList($searchModel, 'estado', ['' => 'Todos', 'N' => 'Activado', 'P' => 'Inactivo'], ['class' => 'form-control']),
+                'filter' => Html::activeDropDownList($searchModel, 'estado', FuncionesGenerales::TiposEstados(), ['class' => 'form-control']),
             ],
         ],
     ];

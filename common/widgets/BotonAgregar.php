@@ -12,9 +12,9 @@ class BotonAgregar extends Widget
   public $textoBoton = '';
 
   /**
-   * @var string
+   * @var array
    */
-  public $accionRealizar = '';
+  public $accionRealizar = [];
   /**
    * @var string
    */

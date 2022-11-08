@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div id="MensajeRespuesta" style="display:none;">
             <em id="iconoRespuesta" style="font-size: 400%;"></em>
-            <p class="mensajeMuestra"></p>
+            <p class="errorMensaje"></p>
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Volver a intentar <em class="fas fa-undo-alt"></em>'), ['class' => 'btn btn-primary text-center', 'onclick' => 'volverIntentar()']) ?>
             </div>

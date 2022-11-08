@@ -44,8 +44,55 @@ function realizarReconocimiento() {
 		recognition.start();
 	}
 }
-function activar(checkAvanzado) {
+function realizarReconocimientoMultipleOrdenado() {
 	let textError = document.querySelector('.error');
+	let escucha = document.querySelector('#start_img');
+	let cont = document.getElementById('cantidadOpcionesRespuesta').value;
+	if (activo) {
+		recognition.abort();
+		escucha.className = 'fas fa-microphone-alt';
+		activo = false;
+		let seleccionCorrecta = false;
+		for (var i = 0; i < cont; i++) {
+			let valorBusqueda = (document.getElementById('capRes' + i).value).split(' ');
+			if ((texto.innerHTML).localeCompare(valorBusqueda[0], undefined, { sensitivity: 'base' }) == 0) {
+				if (document.querySelector('#capRes' + i).checked) {
+					document.querySelector('#capRes' + i).checked = false;
+				} else {
+					document.querySelector('#capRes' + i).checked = true;
+					uncheckRadio(document.querySelector('#capRes' + i)); 
+				}
+				seleccionCorrecta = true;
+			}
+		}
+		if (!seleccionCorrecta) {
+			document.getElementById("errorMensaje").style.display = "grid";
+			textError.textContent = 'No se seleccionó ninguna opción, vuelva a intentarlo.';
+		} else {
+			textError.textContent = '';
+			document.getElementById("errorMensaje").style.display = "none";
+		}
+	} else {
+		escucha.className = 'fas fa-microphone-alt-slash';
+		activo = true;
+		recognition.start();
+	}
+}
+function realizarReconocimientSoloVoz() {
+	let escucha = document.querySelector('#start_img');
+	if (activo) {
+		recognition.abort();
+		escucha.className = 'fas fa-microphone-alt';
+		activo = false;
+	} else {
+		escucha.className = 'fas fa-microphone-alt-slash';
+		activo = true;
+		recognition.start();
+	}
+}
+
+function activar(checkAvanzado) {
+	let textError = document.getElementById('error');
 	if (checkAvanzado.checked) {
 		document.getElementById("reconocimientoVoz").style.display = "grid";
 	} else {

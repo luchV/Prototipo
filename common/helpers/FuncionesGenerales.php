@@ -56,6 +56,23 @@ class FuncionesGenerales
             'discapacidadVisual' => 'Discapacidad visual'
         ];
     }
+    static function TiposPreguntas()
+    {
+        return [
+            '' => 'Seleccionar',
+            'ambos' => 'Imagen o Voz',
+            'imagen' => 'Imagen',
+            'voz' => 'Voz',
+        ];
+    }
+    static function TiposRespuestas()
+    {
+        return [
+            '' => 'Seleccionar',
+            'true' => 'Correcta',
+            'false' => 'Incorrecta',
+        ];
+    }
     static function TiposEstados()
     {
         return [
@@ -74,5 +91,34 @@ class FuncionesGenerales
             $diferencia = $ahora->diff($nacimiento);
             return $diferencia->format("%y");
         }
+    }
+    static function TiposActividades()
+    {
+        return [
+            '' => 'Seleccionar',
+            '1' => 'Actividad 1',
+            '2' => 'Actividad 2',
+            '3' => 'Actividad 3',
+            '4' => 'Actividad 4',
+            '5' => 'Actividad 5',
+        ];
+    }
+
+    static function obtenerTiempoTrascurido($tiempoSegundos)
+    {
+        $segundos = $tiempoSegundos;
+        $horas = floor($segundos / 3600);
+        $minutos = floor(($segundos - ($horas * 3600)) / 60);
+        $segundos = $segundos - ($horas * 3600) - ($minutos * 60);
+        if (strlen($horas) == 1) {
+            $horas = '0' . $horas;
+        }
+        if (strlen($minutos) == 1) {
+            $minutos = '0' . $minutos;
+        }
+        if (strlen($segundos) == 1) {
+            $segundos = '0' . $segundos;
+        }
+        return $horas . ':' . $minutos . ":" . $segundos;
     }
 }

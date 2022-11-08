@@ -2,7 +2,9 @@ function reproducirTitulo(campo) {
     var texto = (document.getElementById(campo).innerHTML).trim();
     reproducir(texto);
 }
-function reproducir(texto) {
+async function reproducir(texto, idButonCambio, iconoAnterior, iconoNuevo) {
+    let campoIcono = document.getElementById(idButonCambio);
+    campoIcono.className = iconoNuevo;
     // Tell Chrome to wake up and get the voices.
     var utterance = new SpeechSynthesisUtterance();
     speechSynthesis.getVoices();
@@ -17,5 +19,10 @@ function reproducir(texto) {
         utterance.rate = 0.6;
         utterance.pitch = 0.3;
         speechSynthesis.speak(utterance);
-    }, 1000);
+    }, 40);
+    await sleep(2000);
+    campoIcono.className = iconoAnterior;
+}
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
 }

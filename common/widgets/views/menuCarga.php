@@ -79,7 +79,7 @@ if (!is_null($usu)) {
 
 <div class="menu__side" id="menu_side">
   <div class="color_fondo">
-    <img style="width: 68%;" id="logoI" alt="<?= Params::NOMBREPROGRAMA ?>">
+    <img style="width: 67%;" id="logoI" alt="<?= Params::NOMBREPROGRAMA ?>">
   </div>
 
   <div class="options__menu list-unstyled">
@@ -102,7 +102,7 @@ if (!is_null($usu)) {
     <?php if (!empty($actividades)) : ?>
       <li class="tituloSecciones">
         <hr>
-        <a class="dropdown-toggle" style="text-decoration: none;">Actividades</a>
+        <a class="dropdown-toggle" style="text-decoration: none;">Módulos</a>
         <hr>
       </li>
       <?= $actividades; ?>

@@ -1,6 +1,9 @@
 <?php
 
+use common\helpers\FuncionesGenerales;
 use common\models\Institucion;
+use common\models\Modulos;
+use common\models\SeccionesModulos;
 use common\models\User;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -21,6 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php $form = ActiveForm::begin(); ?>
+
+
+
     <?= CalendarioBusqueda::widget([
         'fechaSeleccionada' => $fecha,
         'nameFecha' => 'Reportes[fechaEjecucion]',
@@ -38,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Tiempo total trascurrido: " ?></p>
-                        <p class="pull-left label-info"><?= $respuestaGrafico->totalTiempo; ?></p>
+                        <p class="pull-left label-info"><?= FuncionesGenerales::obtenerTiempoTrascurido($respuestaGrafico->totalTiempo); ?></p>
                         <br />
                         <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Número total de errores: " ?></p>
                         <p class="pull-left label-info"><?= $respuestaGrafico->totalError; ?></p>
@@ -86,10 +92,52 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $usuarioBusqueda['cedula'];
                 },
             ],
-            'numeroAciertos',
-            'numeroErrores',
-            'tiempoTrascurrido',
-            'fechaEjecucion',
+            [
+                'attribute' => 'numeroAciertos',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar aciertos'
+                ]
+            ],
+            [
+                'attribute' => 'numeroErrores',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar errores'
+                ]
+            ],
+            [
+                'attribute' => 'fechaEjecucion',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar fecha'
+                ]
+            ],
+            [
+                'attribute' => 'tiempoTrascurrido',
+                'value' => function ($model) {
+                    return FuncionesGenerales::obtenerTiempoTrascurido($model->tiempoTrascurrido);
+                },
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar tiempo'
+                ]
+            ],
+            [
+                'attribute' => 'secCodigo',
+                'value' => function ($model) {
+                    $seccion = (object)SeccionesModulos::BusquedaSeccionesModulo($model->secCodigo);
+                    return 'Actividad ' . $seccion->secNumeroPregunta;
+                },
+            ],
+            [
+                'attribute' => 'modCodigo',
+                'value' => function ($model) {
+                    return Modulos::listarModulosCodigoFiltro()[$model->modCodigo];
+                },
+                'filter' => Html::activeDropDownList($searchModel, 'modCodigo', Modulos::listarModulosCodigoFiltro(), ['class' => 'form-control']),
+
+            ],
         ]
     ];
 

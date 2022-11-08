@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 <div class="d-flex">
     <?php if ($editarBoton) { ?>
-        <?= Html::a(Yii::t('app', 'Actualizar'), ['update', 'id' => $idBoton], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Actualizar'), [$accionActualizar, 'id' => $idBoton], ['class' => 'btn btn-primary']) ?>
     <?php } ?>
 
     <?php if ($desactivarBoton) { ?>

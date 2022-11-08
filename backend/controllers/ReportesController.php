@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Reportes;
+use common\models\RegistroActividad;
 use backend\models\search\ReportesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,7 +12,6 @@ use common\helpers\ControlRoles;
 use common\models\Params;
 use common\models\Roles;
 use common\models\User;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use ptrnov\fusionchart\Chart;
 
 /**
@@ -47,7 +46,7 @@ class ReportesController extends Controller
      */
     public function actionReporteGeneral()
     {
-        $model = new Reportes();
+        $model = new RegistroActividad();
         $consultarFecha = $model->load(Yii::$app->request->post());
 
         $fecha = self::obtenerFecha($consultarFecha, $model, 'FechaRG');
@@ -65,7 +64,7 @@ class ReportesController extends Controller
             case '4':
                 $busquedaInstitucion = false;
                 $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
-                $busqueda->usuEncargado = Yii::$app->user->identity->usuEncargado;
+                $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
                 break;
         }
 
@@ -104,11 +103,13 @@ class ReportesController extends Controller
      */
     public function actionReporteBusqueda()
     {
+        
         $model = new User();
         $consultarCedula = $model->load(Yii::$app->request->post());
         $cedula = self::obtenerCedula($consultarCedula, $model, 'cedulaU');
 
         if ($cedula == '') {
+            unset($_SESSION['cedulaU']);
             return $this->render('reporteBusqueda', [
                 'mensajeError' => ' ',
                 'cedulaUsuario' => '',
@@ -132,7 +133,7 @@ class ReportesController extends Controller
             case '4':
                 $busquedaInstitucion = false;
                 $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
-                $busqueda->usuEncargado = Yii::$app->user->identity->usuEncargado;
+                $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
                 $consulta = ['estado' => Params::ESTADOOK, 'cedula' => $cedulaUsuario, 'insCodigo' => $busqueda->insCodigo, 'usuEncargado' => $busqueda->usuEncargado];
                 break;
         }
@@ -140,6 +141,7 @@ class ReportesController extends Controller
         $usuarioBusqueda = User::busquedaUsuarioCedula($consulta);
 
         if (is_null($usuarioBusqueda)) {
+            unset($_SESSION['cedulaU']);
             return $this->render('reporteBusqueda', [
                 'mensajeError' => 'El usuario no existe',
                 'cedulaUsuario' => $cedulaUsuario,
@@ -279,7 +281,7 @@ class ReportesController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Reportes::findOne($id)) !== null) {
+        if (($model = RegistroActividad::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

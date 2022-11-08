@@ -14,6 +14,11 @@ class BotonActualizarEliminar extends Widget
     /**
      * @var string
      */
+    public $accionActualizar = 'update';
+
+    /**
+     * @var string
+     */
     public $desactivarBoton = false;
     /**
      * @var string
@@ -35,7 +40,7 @@ class BotonActualizarEliminar extends Widget
      * @var string
      */
     public $accionEliminar = '';
-        /**
+    /**
      * @var string
      */
     public $mensajeMuestraEliminar = '';
@@ -54,6 +59,7 @@ class BotonActualizarEliminar extends Widget
     {
         return $this->render('botonActualizarEliminar', [
             'editarBoton' => $this->editarBoton,
+            'accionActualizar' => $this->accionActualizar,
             'desactivarBoton' => $this->desactivarBoton,
             'accionDesactivar' => $this->accionDesactivar,
             'mensajeMuestraDesactivar' => $this->mensajeMuestraDesactivar,

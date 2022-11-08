@@ -51,4 +51,8 @@
     --pies: #000;
     --pies-dedos: #222;
     --pies-planta: #222;
+
+    /*color fondo seleccion imagen*/
+    --border-imagen: #f5d3aa;
+    --fondo-imagen: #fdf8c2;
 }

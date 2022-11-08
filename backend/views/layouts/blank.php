@@ -22,7 +22,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 
-<body>
+<body class='totalBody'>
     <?php $this->beginBody() ?>
     <div class="panda">
         <div class="ear"></div>

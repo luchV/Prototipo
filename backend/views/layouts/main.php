@@ -50,7 +50,7 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
         } else {
             $menuItems[] = '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'], ['onclick' => 'ingresarVariableMenu("menu", "")'])
+                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'], ['onclick' => 'ingresarVariableMenu("desplegar", "")'])
                 . Html::submitButton(
                     'Cerrar sesión',
                     ['class' => 'btn btn-link logout']

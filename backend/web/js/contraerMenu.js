@@ -1,37 +1,36 @@
 $(document).ready(function () {
-  let estado = leerVariableMenu("menu");
+  let estado = leerVariableMenu("desplegar");
   let elementosTitulo = document.getElementsByClassName("tituloSecciones");
   let elementosNombres = document.getElementsByClassName("tituloNombres");
 
   if (document.getElementById("body")) {
     if (estado == "activo") {
-      $("#menu_side").toggleClass("");
-      quitarCampo(elementosNombres);
-      quitarCampo(elementosTitulo);
-      document.getElementById("logoI").src="img/Icono.png";
-    } else {
       body.classList.add("body_move");
       side_menu.classList.add("menu__side_move");
       ponerCampo(elementosNombres);
       ponerCampo(elementosTitulo);
       document.getElementById("logoI").src="img/Imagen.png";
-    }
-  }
-  $("#btn_open").on("click", function () {
-    estado = leerVariableMenu("menu");
-    if (estado == "activo") {
-      ingresarVariableMenu("menu", "inactivo");
-      ponerCampo(elementosNombres);
-      ponerCampo(elementosTitulo);
-      document.getElementById("logoI").src="img/Imagen.png";
     } else {
-      ingresarVariableMenu("menu", "activo");
+      $("#menu_side").toggleClass("");
       quitarCampo(elementosNombres);
       quitarCampo(elementosTitulo);
       document.getElementById("logoI").src="img/Icono.png";
-
     }
-    $("#menu_side").toggleClass("")
+  }
+  $("#btn_open").on("click", function () {
+    estado = leerVariableMenu("desplegar");
+    if (estado == "activo") {   
+      ingresarVariableMenu("desplegar", "inactivo");
+      $("#menu_side").toggleClass("")
+      quitarCampo(elementosNombres);
+      quitarCampo(elementosTitulo);
+      document.getElementById("logoI").src="img/Icono.png";
+    } else {
+      ingresarVariableMenu("desplegar", "activo");
+      ponerCampo(elementosNombres);
+      ponerCampo(elementosTitulo);
+      document.getElementById("logoI").src="img/Imagen.png";
+    }
   });
 });
 function ingresarVariableMenu(nombre, valor) {

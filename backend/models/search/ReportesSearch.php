@@ -4,12 +4,12 @@ namespace backend\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Reportes;
+use common\models\RegistroActividad;
 
 /**
  * ReportesSearch represents the model behind the search form about `common\models\Menus`.
  */
-class ReportesSearch extends Reportes
+class ReportesSearch extends RegistroActividad
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class ReportesSearch extends Reportes
     public function rules()
     {
         return [
-            [['numeroAciertos', 'tiempoTrascurrido', 'numeroErrores', 'fechaEjecucion', 'usuCodigo', 'insCodigo', 'usuEncargado'], 'safe']
+            [['numeroAciertos', 'numeroErrores', 'fechaEjecucion', 'usuCodigo', 'insCodigo', 'usuEncargado','modCodigo'], 'safe']
         ];
     }
 
@@ -41,7 +41,7 @@ class ReportesSearch extends Reportes
      */
     public function search($params)
     {
-        $query = Reportes::find();
+        $query = RegistroActividad::find();
 
         if ($this->start !== '' && $this->end !== '') {
 
@@ -65,7 +65,10 @@ class ReportesSearch extends Reportes
                 ->andFilterWhere(['LIKE', 'numeroErrores', $this->numeroErrores])
                 ->andFilterWhere(['LIKE', 'usuCodigo', $this->usuCodigo])
                 ->andFilterWhere(['LIKE', 'insCodigo', $this->insCodigo])
-                ->andFilterWhere(['LIKE', 'usuEncargado', $this->usuEncargado]);
+                ->andFilterWhere(['LIKE', 'usuEncargado', $this->usuEncargado])
+                ->andFilterWhere(['LIKE', 'secCodigo', $this->secCodigo])
+                ->andFilterWhere(['LIKE', 'modCodigo', $this->modCodigo]);
+
         }
 
 
@@ -80,7 +83,7 @@ class ReportesSearch extends Reportes
      */
     public function searchUsuario($params)
     {
-        $query = Reportes::find();
+        $query = RegistroActividad::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -97,7 +100,9 @@ class ReportesSearch extends Reportes
                 ->andFilterWhere(['LIKE', 'numeroErrores', $this->numeroErrores])
                 ->andFilterWhere(['LIKE', 'usuCodigo', $this->usuCodigo])
                 ->andFilterWhere(['LIKE', 'insCodigo', $this->insCodigo])
-                ->andFilterWhere(['LIKE', 'usuEncargado', $this->usuEncargado]);
+                ->andFilterWhere(['LIKE', 'usuEncargado', $this->usuEncargado])
+                ->andFilterWhere(['LIKE', 'secCodigo', $this->secCodigo])
+                ->andFilterWhere(['LIKE', 'modCodigo', $this->modCodigo]);
         }
 
 

@@ -12,7 +12,7 @@
         </div>
         <input type="text" value="<?= $valorInput ?>" class="form-control" placeholder="Ingresar cédula" id="<?= $idInput ?>" name="<?= $nameInput ?>" minlength="<?= $longitudMinimaInput ?>" maxlength="<?= $longitudMaximaInput ?>">
         <span class="input-group-btn">
-            <button class="btn btn-primary" type="submit" name="<?= $nameButton ?>">
+            <button class="btn btn-primary" type="submit" name="<?= $nameButton ?>" <?= $camposExtras ?>>
                 <em class="fa fa-search text-white"></em> <?= $textoBoton ?>
             </button>
         </span>

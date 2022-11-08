@@ -1,6 +1,9 @@
 <?php
 
+use common\helpers\FuncionesGenerales;
 use common\models\Institucion;
+use common\models\Modulos;
+use common\models\SeccionesModulos;
 use common\models\User;
 use common\widgets\BotonBuscar;
 use yii\helpers\Html;
@@ -67,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Tiempo total trascurrido: " ?></p>
-                            <p class="pull-left label-info"><?= $respuestaGrafico->totalTiempo; ?></p>
+                            <p class="pull-left label-info"><?= FuncionesGenerales::obtenerTiempoTrascurido($respuestaGrafico->totalTiempo); ?></p>
                             <br />
                             <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Número total de errores: " ?></p>
                             <p class="pull-left label-info"><?= $respuestaGrafico->totalError; ?></p>
@@ -84,32 +87,72 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php } else { ?>
             <div class="row">
                 <div class="col-md-6">
-                    No existen datos en esas fechas
+                    No existen registros del usuario
                 </div>
             </div>
             </br>
         <?php } ?>
 
-        <?php if ($dataProvider->getTotalCount() > 0) { ?>
-            </br>
-            <?php ContenedorTablas::begin();  ?>
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'summary' => 'Mostrando {begin} - {end} de {totalCount} registros. ',
-                'pager' => [
-                    'class' => \yii\bootstrap4\LinkPager::class
+        </br>
+        <?php ContenedorTablas::begin();  ?>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'summary' => 'Mostrando {begin} - {end} de {totalCount} registros. ',
+            'pager' => [
+                'class' => \yii\bootstrap4\LinkPager::class
+            ],
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'attribute' => 'numeroAciertos',
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Ingresar aciertos'
+                    ]
                 ],
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'numeroAciertos',
-                    'numeroErrores',
-                    'tiempoTrascurrido',
-                    'fechaEjecucion',
-                ]
-            ]); ?>
-            <?php ContenedorTablas::end();  ?>
-        <?php } ?>
+                [
+                    'attribute' => 'numeroErrores',
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Ingresar errores'
+                    ]
+                ],
+                [
+                    'attribute' => 'fechaEjecucion',
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Ingresar fecha'
+                    ]
+                ],
+                [
+                    'attribute' => 'tiempoTrascurrido',
+                    'value' => function ($model) {
+                        return FuncionesGenerales::obtenerTiempoTrascurido($model->tiempoTrascurrido);
+                    },
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Ingresar tiempo'
+                    ]
+                ],
+                [
+                    'attribute' => 'secCodigo',
+                    'value' => function ($model) {
+                        $seccion = (object)SeccionesModulos::BusquedaSeccionesModulo($model->secCodigo);
+                        return 'Actividad ' . $seccion->secNumeroPregunta;
+                    },
+                ],
+                [
+                    'attribute' => 'modCodigo',
+                    'value' => function ($model) {
+                        return Modulos::listarModulosCodigoFiltro()[$model->modCodigo];
+                    },
+                    'filter' => Html::activeDropDownList($searchModel, 'modCodigo', Modulos::listarModulosCodigoFiltro(), ['class' => 'form-control']),
+
+                ],
+            ]
+        ]); ?>
+        <?php ContenedorTablas::end();  ?>
     <?php } else { ?>
         <div class="row">
             <div class="col-md-6">

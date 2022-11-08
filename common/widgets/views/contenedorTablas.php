@@ -5,6 +5,6 @@
  */
 ?>
 
-<div style="overflow-x: auto; white-space: nowrap;text-align: initial;">
+<div style="overflow-x: auto;text-align: initial;">
   <?= $contentTabla; ?>
 </div>

@@ -321,7 +321,7 @@ h1 {
 }
 
 /*Estilo de las alertas flotantes*/
-.alert {
+.alertLogin {
   position: absolute;
   color: var(--alerta-color);
   font-size: 16px;
@@ -335,8 +335,8 @@ h1 {
   transition: linear 0.4s 0.6s;
 }
 
-.alert:after,
-.alert:before {
+.alertLogin:after,
+.alertLogin:before {
   content: "";
   position: absolute;
   width: 25px;
@@ -348,7 +348,7 @@ h1 {
   border-radius: 50%;
 }
 
-.alert:before {
+.alertLogin:before {
   width: 15px;
   height: 15px;
   left: -35px;
@@ -360,7 +360,7 @@ h1 {
   animation: wrong-log 0.3s;
 }
 
-.wrong-entry .alert {
+.wrong-entry .alertLogin {
   opacity: 1;
   transform: scale(1, 1);
 }
@@ -412,12 +412,13 @@ h1 {
 }
 
 @media screen and (max-width: 900px) {
-  #login-form,
-  body {
+  #login-form{
     max-width: 100%;
+  }
+  .totalBody {
     margin-left: 0% !important;
   }
-  .alert {
+  .alertLogin {
     right: -50px;
   }
 }
@@ -425,13 +426,16 @@ h1 {
   #login-form {
     max-width: 10%;
   }
-  .alert {
+  .alertLogin {
     right: -300px;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .alert {
+  .alertLogin {
     right: -100px;
+  }
+  .botonGuardar {
+    max-width: 100% !important;
   }
 }

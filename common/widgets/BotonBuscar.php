@@ -39,6 +39,10 @@ class BotonBuscar extends Widget
      */
     public $nameInput;
     /**
+     * @var string
+     */
+    public $camposExtras = "";
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -52,6 +56,7 @@ class BotonBuscar extends Widget
             'longitudMaximaInput' => $this->longitudMaximaInput,
             'longitudMinimaInput' => $this->longitudMinimaInput,
             'valorInput' => $this->valorInput,
+            'camposExtras' => $this->camposExtras,
         ]);
     }
 }

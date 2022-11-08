@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?= BotonAgregar::widget([
-        'textoBoton' => 'Agregar Usuario',
-        'accionRealizar' => 'create',
+        'textoBoton' => 'Agregar Institución',
+        'accionRealizar' => ['create'],
         'iconoBoton' => '<em class="fa fa-plus"></em>'
     ]); ?>
 
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'summary' => 'Mostrando {begin} - {end} de {totalCount} usuarios. ',
+        'summary' => 'Mostrando {begin} - {end} de {totalCount} instituciones. ',
         'pager' => [
             'class' => \yii\bootstrap4\LinkPager::class
         ],
@@ -44,14 +44,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update}{view}',
             ],
-            'insNombre',
-            'ubicación',
+            [
+                'attribute' => 'insNombre',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar nombre'
+                ]
+            ],
+            [
+                'attribute' => 'ubicación',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Ingresar ubicación'
+                ]
+            ],
             [
                 'attribute' => 'insEstado',
                 'value' => function ($model) {
                     return FuncionesGenerales::TiposEstados()[$model->insEstado];
                 },
-                'filter' => Html::activeDropDownList($searchModel, 'insEstado', ['' => 'Todos', 'N' => 'Activado', 'P' => 'Inactivo'], ['class' => 'form-control']),
+                'filter' => Html::activeDropDownList($searchModel, 'insEstado', FuncionesGenerales::TiposEstados(), ['class' => 'form-control']),
             ],
         ],
     ]); ?>
