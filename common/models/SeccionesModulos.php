@@ -70,13 +70,15 @@ class SeccionesModulos extends ActiveRecord
                     'seccPreguntaAdicional',
                     'seccAudioPreguntaAdicional',
                 ], 'safe'
-            ], [
+            ],
+            [
                 [
                     'secPregunta',
                     'secNumeroPregunta',
                     'secTipoRespuesta',
                     'seccAudioPregunta',
-                ], 'required', 'message' => 'Campo obligatorio.', 'on' => 'registro'
+                    'secEstado',
+                ], 'required', 'message' => 'Campo obligatorio.', 'on' => 'registro2'
             ],
         ];
     }

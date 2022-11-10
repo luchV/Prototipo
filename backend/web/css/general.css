@@ -209,7 +209,6 @@ input[type="checkbox"] {
   font-weight: bold;
 }
 
-
 .checkbox-Vacio {
   display: inline-block;
   position: relative;
@@ -291,6 +290,9 @@ input[type="checkbox"] {
   border: 1px solid #dee2e6;
 }
 
-.textoPreguntas{
-  font-size: 18px;
+.textoPreguntas {
+  font-size: 25px;
+}
+.tamanoIcono {
+  font-size: 25px;
 }

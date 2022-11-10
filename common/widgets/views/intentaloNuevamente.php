@@ -4,14 +4,16 @@ use yii\bootstrap4\Html;
 
 ?>
 
-<div id="MensajeRespuesta" name="MensajeRespuesta" style="display:none;">
+<div id="<?= $idMensajes ?>" name="<?= $idMensajes ?>" style="display:none;">
     <div class="col-md-12" style="text-align: center;">
-        <button class="btnPersonalizado" onclick='reproducir("Intentalo de nuevo", "iconoRepetir","fas fa-volume-off","fas fa-volume-up")'><em id="iconoRepetir" class="fas fa-volume-off"></em></button>
-        <label id="intentaloNuevo" name="intentaloNuevo">
-            Inténtalo de nuevo
+        <button class="btnPersonalizado" onclick='reproducir("<?= $textoMostrar ?>", "iconoRepetir","fas fa-volume-off tamanoIcono","fas fa-volume-up tamanoIcono")'><em id="iconoRepetir" class="fas fa-volume-off tamanoIcono"></em></button>
+        &nbsp;&nbsp;
+        <label id="<?= $idLabel ?>" name="<?= $idLabel ?>" style="font-size: 23px;">
+            <?= $textoMostrar ?>
         </label>
     </div>
+    <br>
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', '<em class="fas fa-undo-alt fa-3x"></em>'), ['class' => 'btn btn-primary text-center', 'onclick' => $funcionRepetir . '("' . $numeroTotal . '","' .  $TipoRespuestas . '")']) ?>
+        <?= Html::submitButton($textoBoton . Yii::t('app', '<em class="' . $iconoMostrar . '"></em>'), ['class' => 'btn btn-primary text-center', 'onclick' => $funcionRepetir . '("' . $numeroTotal . '","' .  $TipoRespuestas . '")']) ?>
     </div>
 </div>

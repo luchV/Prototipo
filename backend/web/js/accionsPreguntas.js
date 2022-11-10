@@ -22,8 +22,7 @@ function cambiarPregunta(controler, accion, tipoRespuesta, opcional = "") {
         });
     }
     if (respuestaTexto == '' && contador == 0) {
-        MuestraMensajes("MensajeRespuesta");
-        return false;
+        respuestas = [0];
     }
     let data = {
         respuestas: respuestas,
@@ -38,7 +37,8 @@ function cambiarPregunta(controler, accion, tipoRespuesta, opcional = "") {
                 datos.transaccion = false;
             }
             if (datos.transaccion) {
-                $("#contenedor-Preguntas").html(datos.vista);
+                vistaSiguiente = datos.vista;
+                ocultarTodo();
             } else {
                 MuestraMensajes("MensajeRespuesta");
             }
@@ -48,6 +48,27 @@ function cambiarPregunta(controler, accion, tipoRespuesta, opcional = "") {
     }).fail(function () {
         MuestraMensajes("MensajeRespuesta");
     });
+}
+function ocultarTodo() {
+    $("#mostrarMensajeInformativo").show();
+    reproducir(document.getElementById('buenTrabajo').innerHTML.trim(), "iconoRepetir", "fas fa-volume-off tamanoIcono", "fas fa-volume-up tamanoIcono")
+
+    $('#btmComenzar').hide();
+    $('#btmRepetir').hide();
+    $('#btmContinuar').hide();
+    $('#subPregunta').hide();
+    $('#preguntaAdicional').hide();
+    $('#MensajeRespuesta').hide();
+    $('#pregunta').hide();
+    $('#idFotosGlobales').hide();
+    $('#mocrofono').hide();
+    $('#reconocimientoVoz').hide();
+    $('#btn_next').hide();
+}
+function mostrarCampos(cantidad, tipoRespuesta) {
+    let pantalla = vistaSiguiente;
+    vistaSiguiente = '';
+    $("#contenedor-Preguntas").html(pantalla);
 }
 function cambiarPreguntaEspecialOrden(controler, accion, tipoRespuesta, opcional = "") {
     var respuestas = new Array(0);
@@ -67,8 +88,7 @@ function cambiarPreguntaEspecialOrden(controler, accion, tipoRespuesta, opcional
         contador++;
     });
     if (contador == 0) {
-        MuestraMensajes("MensajeRespuesta");
-        return false;
+        respuestas = [0];
     }
     let data = {
         respuestas: respuestas,
@@ -83,7 +103,8 @@ function cambiarPreguntaEspecialOrden(controler, accion, tipoRespuesta, opcional
                 datos.transaccion = false;
             }
             if (datos.transaccion) {
-                $("#contenedor-Preguntas").html(datos.vista);
+                vistaSiguiente = datos.vista;
+                ocultarTodo();
             } else {
                 MuestraMensajes("MensajeRespuesta");
             }
@@ -118,8 +139,7 @@ function cambiarPreguntaSinOrden(controler, accion, tipoRespuesta, opcional = ""
         });
     }
     if (respuestaTexto == '' && contador == 0) {
-        MuestraMensajes("MensajeRespuesta");
-        return false;
+        respuestas = [0];
     }
     let data = {
         respuestas: respuestas,
@@ -135,7 +155,8 @@ function cambiarPreguntaSinOrden(controler, accion, tipoRespuesta, opcional = ""
                 datos.transaccion = false;
             }
             if (datos.transaccion) {
-                $("#contenedor-Preguntas").html(datos.vista);
+                vistaSiguiente = datos.vista;
+                ocultarTodo();
             } else {
                 MuestraMensajes("MensajeRespuesta");
             }
@@ -164,8 +185,7 @@ function cambiarPreguntaEspecialSinOrden(controler, accion, tipoRespuesta, opcio
         contador++;
     });
     if (contador == 0) {
-        MuestraMensajes("MensajeRespuesta");
-        return false;
+        respuestas = [0];
     }
     let data = {
         respuestas: respuestas,
@@ -181,7 +201,8 @@ function cambiarPreguntaEspecialSinOrden(controler, accion, tipoRespuesta, opcio
                 datos.transaccion = false;
             }
             if (datos.transaccion) {
-                $("#contenedor-Preguntas").html(datos.vista);
+                vistaSiguiente = datos.vista;
+                ocultarTodo();
             } else {
                 MuestraMensajes("MensajeRespuesta");
             }
@@ -202,7 +223,7 @@ function MuestraMensajes(campo) {
     for (var i = 0; i < cont; i++) {
         $("#labRes" + i).hide();
     }
-    reproducir('Intentalo de nuevo', "iconoRepetir", 'fas fa-volume-off', 'fas fa-volume-up');
+    reproducir('Intentalo de nuevo', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
 }
 function volverIntentar() {
     let cont = document.getElementById('cantidadOpciones').value;
@@ -236,23 +257,24 @@ async function repetirImagenes(cantidad, tipoRespuesta) {
     $('#btmRepetir').hide();
     $('#btmContinuar').hide();
     $('#subPregunta').hide();
+    $('#preguntaAdicional').hide();
     $('#MensajeRespuesta').hide();
     $('#pregunta').show();
     for (let aux = 0; aux < cantidad; aux++) {
         $('#lab' + aux).hide();
     }
     let campoIcono = document.getElementById('iconoButtonPregunta');
-    campoIcono.className = 'fas fa-volume-up';
+    campoIcono.className = 'fas fa-volume-up tamanoIcono';
     $reproducirAudioI = document.getElementById('audioPegunta');
     valor = $reproducirAudioI.duration;
     $reproducirAudioI.play();
     await sleep((valor + 1) * 1000);
-    campoIcono.className = 'fas fa-volume-off';
+    campoIcono.className = 'fas fa-volume-off tamanoIcono';
     for (let aux = 0; aux < cantidad; aux++) {
         $('#lab' + aux).show();
         $('#idButton' + aux).show();
         $('#iconoButton' + aux).show();
-        reproducir($("#cap" + aux).val(), "iconoButton" + aux, 'fas fa-volume-off', 'fas fa-volume-up');
+        reproducir($("#cap" + aux).val(), "iconoButton" + aux, 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
         await sleep(2000);
     }
     $('#btmRepetir').show();
@@ -315,25 +337,18 @@ async function repetirImagenes3(cantidad, tipoRespuesta) {
     }
     $('#btn_next').show();
 }
-async function repetirImagenes4(cantidad, tipoRespuesta) {
-    $('#MensajeRespuesta').hide();
-    for (let aux = 0; aux < cantidad; aux++) {
-        $('#labRes' + aux).hide();
-        let campoChecked = document.getElementById("capRes" + aux);
-        if (campoChecked.checked) {
-            campoChecked.checked = false;
-        }
-    }
-    $('#mocrofono').hide();
-    $('#subPregunta').show();
-    $('#btmSubPregunta').show();
-    $('#btmContinuar').show();
-}
 async function repetirImagenes5(cantidad, tipoRespuesta) {
     $('#btmContinuar').hide();
     $('#subPregunta').hide();
     $('#MensajeRespuesta').hide();
     $('#pregunta').show();
+    let campoIcono = document.getElementById('iconoButtonPregunta');
+    campoIcono.className = 'fas fa-volume-up tamanoIcono';
+    $reproducirAudioI = document.getElementById('audioPegunta');
+    valor = $reproducirAudioI.duration;
+    $reproducirAudioI.play();
+    await sleep((valor + 1) * 1000);
+    campoIcono.className = 'fas fa-volume-off tamanoIcono';
     for (let aux = 0; aux < cantidad; aux++) {
         $('#lab' + aux).show();
         $('#idButton' + aux).show();
@@ -342,21 +357,40 @@ async function repetirImagenes5(cantidad, tipoRespuesta) {
     $('#btmRepetir').show();
     $('#btmContinuar').show();
 }
-async function repetirImagenes6(cantidad, tipoRespuesta) {
+
+async function repetirImagenes7(cantidad, tipoRespuesta) {
+    $('#btmComenzar').hide();
+    $('#btmRepetir').hide();
     $('#btmContinuar').hide();
-    $('#subPregunta').show();
+    $('#preguntaAdicional').hide();
     $('#MensajeRespuesta').hide();
     $('#pregunta').show();
+    $('#subPregunta').show();
+    $('#btmSubPregunta').show();
     for (let aux = 0; aux < cantidad; aux++) {
-        $('#lab' + aux).show();
-        $('#idButton' + aux).show();
-        $('#iconoButton' + aux).show();
+        $('#labRes' + aux).hide();
     }
+    let campoIcono = document.getElementById('iconoButtonPregunta');
+    campoIcono.className = 'fas fa-volume-up tamanoIcono';
+    $reproducirAudioI = document.getElementById('audioPegunta');
+    let valor = $reproducirAudioI.duration;
+    $reproducirAudioI.play();
+    await sleep((valor + 1) * 1000);
+    campoIcono.className = 'fas fa-volume-off tamanoIcono';
+
+    let campoIcono2 = document.getElementById('iconoButtonSubPregunta');
+    campoIcono2.className = 'fas fa-volume-up tamanoIcono';
+    $reproducirAudioI = document.getElementById('audioSupPegunta');
+    valor = $reproducirAudioI.duration;
+    $reproducirAudioI.play();
+    await sleep((valor + 1) * 1000);
+    campoIcono2.className = 'fas fa-volume-off tamanoIcono';
+
     $('#btmRepetir').show();
     $('#btmContinuar').show();
-    $('#preguntaAdicional').hide();
 }
-async function repetirImagenes7(cantidad, tipoRespuesta) {
+
+async function repetirImagenes8(cantidad, tipoRespuesta) {
     $('#btmComenzar').hide();
     $('#btmRepetir').hide();
     $('#btmContinuar').hide();
@@ -367,20 +401,20 @@ async function repetirImagenes7(cantidad, tipoRespuesta) {
         $('#labRes' + aux).hide();
     }
     let campoIcono = document.getElementById('iconoButtonPregunta');
-    campoIcono.className = 'fas fa-volume-up';
+    campoIcono.className = 'fas fa-volume-up tamanoIcono';
     $reproducirAudioI = document.getElementById('audioPegunta');
     let valor = $reproducirAudioI.duration;
     $reproducirAudioI.play();
     await sleep((valor + 1) * 1000);
-    campoIcono.className = 'fas fa-volume-off';
+    campoIcono.className = 'fas fa-volume-off tamanoIcono';
 
     let campoIcono2 = document.getElementById('iconoButtonSubPregunta');
-    campoIcono2.className = 'fas fa-volume-up';
+    campoIcono2.className = 'fas fa-volume-up tamanoIcono';
     $reproducirAudioI = document.getElementById('audioSupPegunta');
     valor = $reproducirAudioI.duration;
     $reproducirAudioI.play();
     await sleep((valor + 1) * 1000);
-    campoIcono2.className = 'fas fa-volume-off';
+    campoIcono2.className = 'fas fa-volume-off tamanoIcono';
 
     $('#btmRepetir').show();
     $('#btmContinuar').show();
@@ -399,6 +433,9 @@ function siguientePregunta(cantidad, tipoRespuestas) {
                     campoChecked.checked = false;
                 }
             }
+            $('#preguntaAdicional').show();
+            $('#subPregunta').hide();
+
             break;
         default:
             for (let aux = 0; aux < cantidad; aux++) {
@@ -415,14 +452,13 @@ function siguientePregunta(cantidad, tipoRespuestas) {
             $('#mocrofono').show();
             $('#reconocimientoVoz').show();
             document.getElementById("checkAvanzado").checked = true;
+            $('#subPregunta').show();
             break;
     }
-
     $('#btmRepetir').hide();
     $('#btmContinuar').hide();
     $('#btn_next').show();
     $('#pregunta').hide();
-    $('#subPregunta').show();
 }
 function siguientePregunta3(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
@@ -469,7 +505,7 @@ function siguientePregunta3(cantidad, tipoRespuestas) {
     $('#pregunta').hide();
     $('#subPregunta').show();
 }
-function siguientePregunta4(cantidad, tipoRespuestas) {
+async function siguientePregunta4(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
         case 'imagen':
             for (let aux = 0; aux < cantidad; aux++) {
@@ -514,6 +550,15 @@ function siguientePregunta4(cantidad, tipoRespuestas) {
     $('#subPregunta').hide();
     $('#btn_next').show();
     $('#preguntaAdicional').show();
+    $('#btmRepetir').hide();
+
+    let campoIcono2 = document.getElementById('iconoButtonPreguntaAdicional');
+    campoIcono2.className = 'fas fa-volume-up tamanoIcono';
+    $reproducirAudioI = document.getElementById('audioPreguntaAdicional');
+    valor = $reproducirAudioI.duration;
+    $reproducirAudioI.play();
+    await sleep((valor + 1) * 1000);
+    campoIcono2.className = 'fas fa-volume-off tamanoIcono';
 }
 function siguientePregunta2(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
@@ -538,6 +583,7 @@ function siguientePregunta2(cantidad, tipoRespuestas) {
             }
             $('#mocrofono').show();
             $('#reconocimientoVoz').show();
+            document.getElementById("checkAvanzado").checked = true;
             break;
         default:
             for (let aux = 0; aux < cantidad; aux++) {
@@ -557,6 +603,7 @@ function siguientePregunta2(cantidad, tipoRespuestas) {
     $('#subPregunta').show();
     $('#btmSubPregunta').hide();
     $('#subPregunta').hide();
+    $('#btmRepetir').hide();
 
 }
 function siguientePregunta5(cantidad, tipoRespuestas) {
@@ -602,8 +649,55 @@ function siguientePregunta5(cantidad, tipoRespuestas) {
     $('#btmContinuar').hide();
     $('#btn_next').show();
     $('#pregunta').show();
-    $('#subPregunta').show();
+    $('#subPregunta').hide();
 }
+
+function siguientePregunta6(cantidad, tipoRespuestas) {
+    switch (tipoRespuestas) {
+        case 'imagen':
+            for (let aux = 0; aux < cantidad; aux++) {
+                $('#labRes' + aux).show();
+                let campoChecked = document.getElementById("capRes" + aux);
+                if (campoChecked.checked) {
+                    campoChecked.checked = false;
+                }
+            }
+            $('#mocrofono').hide();
+            $('#reconocimientoVoz').hide();
+            break;
+        case 'voz':
+            for (let aux = 0; aux < cantidad; aux++) {
+                $('#labRes' + aux).hide();
+                let campoChecked = document.getElementById("capRes" + aux);
+                if (campoChecked.checked) {
+                    campoChecked.checked = false;
+                }
+            }
+            $('#mocrofono').show();
+            $('#reconocimientoVoz').show();
+            document.getElementById("checkAvanzado").checked = true;
+            break;
+        default:
+            for (let aux = 0; aux < cantidad; aux++) {
+                $('#labRes' + aux).hide();
+                let campoChecked = document.getElementById("capRes" + aux);
+                if (campoChecked.checked) {
+                    campoChecked.checked = false;
+                }
+            }
+            $('#mocrofono').show();
+            $('#reconocimientoVoz').show();
+            document.getElementById("checkAvanzado").checked = true;
+            break;
+    }
+
+    $('#btmRepetir').hide();
+    $('#btmContinuar').hide();
+    $('#btn_next').show();
+    $('#pregunta').show();
+    $('#subPregunta').hide();
+}
+
 async function reproducirAudioCargado(idAudio, idButonCambio, iconoAnterior, iconoNuevo) {
     let campoIcono = document.getElementById(idButonCambio);
     let antiguoIcono = campoIcono.className;
@@ -625,5 +719,46 @@ function activarMicro(checkAvanzado, cantidad) {
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).show();
         }
+    }
+}
+function activarMicroCambioTexto(checkAvanzado, cantidad) {
+    activar(checkAvanzado);
+    if (checkAvanzado.checked) {
+        $('#subPregunta').show();
+        $('#preguntaAdicional').hide();
+        document.getElementById('idtextoLabel').innerHTML = 'Desactivar micrófono';
+        for (let aux = 0; aux < cantidad; aux++) {
+            $('#labRes' + aux).hide();
+        }
+    } else {
+        $('#subPregunta').hide();
+        $('#preguntaAdicional').show();
+        document.getElementById('idtextoLabel').innerHTML = 'Activar micrófono';
+        for (let aux = 0; aux < cantidad; aux++) {
+            $('#labRes' + aux).show();
+        }
+    }
+}
+function activarMicroCambioTexto2(checkAvanzado, cantidad) {
+    activar(checkAvanzado);
+    if (checkAvanzado.checked) {
+        document.getElementById('idtextoLabel').innerHTML = 'Desactivar micrófono';
+        for (let aux = 0; aux < cantidad; aux++) {
+            $('#labRes' + aux).hide();
+        }
+    } else {
+        document.getElementById('idtextoLabel').innerHTML = 'Activar micrófono';
+        for (let aux = 0; aux < cantidad; aux++) {
+            $('#labRes' + aux).show();
+        }
+    }
+}
+
+function activarMicroCambioTexto3(checkAvanzado, cantidad) {
+    activar(checkAvanzado);
+    if (checkAvanzado.checked) {
+        document.getElementById('idtextoLabel').innerHTML = 'Desactivar micrófono';
+    } else {
+        document.getElementById('idtextoLabel').innerHTML = 'Activar micrófono';
     }
 }

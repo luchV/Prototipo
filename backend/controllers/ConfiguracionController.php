@@ -67,7 +67,7 @@ class ConfiguracionController extends Controller
         $modelID = $this->findModel($idModulo);
 
         $model = new SeccionesModulos();
-        $model->scenario = 'registro';
+        $model->scenario = 'registro2';
 
         $totalPreguntas = count(SeccionesModulos::BusquedaSecciones($idModulo, Yii::$app->user->identity->usuCodigo));
         $modelRespuestas = new Respuestas();
@@ -142,6 +142,7 @@ class ConfiguracionController extends Controller
     public function actionUpdatePregunta($id)
     {
         $modelS = $this->findModelSeccion($id);
+        $modelS->scenario = 'registro2';
 
         if ($modelS->usuCodigo != Yii::$app->user->identity->usuCodigo) {
             return $this->render('mensajeError', [

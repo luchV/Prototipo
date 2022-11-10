@@ -1,7 +1,10 @@
 <?php
 
+use common\widgets\BotonSiguiente;
+use common\widgets\CampoAudio;
+use common\widgets\CamposImagenes;
+use common\widgets\CampoVoz;
 use common\widgets\IntentaloNuevamente;
-use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\MenusSearch */
@@ -17,6 +20,7 @@ if ($modelSeccion->secTipoRespuesta == 'voz') {
     $soloVoz = 'disabled';
     $funcionSoloVoz = 'realizarReconocimientSoloVoz';
     $vozActiva = 'checked';
+    $textoComienzo = 'Desactivar micrófono';
 }
 
 $funcionEnvioRespuestas = 'cambiarPregunta';
@@ -33,12 +37,16 @@ if ($accion == 'pregunta-final') {
 <div id="contenedor-Preguntas">
     <input id="codigoPregunta" name="codigoPregunta" type='hidden' value="<?= $modelSeccion->secCodigo ?>">
     <div class="Menus-create">
-        <div class="col-md-12" id="btn_next" style="display:none;">
-            <br>
-            <div class="form-group" style="text-align: end !important;">
-                <?= Html::submitButton(Yii::t('app', $textoBotton . ' <em class="fas fa-arrow-right"></em>'), ['class' => 'btn btn-primary text-center', 'onclick' => $funcionEnvioRespuestas . '("memoriaauditiva","' . $accion . '","' . $modelSeccion->secTipoRespuesta . '","solo")']) ?>
-            </div>
-        </div>
+
+        <!-- Un widget que se utiliza para mostrar el siguiente botón. -->
+        <?= BotonSiguiente::widget([
+            'textoBotton' => $textoBotton,
+            'funcionSiguiente' => $funcionEnvioRespuestas,
+            'controllador' => 'memoriaauditiva',
+            'accion' => $accion,
+            'secTipoRespuesta' => $modelSeccion->secTipoRespuesta,
+        ]); ?>
+
         <div class="name-tag">
             <h1><?= $this->title ?></h1>
         </div>
@@ -46,46 +54,39 @@ if ($accion == 'pregunta-final') {
 
         <div class="alert alert-danger" name='error' id="error" role="alert" style="display: none;"></div>
 
-        <div class="row" id='pregunta'>
-            <audio id="audioPegunta" preload="metadata">
-                <source src="https://docs.google.com/uc?export=open&id=<?= $modelSeccion->seccAudioPregunta  ?>" type="audio/mp3">
-            </audio>
-            <div class="col-md-12">
-                <button class="btnPersonalizado" onclick="reproducirAudioCargado('audioPegunta','iconoButtonPregunta','fas fa-volume-off','fas fa-volume-up')"><em id="iconoButtonPregunta" class="fas fa-volume-off"></em></button>
-                <label id="preguntaID" name="preguntaID" class="textoPreguntas">
-                    <?= $modelSeccion->secPregunta ?>
-                </label>
-            </div>
-        </div>
-        <div class="row" id='subPregunta' style="display:none;">
-            <audio id="audioSupPegunta" preload="metadata">
-                <source src="https://docs.google.com/uc?export=open&id=<?= $modelSeccion->seccAudioSubPregunta  ?>" type="audio/mp3">
-            </audio>
-            <div class="col-md-12">
-                <button class="btnPersonalizado" onclick="reproducirAudioCargado('audioSupPegunta','iconoButtonSubPregunta','fas fa-volume-off','fas fa-volume-up')"><em id="iconoButtonSubPregunta" class="fas fa-volume-off"></em></button>
-                <label id="subpreguntaID" name="subpreguntaID">
-                    <?= $modelSeccion->seccSubpregunta ?>
-                </label>
-            </div>
-        </div>
-        <div id="mocrofono" style="display:none;">
-            <Label>
-                Activar micrófono
-            </Label>
-            <div class="checkbox-JASoft">
-                <input type="checkbox" id="checkAvanzado" value="Valor" onclick="activar(this,<?= count($modelRespuestas) ?>)" <?= $soloVoz ?> <?= $vozActiva ?> />
-                <label for="checkAvanzado"></label>
-            </div>
+        <!-- Un widget que se utiliza para mostrar el audio y el texto de la Pregunta. -->
+        <?= CampoAudio::widget([
+            'idDivGeneral' => 'pregunta',
+            'audioCargado' => $modelSeccion->seccAudioPregunta,
+            'idAudio' => 'audioPegunta',
+            'idIconoButton' => 'iconoButtonPregunta',
+            'idLabel' => 'preguntaID',
+            'textoCampo' => $modelSeccion->secPregunta,
+        ]); ?>
 
-            <div id="reconocimientoVoz" style="display:none;">
-                <button class="btnPersonalizado2"><em id="start_img" onclick="<?= $funcionSoloVoz ?>()" style="cursor: pointer;" class="fas fa-microphone-alt"></em></button>
-                <label id="texto" style="display:none;" name="texto"></label>
-                <div id="errorMensaje" style="display:none;">
-                    <p class="error"></p>
-                </div>
-            </div>
-        </div>
+        <!-- Un widget que se utiliza para mostrar el audio y el texto de la SupPregunta. -->
+        <?= CampoAudio::widget([
+            'idDivGeneral' => 'subPregunta',
+            'audioCargado' => $modelSeccion->seccAudioSubPregunta,
+            'ocultarCampo' => 'style="display:none;"',
+            'idAudio' => 'audioSupPegunta',
+            'idIconoButton' => 'iconoButtonSubPregunta',
+            'idLabel' => 'subpreguntaID',
+            'textoCampo' => $modelSeccion->seccSubpregunta,
+        ]); ?>
         <br>
+
+        <!-- Un widget que se utiliza para mostrar el micrófono y el texto. -->
+        <?= CampoVoz::widget([
+            'textoCampo1' => $textoComienzo ?? 'Activar micrófono',
+            'funcionVoz' => 'activarMicroCambioTexto3',
+            'totalRespuestas' => count($modelRespuestas),
+            'ocultarCampoGeneral' => 'style="display:none;"',
+            'oculptarCampoMicro' => 'style="display:none;"',
+            'funcionActiva' => $funcionSoloVoz,
+            'soloVoz' => $soloVoz,
+            'vozActiva' => $vozActiva
+        ]); ?>
 
         <div class="row">
             <div class="col-md-12 text-center">
@@ -108,35 +109,30 @@ if ($accion == 'pregunta-final') {
                 <input id="cantidadOpciones" style="display:none;" value="<?= ($cont - 1) ?>">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <?php
-                $arrayDesorden = [];
-                //Desordenar
-                foreach ($modelRespuestas as $imagenes) {
-                    array_push($arrayDesorden, ['respuestaTexto' => $imagenes["respuestaTexto"], 'imagen' => $imagenes["imagen"]]);
-                }
-                shuffle($arrayDesorden);
-                $contRes = 0;
-                foreach ($arrayDesorden as $imagenes) {
-                ?>
-                    <label id="labRes<?= $contRes ?>" style="display:none;">
-                        <label class="checkeable" style="margin: 2%;" id="labelRes<?= $contRes ?>">
-                            <input type="radio" style="display:none;" id="capRes<?= $contRes ?>" onclick="uncheckRadio(this)" name="seleccionImagenRes<?= $contRes ?>" value='<?= $imagenes["respuestaTexto"] ?>' />
-                            <img src='https://drive.google.com/uc?export=view&id=<?= $imagenes["imagen"] ?>' height="151px" width="151px" hspace="25">
-                        </label>
-                    </label>
-                <?php
-                    $contRes++;
-                }
-                ?>
-                <input id="cantidadOpcionesRespuesta" style="display:none;" value="<?= count($modelRespuestas) ?>">
-            </div>
-        </div>
+
+        <!-- Un widget que se utiliza para mostrar las imágenes y el texto. -->
+        <?= CamposImagenes::widget([
+            'modelRespuestas' => $modelRespuestas,
+            'totalRespuestas' => count($modelRespuestas),
+        ]); ?>
+
+        <!-- Un widget que se utiliza para mostrar el botón "Intentar de nuevo". -->
         <?= IntentaloNuevamente::widget([
             'funcionRepetir' => 'repetirImagenes5',
             'numeroTotal' => $cont,
             'TipoRespuestas' => $modelSeccion->secTipoRespuesta
+        ]); ?>
+
+        <!-- Un widget que se utiliza para mostrar el botón "Buen trabajo". -->
+        <?= IntentaloNuevamente::widget([
+            'funcionRepetir' => 'mostrarCampos',
+            'numeroTotal' => count($modelRespuestas),
+            'TipoRespuestas' => $modelSeccion->secTipoRespuesta,
+            'textoMostrar' => 'Buen trabajo ',
+            'iconoMostrar' => 'fas fa-arrow-right',
+            'textoBoton' => $textoBotton . ' ',
+            'idMensajes' => 'mostrarMensajeInformativo',
+            'idLabel' => 'buenTrabajo',
         ]); ?>
     </div>
     </br>
