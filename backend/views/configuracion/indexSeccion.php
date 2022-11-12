@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'summary' => 'Mostrando {begin} - {end} de {totalCount} preguntas. ',
+        'summary' => 'Mostrando {begin} - {end} de {totalCount} actividades. ',
         'pager' => [
             'class' => \yii\bootstrap4\LinkPager::class
         ],

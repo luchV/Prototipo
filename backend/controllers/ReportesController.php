@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\RegistroActividad;
 use backend\models\search\ReportesSearch;
+use backend\models\search\UsuariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -12,6 +13,7 @@ use common\helpers\ControlRoles;
 use common\models\Params;
 use common\models\Roles;
 use common\models\User;
+use common\widgets\UsuariosModal;
 use ptrnov\fusionchart\Chart;
 
 /**
@@ -97,17 +99,55 @@ class ReportesController extends Controller
             ),
         ]);
     }
+
+    private static function cargarTabla($respuesta)
+    {
+        $modalUsuario = new UsuariosSearch();
+        $rolUsuario = Yii::$app->user->identity->rolCodigo;
+        $insUsuario = Yii::$app->user->identity->insCodigo;
+        $parametros = Yii::$app->request->queryParams;
+        $rolTomado = Roles::BusquedaRol($rolUsuario);
+        switch ($rolTomado[0]['rolNumero']) {
+            case '2':
+                $dataProvider = $modalUsuario->search($parametros);
+                $modalUsuario->rolCodigo = $respuesta['Estudiante'];
+
+                break;
+            case '3':
+                $modalUsuario->insCodigo = $insUsuario;
+                $modalUsuario->rolCodigo = $respuesta['Estudiante'];
+                $dataProvider = $modalUsuario->searchAdmin($parametros);
+                break;
+            case '4':
+                $modalUsuario->usuEncargado = Yii::$app->user->identity->usuCodigo;
+                $modalUsuario->rolCodigo = $respuesta['Estudiante'];
+                $dataProvider = $modalUsuario->search($parametros);
+                break;
+        }
+        return  UsuariosModal::widget([
+            'modalUsuario' => $modalUsuario,
+            'dataProvider' => $dataProvider,
+            'rolActivo' => $rolTomado[0]['rolNumero'],
+        ]);
+    }
+
     /**
      * Lists all Institucion models.
      * @return mixed
      */
     public function actionReporteBusqueda()
     {
-        
+
         $model = new User();
         $consultarCedula = $model->load(Yii::$app->request->post());
         $cedula = self::obtenerCedula($consultarCedula, $model, 'cedulaU');
-
+        $rolesUsuario = Roles::listarRoles();
+        
+        foreach ($rolesUsuario  as $key => $value) {
+            $respuesta[$value] = $key;
+        }
+        Yii::$app->view->params['modalUsuarios'] = self::cargarTabla($respuesta);
+        
         if ($cedula == '') {
             unset($_SESSION['cedulaU']);
             return $this->render('reporteBusqueda', [
@@ -115,31 +155,45 @@ class ReportesController extends Controller
                 'cedulaUsuario' => '',
             ]);
         }
-
+        
         $busqueda = new ReportesSearch();
         $rolTomado = Roles::BusquedaRol(Yii::$app->user->identity->rolCodigo);
-
+        
         $cedulaUsuario = $cedula;
         switch ($rolTomado[0]['rolNumero']) {
             case '2':
                 $busquedaInstitucion = true;
-                $consulta = ['estado' => Params::ESTADOOK, 'cedula' => $cedulaUsuario];
+                $consulta = [
+                    'estado' => Params::ESTADOOK,
+                    'cedula' => $cedulaUsuario,
+                    'rolCodigo' => $respuesta['Estudiante']
+                ];
                 break;
             case '3':
                 $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
-                $consulta = ['estado' => Params::ESTADOOK, 'cedula' => $cedulaUsuario, 'insCodigo' => $busqueda->insCodigo];
+                $consulta = [
+                    'estado' => Params::ESTADOOK,
+                    'cedula' => $cedulaUsuario,
+                    'insCodigo' => $busqueda->insCodigo,
+                    'rolCodigo' => $respuesta['Estudiante']
+                ];
                 $busquedaInstitucion = false;
                 break;
             case '4':
                 $busquedaInstitucion = false;
                 $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
                 $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
-                $consulta = ['estado' => Params::ESTADOOK, 'cedula' => $cedulaUsuario, 'insCodigo' => $busqueda->insCodigo, 'usuEncargado' => $busqueda->usuEncargado];
+                $consulta = [
+                    'estado' => Params::ESTADOOK,
+                    'cedula' => $cedulaUsuario,
+                    'insCodigo' => $busqueda->insCodigo,
+                    'usuEncargado' => $busqueda->usuEncargado,
+                    'rolCodigo' => $respuesta['Estudiante']
+                ];
                 break;
         }
 
-        $usuarioBusqueda = User::busquedaUsuarioCedula($consulta);
-
+        $usuarioBusqueda = User::busquedaUsuarioCedulaPArametros($consulta);
         if (is_null($usuarioBusqueda)) {
             unset($_SESSION['cedulaU']);
             return $this->render('reporteBusqueda', [
@@ -188,7 +242,7 @@ class ReportesController extends Controller
                 $cedulaUsuario = $_SESSION[$nombreFecha];
             } else {
                 $cedulaUsuario = '';
-                $_SESSION[$nombreFecha]='';
+                $_SESSION[$nombreFecha] = '';
             }
         }
         return $cedulaUsuario;

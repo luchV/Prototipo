@@ -63,7 +63,7 @@ class Modulos extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'modNombre' => Yii::t('app', 'Nombre de la actividad'),
+            'modNombre' => Yii::t('app', 'Nombre del módulo'),
         ];
     }
 

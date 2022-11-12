@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(); ?>
     <?= BotonBuscar::widget([
-        'textoBusqueda' => 'Buscar socio:',
+        'textoBusqueda' => 'Buscar usuario:',
         'textoBoton' => 'Consultar',
         'idInput' => 'cedulaUsuario',
         'nameInput' => 'User[cedula]',
@@ -65,24 +65,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
             ?>
             </br>
-            <div class="row">
-                <div class="col-lg-12" id="tabla_listadot" style="display: inline">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Tiempo total trascurrido: " ?></p>
-                            <p class="pull-left label-info"><?= FuncionesGenerales::obtenerTiempoTrascurido($respuestaGrafico->totalTiempo); ?></p>
-                            <br />
-                            <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Número total de errores: " ?></p>
-                            <p class="pull-left label-info"><?= $respuestaGrafico->totalError; ?></p>
-                            <br />
-                            <p class="pull-left label-success" style="margin-right:15px;"><?php echo "Número total de aciertos: " ?></p>
-                            <p class="pull-left label-info"><?= $respuestaGrafico->totalAciertos; ?></p>
-                            <br />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </br>
 
         <?php } else { ?>
             <div class="row">
@@ -105,18 +87,38 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 [
-                    'attribute' => 'numeroAciertos',
-                    'filterInputOptions' => [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Ingresar aciertos'
-                    ]
+                    'label' => 'Número de aciertos',
+                    'value' => function ($model) {
+                        return $model->numeroAciertos;
+                    },
                 ],
                 [
-                    'attribute' => 'numeroErrores',
-                    'filterInputOptions' => [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Ingresar errores'
-                    ]
+                    'label' => 'Número de errores',
+                    'value' => function ($model) {
+                        return $model->numeroErrores;
+                    },
+                ],
+                [
+                    'label' => 'Tiempo trascurrido',
+                    'value' => function ($model) {
+                        return FuncionesGenerales::obtenerTiempoTrascurido($model->tiempoTrascurrido);
+                    }
+                ],
+                [
+                    'label' => 'Última actividad',
+                    'value' => function ($model) {
+                        $seccion = (object)SeccionesModulos::BusquedaSeccionesModulo($model->secCodigo);
+                        return 'Actividad ' . $seccion->secNumeroPregunta;
+                    },
+                ],
+                [
+                    'label' => 'Edad al momento de prueba',
+                    'value' => function ($model) {
+                        $usuario = User::busquedaUsuarioCedula($model->usuCodigo);
+                        $calculo = FuncionesGenerales::calcular_edad($usuario->edad, $model->fechaEjecucion);
+
+                        return $calculo->edadTexto;
+                    },
                 ],
                 [
                     'attribute' => 'fechaEjecucion',
@@ -124,23 +126,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class'       => 'form-control',
                         'placeholder' => 'Ingresar fecha'
                     ]
-                ],
-                [
-                    'attribute' => 'tiempoTrascurrido',
-                    'value' => function ($model) {
-                        return FuncionesGenerales::obtenerTiempoTrascurido($model->tiempoTrascurrido);
-                    },
-                    'filterInputOptions' => [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Ingresar tiempo'
-                    ]
-                ],
-                [
-                    'attribute' => 'secCodigo',
-                    'value' => function ($model) {
-                        $seccion = (object)SeccionesModulos::BusquedaSeccionesModulo($model->secCodigo);
-                        return 'Actividad ' . $seccion->secNumeroPregunta;
-                    },
                 ],
                 [
                     'attribute' => 'modCodigo',

@@ -122,7 +122,11 @@ class UsuariosController extends Controller
 
                 $model->usuCodigo = bin2hex(openssl_random_pseudo_bytes(20));
                 $model->contrasena = hash('sha512', $_POST['User']['contrasena']);
-                if ($_POST['User']['rolCodigo'] == Roles::indiceRol(Roles::listarRoles(), "Super Administrador")) {
+
+                $model = self::ingredoEspecial($model, $rolUsuario, $insUsuario);
+                $rolUsuarioSeleccionado = $_POST['User']['rolCodigo'] ?? $model->rolCodigo;
+
+                if ($rolUsuarioSeleccionado == Roles::indiceRol(Roles::listarRoles(), "Super Administrador")) {
                     $model->usuEncargado = $model->usuCodigo;
                 }
 
@@ -158,6 +162,56 @@ class UsuariosController extends Controller
             'institucionLista' => Institucion::detectarInstituciones($rolUsuario, $insUsuario),
         ]);
     }
+    private function ingredoEspecial($model, $rolUsuario, $insUsuario)
+    {
+        $rolesUsuario = Roles::detectarRoles($rolUsuario);
+        $institucionUsuario = Institucion::detectarInstituciones($rolUsuario, $insUsuario);
+        if (count($rolesUsuario) == 2) {
+            $contador = 0;
+            $rolSeleccion = '';
+            foreach ($rolesUsuario as $key => $value) {
+                if ($contador > 0) {
+                    $rolSeleccion = $key;
+                }
+                $contador++;
+            }
+            $model->rolCodigo = $rolSeleccion;
+
+
+            $claveIns = "";
+            foreach ($institucionUsuario as $key => $value) {
+                $claveIns = $key;
+            }
+            $claveRol = "";
+            foreach ($rolesUsuario as $key => $value) {
+                $claveRol = $key;
+            }
+
+            $listaUsuariosSeleccion = User::listarUsuarios($claveIns, $claveRol, 'Profesor')->listCompleto;
+            $contador = 0;
+            $UsuariosSeleccion = '';
+            foreach ($listaUsuariosSeleccion as $key => $value) {
+                if ($contador > 0) {
+                    $UsuariosSeleccion = $key;
+                }
+                $contador++;
+            }
+            $model->usuEncargado = $UsuariosSeleccion;
+        }
+        if (count($institucionUsuario) == 2) {
+            $contador = 0;
+            $institucionSeleccion = '';
+            foreach ($institucionUsuario as $key => $value) {
+                if ($contador > 0) {
+                    $institucionSeleccion = $key;
+                }
+                $contador++;
+            }
+            $model->insCodigo = $institucionSeleccion;
+        }
+        return $model;
+    }
+
 
     private function GuardarTelefonos($model, $tablaDatos, $accion = 'create', $id = "")
     {
@@ -217,7 +271,10 @@ class UsuariosController extends Controller
                     $botonActivado = "checked";
                 }
 
-                if ($_POST['User']['rolCodigo'] == Roles::indiceRol(Roles::listarRoles(), "Super Administrador")) {
+                $model = self::ingredoEspecial($model, $rolUsuario, $insUsuario);
+                $rolUsuarioSeleccionado = $_POST['User']['rolCodigo'] ?? $model->rolCodigo;
+
+                if ($rolUsuarioSeleccionado == Roles::indiceRol(Roles::listarRoles(), "Super Administrador")) {
                     $model->usuEncargado = $model->usuCodigo;
                 }
                 try {

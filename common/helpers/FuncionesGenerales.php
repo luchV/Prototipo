@@ -121,4 +121,17 @@ class FuncionesGenerales
         }
         return $horas . ':' . $minutos . ":" . $segundos;
     }
+
+    public static function calcular_edad($fecha, $fechaEjecucion)
+    {
+        $respuesta = new \stdClass;
+
+        $fecha_nac = new DateTime(date('Y/m/d', strtotime($fecha))); // Creo un objeto DateTime de la fecha ingresada
+        $fecha_hoy =  new DateTime(date('Y/m/d', strtotime($fechaEjecucion))); // Creo un objeto DateTime de la fecha de hoy
+        $edad = date_diff($fecha_hoy, $fecha_nac); // La funcion ayuda a calcular la diferencia, esto seria un objeto
+        $respuesta->edad = $edad;
+        $respuesta->edadTexto = "{$edad->format('%Y')} años, {$edad->format('%m')} meses y {$edad->format('%d')} dias";
+
+        return $respuesta;
+    }
 }

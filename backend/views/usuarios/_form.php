@@ -62,11 +62,29 @@ if ($model->edad != "") {
   </h3>
   <div class="row">
     <div class="col-md-6">
-      <?=
-      $form->field($model, 'insCodigo')->dropDownList($institucionLista, array(
-        'style' => 'float:left;',
-      ));
+      <?php
+      if (count($institucionLista) == 2) {
+        $contador = 0;
+        $institucionSeleccion = '';
+        foreach ($institucionLista as $key => $value) {
+          if ($contador > 0) {
+            $institucionSeleccion = $key;
+          }
+          $contador++;
+        }
+        $model->insCodigo = $institucionSeleccion;
       ?>
+        <?= $form->field($model, 'insCodigo')->dropDownList($institucionLista, array(
+          'style' => 'float:left;',
+          'disabled' => true
+        ));
+        ?>
+      <?php } else { ?>
+        <?= $form->field($model, 'insCodigo')->dropDownList($institucionLista, array(
+          'style' => 'float:left;',
+        ));
+        ?>
+      <?php } ?>
     </div>
     <div class="col-md-6">
       <?= $form->field($model, 'tipoEscuela')->dropDownList(FuncionesGenerales::TiposEscuelas(), array());
@@ -88,10 +106,29 @@ if ($model->edad != "") {
   </h3>
   <div class="row">
     <div class="col-md-6">
-      <?= $form->field($model, 'rolCodigo')->dropDownList($rolesLista, array(
-        'style' => 'float:left;',
-      ));
+      <?php
+      if (count($rolesLista) == 2) {
+        $contador = 0;
+        $rolSeleccion = [];
+        foreach ($rolesLista as $key => $value) {
+          if ($contador > 0) {
+            $rolSeleccion = $key;
+          }
+          $contador++;
+        }
+        $model->rolCodigo = $rolSeleccion;
       ?>
+        <?= $form->field($model, 'rolCodigo')->dropDownList($rolesLista, array(
+          'style' => 'float:left;',
+          'disabled' => true
+        ));
+        ?>
+      <?php } else { ?>
+        <?= $form->field($model, 'rolCodigo')->dropDownList($rolesLista, array(
+          'style' => 'float:left;',
+        ));
+        ?>
+      <?php } ?>
     </div>
     <div class="col-md-6">
       <?= $form->field($model, 'estado')->dropDownList(FuncionesGenerales::TiposEstados(), array(
@@ -102,10 +139,38 @@ if ($model->edad != "") {
       <br />
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'usuEncargado')->dropDownList(User::listarUsuarios($model->insCodigo, $model->rolCodigo)->listCompleto, array(
-        'style' => 'float:left;',
-      ));
+      <?php
+      if (count($rolesLista) == 2) {
+        $claveIns = "";
+        foreach ($institucionLista as $key => $value) {
+          $claveIns = $key;
+        }
+        $claveRol = "";
+        foreach ($rolesLista as $key => $value) {
+          $claveRol = $key;
+        }
+        $listaUsuariosSeleccion = User::listarUsuarios($claveIns, $claveRol, 'Profesor')->listCompleto;
+        $contador = 0;
+        $UsuariosSeleccion = '';
+        foreach ($listaUsuariosSeleccion as $key => $value) {
+          if ($contador > 0) {
+            $UsuariosSeleccion = $key;
+          }
+          $contador++;
+        }
+        $model->usuEncargado = $UsuariosSeleccion;
       ?>
+        <?= $form->field($model, 'usuEncargado')->dropDownList($listaUsuariosSeleccion, array(
+          'style' => 'float:left;',
+          'disabled' => true
+        ));
+        ?>
+      <?php } else { ?>
+        <?= $form->field($model, 'usuEncargado')->dropDownList(User::listarUsuarios($model->insCodigo, $model->rolCodigo)->listCompleto, array(
+          'style' => 'float:left;',
+        ));
+        ?>
+      <?php } ?>
     </div>
     <div class="col-md-6">
       <?= $form->field($model, 'correo') ?>

@@ -19,7 +19,7 @@ class ReportesSearch extends RegistroActividad
     public function rules()
     {
         return [
-            [['numeroAciertos', 'numeroErrores', 'fechaEjecucion', 'usuCodigo', 'insCodigo', 'usuEncargado','modCodigo'], 'safe']
+            [['fechaEjecucion', 'usuCodigo', 'insCodigo', 'usuEncargado', 'modCodigo'], 'safe']
         ];
     }
 
@@ -68,7 +68,6 @@ class ReportesSearch extends RegistroActividad
                 ->andFilterWhere(['LIKE', 'usuEncargado', $this->usuEncargado])
                 ->andFilterWhere(['LIKE', 'secCodigo', $this->secCodigo])
                 ->andFilterWhere(['LIKE', 'modCodigo', $this->modCodigo]);
-
         }
 
 

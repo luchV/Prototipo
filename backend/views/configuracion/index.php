@@ -8,7 +8,7 @@ use common\widgets\ContenedorTablas;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Configuración de modulos');
+$this->title = Yii::t('app', 'Configuración de módulos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Modulos-index">
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'summary' => 'Mostrando {begin} - {end} de {totalCount} actividades. ',
+        'summary' => 'Mostrando {begin} - {end} de {totalCount} módulos. ',
         'pager' => [
             'class' => \yii\bootstrap4\LinkPager::class
         ],
