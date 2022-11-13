@@ -22,6 +22,16 @@ class UsuariosModal extends Widget
   public $rolActivo;
 
   /**
+   * @var string
+   */
+  public $Texto;
+
+  /**
+   * @var string
+   */
+  public $estudiante = true;
+
+  /**
    * {@inheritdoc}
    */
   public function run()
@@ -32,6 +42,8 @@ class UsuariosModal extends Widget
         'modalUsuario' => $this->modalUsuario,
         'dataProvider' => $this->dataProvider,
         'rolActivo' => $this->rolActivo,
+        'Texto' => $this->Texto,
+        'estudiante' => $this->estudiante,
       ]
     );
   }

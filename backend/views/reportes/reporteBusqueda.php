@@ -23,9 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action' => "javascript:void(window.location.href='index.php?r=reportes/reporte-busqueda&cedulaBusqueda='+$('#cedulaUsuario').val())"]); ?>
     <?= BotonBuscar::widget([
-        'textoBusqueda' => 'Buscar usuario:',
+        'textoBusqueda' => 'Buscar estudiante:',
         'textoBoton' => 'Consultar',
         'idInput' => 'cedulaUsuario',
         'nameInput' => 'User[cedula]',
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if ($mensajeError == "") { ?>
 
         <?php if ($modelUsuario != null) { ?>
-            <h4 style="text-align: initial;font-weight: bold;">Datos del Usuario</h4>
+            <h4 style="text-align: initial;font-weight: bold;">Datos del estudiante</h4>
             <div class="row">
                 <div class="col-md-6">
                     <strong>Nombre:</strong>
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php } else { ?>
             <div class="row">
                 <div class="col-md-6">
-                    No existen registros del usuario
+                    No existen registros del estudiante
                 </div>
             </div>
             </br>

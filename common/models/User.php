@@ -176,11 +176,23 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username, $institucion)
     {
-        return User::find()->where([
-            'insCodigo' => $institucion,
+        $usuario = User::find()->where([
             'correo' => $username,
             'estado' => 'N',
         ])->one();
+
+        if (!is_null($usuario)) {
+            $rolTomado = Roles::BusquedaRol($usuario->rolCodigo);
+            if ($rolTomado[0]['rolNumero'] != '2') {
+                $usuario = User::find()->where([
+                    'insCodigo' => $institucion,
+                    'correo' => $username,
+                    'estado' => 'N',
+                ])->one();
+            }
+        }
+
+        return $usuario;
     }
 
     /**
@@ -415,7 +427,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function busquedaUsuarioCedulaPArametros($Consulta)
     {
-        
+
         return (User::find()->where($Consulta)->all())[0] ?? null;
     }
 }

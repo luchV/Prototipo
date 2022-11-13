@@ -8,7 +8,7 @@
  */
 ?>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <label for="<?= $idFecha ?>">Rango de Fechas:</label>
   </div>
 </div>
@@ -20,11 +20,6 @@
       </div>
     </div>
     <input type="text" class="form-control" id="<?= $idFecha ?>" name="<?= $nameFecha ?>" value="<?= $fechaSeleccionada ?>">
-    <span class="input-group-btn">
-      <button class="btn btn-primary" type="submit" name="submitRangeDates">
-        <em class="fa fa-search text-white"></em> Consultar
-      </button>
-    </span>
   </div>
 </div>
 

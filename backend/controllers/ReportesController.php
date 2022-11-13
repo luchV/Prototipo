@@ -49,27 +49,68 @@ class ReportesController extends Controller
     public function actionReporteGeneral()
     {
         $model = new RegistroActividad();
-        $consultarFecha = $model->load(Yii::$app->request->post());
 
-        $fecha = self::obtenerFecha($consultarFecha, $model, 'FechaRG');
+        $cedulaUsuario = $_GET['cedulaBusqueda'] ?? '';
+        if ($cedulaUsuario == 'undefined') {
+            $cedulaUsuario = '';
+        }
+        $fecha =  $_GET['fechaSeleccionada'] ?? self::obtenerFecha();
         $busqueda = new ReportesSearch();
         $rolTomado = Roles::BusquedaRol(Yii::$app->user->identity->rolCodigo);
+
+        $rolesUsuario = Roles::listarRoles();
+
+        foreach ($rolesUsuario  as $key => $value) {
+            $respuesta[$value] = $key;
+        }
+        Yii::$app->view->params['modalUsuarios'] = self::cargarTablaProfesor($respuesta);
 
         switch ($rolTomado[0]['rolNumero']) {
             case '2':
                 $busquedaInstitucion = true;
+                $consulta = [
+                    'estado' => Params::ESTADOOK,
+                    'cedula' => $cedulaUsuario,
+                    'rolCodigo' => $respuesta['Profesor']
+                ];
                 break;
             case '3':
                 $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
                 $busquedaInstitucion = false;
+                $consulta = [
+                    'estado' => Params::ESTADOOK,
+                    'cedula' => $cedulaUsuario,
+                    'insCodigo' => $busqueda->insCodigo,
+                    'rolCodigo' => $respuesta['Profesor']
+                ];
                 break;
             case '4':
                 $busquedaInstitucion = false;
                 $busqueda->insCodigo = Yii::$app->user->identity->insCodigo;
                 $busqueda->usuEncargado = Yii::$app->user->identity->usuCodigo;
+                $consulta = [
+                    'estado' => Params::ESTADOOK,
+                    'cedula' => $cedulaUsuario,
+                    'insCodigo' => $busqueda->insCodigo,
+                    'rolCodigo' => $respuesta['Profesor']
+                ];
                 break;
         }
 
+        if ($cedulaUsuario != '') {
+            $usuarioBusqueda = User::busquedaUsuarioCedulaPArametros($consulta);
+            if (is_null($usuarioBusqueda)) {
+                return $this->render('reporteGeneral', [
+                    'mensajeError' => 'El profesor no existe',
+                    'cedulaUsuario' => $cedulaUsuario,
+                    'rolTomado' => $rolTomado,
+                    'fecha' => $fecha,
+                    'modelUsuario' => $usuarioBusqueda ?? null,
+                ]);
+            } else {
+                $busqueda->usuEncargado = $usuarioBusqueda->usuCodigo;
+            }
+        }
         $fechasBusqueda = explode("/", $fecha);
         $busqueda->start = trim($fechasBusqueda[0]);
         $busqueda->end = trim($fechasBusqueda[1]);
@@ -97,9 +138,46 @@ class ReportesController extends Controller
                 'Total registros',
                 ['fechaEjecucion', 'count']
             ),
+            'cedulaUsuario' => $cedulaUsuario,
+            'modelUsuario' => $usuarioBusqueda ?? null,
+            'rolTomado' => $rolTomado,
         ]);
     }
-
+    private static function cargarTablaProfesor($respuesta)
+    {
+        $modalUsuario = new UsuariosSearch();
+        $rolUsuario = Yii::$app->user->identity->rolCodigo;
+        $insUsuario = Yii::$app->user->identity->insCodigo;
+        $parametros = Yii::$app->request->queryParams;
+        $rolTomado = Roles::BusquedaRol($rolUsuario);
+        $estudiante=false;
+        switch ($rolTomado[0]['rolNumero']) {
+            case '2':
+                $modalUsuario->rolCodigo = $respuesta['Profesor'];
+                $dataProvider = $modalUsuario->search($parametros);
+                $estudiante=true;
+                break;
+            case '3':
+                $modalUsuario->insCodigo = $insUsuario;
+                $modalUsuario->rolCodigo = $respuesta['Profesor'];
+                $dataProvider = $modalUsuario->searchAdmin($parametros);
+                $estudiante=false;
+                break;
+            case '4':
+                $modalUsuario->usuEncargado = Yii::$app->user->identity->usuCodigo;
+                $modalUsuario->rolCodigo = $respuesta['Profesor'];
+                $dataProvider = $modalUsuario->search($parametros);
+                $estudiante=false;
+                break;
+        }
+        return  UsuariosModal::widget([
+            'modalUsuario' => $modalUsuario,
+            'dataProvider' => $dataProvider,
+            'rolActivo' => $rolTomado[0]['rolNumero'],
+            'Texto' => 'profesor',
+            'estudiante' => $estudiante
+        ]);
+    }
     private static function cargarTabla($respuesta)
     {
         $modalUsuario = new UsuariosSearch();
@@ -109,9 +187,8 @@ class ReportesController extends Controller
         $rolTomado = Roles::BusquedaRol($rolUsuario);
         switch ($rolTomado[0]['rolNumero']) {
             case '2':
-                $dataProvider = $modalUsuario->search($parametros);
                 $modalUsuario->rolCodigo = $respuesta['Estudiante'];
-
+                $dataProvider = $modalUsuario->search($parametros);
                 break;
             case '3':
                 $modalUsuario->insCodigo = $insUsuario;
@@ -128,6 +205,7 @@ class ReportesController extends Controller
             'modalUsuario' => $modalUsuario,
             'dataProvider' => $dataProvider,
             'rolActivo' => $rolTomado[0]['rolNumero'],
+            'Texto' => 'estudiante',
         ]);
     }
 
@@ -137,28 +215,25 @@ class ReportesController extends Controller
      */
     public function actionReporteBusqueda()
     {
-
         $model = new User();
-        $consultarCedula = $model->load(Yii::$app->request->post());
-        $cedula = self::obtenerCedula($consultarCedula, $model, 'cedulaU');
+        $cedula = $_GET['cedulaBusqueda'] ?? '';
         $rolesUsuario = Roles::listarRoles();
-        
+
         foreach ($rolesUsuario  as $key => $value) {
             $respuesta[$value] = $key;
         }
         Yii::$app->view->params['modalUsuarios'] = self::cargarTabla($respuesta);
-        
+
         if ($cedula == '') {
-            unset($_SESSION['cedulaU']);
             return $this->render('reporteBusqueda', [
                 'mensajeError' => ' ',
                 'cedulaUsuario' => '',
             ]);
         }
-        
+
         $busqueda = new ReportesSearch();
         $rolTomado = Roles::BusquedaRol(Yii::$app->user->identity->rolCodigo);
-        
+
         $cedulaUsuario = $cedula;
         switch ($rolTomado[0]['rolNumero']) {
             case '2':
@@ -195,9 +270,8 @@ class ReportesController extends Controller
 
         $usuarioBusqueda = User::busquedaUsuarioCedulaPArametros($consulta);
         if (is_null($usuarioBusqueda)) {
-            unset($_SESSION['cedulaU']);
             return $this->render('reporteBusqueda', [
-                'mensajeError' => 'El usuario no existe',
+                'mensajeError' => 'El estudiante no existe',
                 'cedulaUsuario' => $cedulaUsuario,
             ]);
         }
@@ -230,22 +304,6 @@ class ReportesController extends Controller
             'mensajeError' => '',
             'modelUsuario' => $usuarioBusqueda,
         ]);
-    }
-
-    private function obtenerCedula($consultarCedula, $model, $nombreFecha)
-    {
-        if ($consultarCedula) {
-            $cedulaUsuario = $model->cedula;
-            $_SESSION[$nombreFecha] = $cedulaUsuario;
-        } else {
-            if (isset($_SESSION[$nombreFecha])) {
-                $cedulaUsuario = $_SESSION[$nombreFecha];
-            } else {
-                $cedulaUsuario = '';
-                $_SESSION[$nombreFecha] = '';
-            }
-        }
-        return $cedulaUsuario;
     }
 
     private function obtenerGraficoBusqueda($busquedaSQL, $titulo, $subtitulo, $nombreX, $nombreY, $camposGrafico)
@@ -309,20 +367,11 @@ class ReportesController extends Controller
         return $consultaCuadro;
     }
 
-    private function obtenerFecha($consultarFecha, $model, $nombreFecha)
+    private function obtenerFecha()
     {
-        if ($consultarFecha) {
-            $fechaMostrar = $model->fechaEjecucion;
-            $_SESSION[$nombreFecha] = $fechaMostrar;
-        } else {
-            if (isset($_SESSION[$nombreFecha])) {
-                $fechaMostrar = $_SESSION[$nombreFecha];
-            } else {
-                $fechaHoy = date('Y-m-d');
-                $fechaAntes = date("Y-m-d", strtotime("-" . 7 . " days"));
-                $fechaMostrar = $fechaAntes . ' / ' . $fechaHoy;
-            }
-        }
+        $fechaHoy = date('Y-m-d');
+        $fechaAntes = date("Y-m-d", strtotime("-" . 7 . " days"));
+        $fechaMostrar = $fechaAntes . ' / ' . $fechaHoy;
         return $fechaMostrar;
     }
 

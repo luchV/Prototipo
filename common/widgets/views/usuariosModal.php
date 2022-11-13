@@ -2,6 +2,7 @@
 
 use common\models\Institucion;
 use common\models\Roles;
+use common\models\User;
 use common\widgets\ContenedorTablas;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
@@ -12,7 +13,7 @@ use yii\grid\GridView;
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"> Seleccionar usuario</h5>
+        <h5 class="modal-title"> Seleccionar un <?= $Texto ?></h5>
       </div>
       <div class="modal-body">
         <?php ContenedorTablas::begin();  ?>
@@ -20,7 +21,7 @@ use yii\grid\GridView;
         $gridView = [
           'dataProvider' => $dataProvider,
           'filterModel' => $modalUsuario,
-          'summary' => 'Mostrando {begin} - {end} de {totalCount} usuarios. ',
+          'summary' => 'Mostrando {begin} - {end} de {totalCount} ' . $Texto . 's.',
           'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
@@ -55,12 +56,13 @@ use yii\grid\GridView;
           array_push($gridView['columns'], $acciones);
         }
 
-        if ($rolActivo == '2' || $rolActivo == '3') {
+        if ($rolActivo == '2' || ($rolActivo == '3' && $estudiante)) {
           $acciones =
             [
               'label' => 'Encargado',
               'value' => function ($model) {
-                return Roles::listarRoles()[$model->rolCodigo];
+                $usuarioBusqueda = User::findIdentity($model->usuEncargado);
+                return $usuarioBusqueda['nombre1'] . ' ' . $usuarioBusqueda['apellido1'];
               },
             ];
           array_push($gridView['columns'], $acciones);
