@@ -118,11 +118,13 @@ use common\widgets\ContenedorTablas;
                 foreach ($modelRespuestaMuestra as $value) {
                     $dato = $value['resNumero'] . '&' . $value['respuestaCorrecto'] . '&' . $value['respuestaTexto'] . '&' . $value['imagen'];
                     echo '<tr id="filaRespuesta ' . $value['resNumero'] . '">
-                                    <td>' . 'Respuesta ' . $value['resNumero'] . '<input type="hidden" name="elementosRespuestas[]" value="' . $dato . '"></td>
-                                    <td>' . $value['respuestaCorrecto'] . '</td>
-                                    <td>' . $value['respuestaTexto'] . '</td>
-                                    <td>' . FuncionesGenerales::ponerEnlace($value['imagen']) . '</td>
-                                    <td><button  class="btn btn-danger" onclick="quietarElemento(' . "'filaRespuesta " . $value['resNumero'] . "'" . ');" type="button">Eliminar</button></td>
+                                    <td>' . 'Respuesta ' . $value['resNumero'] . '<input type="hidden" id="inputRespuesta' . $value['resNumero'] . '" name="elementosRespuestas[]" value="' . $dato . '"></td>
+                                    <td id="colC' . $value['resNumero'] . '">' . $value['respuestaCorrecto'] . '</td>
+                                    <td id="colR' . $value['resNumero'] . '">' . $value['respuestaTexto'] . '</td>
+                                    <td id="colL' . $value['resNumero'] . '">' . FuncionesGenerales::ponerEnlace($value['imagen']) . '</td>
+                                    <td id="colEl' . $value['resNumero'] . '"><button class="btn btn-danger" onclick="quietarElemento(' . "'filaRespuesta " . $value['resNumero'] . "'" . ');" type="button">Eliminar</button></td>
+                                    <td id="colAc' . $value['resNumero'] . '"><button class="btn btn-primary" onclick="editarElemento(' . "'filaRespuesta " . $value['resNumero'] . "'" . ');" type="button">Editar</button></td>
+                                    <td id="colGuard' . $value['resNumero'] . '" style="display:none;"><button class="btn btn-success" onclick="guardarElemento(' . "'filaRespuesta " . $value['resNumero'] . "'" . ');" type="button">Guardar</button></td>
                                 </tr>';
                     $index++;
                 }
@@ -167,12 +169,29 @@ use common\widgets\ContenedorTablas;
             let celda3 = row.insertCell(2);
             let celda4 = row.insertCell(3);
             let celda5 = row.insertCell(4);
+            let celda6 = row.insertCell(5);
+            let celda7 = row.insertCell(6);
             let tablaDatos = $('#respuestas-resnumero').val() + '&' + $('#respuestas-respuestacorrecto').val() + '&' + $('#respuestas-respuestatexto').val() + '&' + $('#respuestas-imagen').val();
-            celda1.innerHTML = $('#respuestas-resnumero').val() + '<input type="hidden"s name="elementosRespuestas[]" value="' + tablaDatos + '">';
+            celda1.innerHTML = $('#respuestas-resnumero').val() + '<input type="hidden" id="inputRespuesta' + (table.rows.length - 1) + '" name="elementosRespuestas[]" value="' + tablaDatos + '">';
+
+            celda2.id = 'colC' + (table.rows.length - 1);
             celda2.innerHTML = $('#respuestas-respuestacorrecto').val();
+
+            celda3.id = 'colR' + (table.rows.length - 1);
             celda3.innerHTML = $('#respuestas-respuestatexto').val();
+
+            celda4.id = 'colL' + (table.rows.length - 1);
             celda4.innerHTML = $('#respuestas-imagen').val();
-            celda5.innerHTML = '<button  class="btn btn-danger" onclick="quietarElemento(' + "'fila" + $('#respuestas-resnumero').val() + "'" + ');" type="button">Eliminar</button>';
+
+            celda5.id = 'colEl' + (table.rows.length - 1);
+            celda5.innerHTML = '<button class="btn btn-danger" onclick="quietarElemento(' + "'fila" + $('#respuestas-resnumero').val() + "'" + ');" type="button">Eliminar</button>';
+
+            celda6.id = 'colAc' + (table.rows.length - 1);
+            celda6.innerHTML = '<button class="btn btn-primary" onclick="editarElemento(' + "'fila" + $('#respuestas-resnumero').val() + "'" + ');" type="button">Editar</button>';
+
+            celda7.id = 'colGuard' + (table.rows.length - 1);
+            celda7.style = 'display:none;';
+            celda7.innerHTML = '<button class="btn btn-success" onclick="guardarElemento(' + "'fila" + $('#respuestas-resnumero').val() + "'" + ');" type="button">Guardar</button>';
 
             let numeroRespuesta = $('#respuestas-resnumero').val().trim().split(' ');
             let numeroSiguiente = numeroRespuesta[0] + " " + (parseInt(numeroRespuesta[1]) + 1);
@@ -189,5 +208,82 @@ use common\widgets\ContenedorTablas;
         let row = document.getElementById(id);
         row.parentNode.removeChild(row);
         if ($('#elementosRespuestas').val() === undefined) {}
+    }
+
+    function guardarElemento(id) {
+        let indexArray = id.split(' ');
+        let index = indexArray[1];
+
+        $('#error').text('');
+        $('#error').hide();
+        let selecRespuestaBol = document.getElementById("selectRespuestaB" + index);
+        let imputRespuestaTexto = document.getElementById("imputRespuestaTex" + index).value.trim();
+        let imputRespuestaLinkR = document.getElementById("imputRespuestaLink" + index).value.trim();
+        let imputRespuesta = document.getElementById("inputRespuesta" + index);
+        let colRespuestaB = document.getElementById("colC" + index);
+        let colRespuestaTex = document.getElementById("colR" + index);
+        let colRespuestaLink = document.getElementById("colL" + index);
+        console.log(imputRespuesta);
+
+        if (selecRespuestaBol.value != 'true' && selecRespuestaBol.value != 'false') {
+            $('#error').text('Seleccionar un tipo de respuesta');
+            $('#error').show();
+        } else if (imputRespuestaTexto.length == 0) {
+            $('#error').text('Escribir una respuesta de Texto');
+            $('#error').show();
+        } else if (imputRespuestaLinkR.length == 0) {
+            $('#error').text('Escribir una imagen de respuesta');
+            $('#error').show();
+        } else {
+            $("#inputRespuesta" + index).val(index + '&' + selecRespuestaBol.value + '&' + imputRespuestaTexto + '&' + imputRespuestaLinkR);
+            $('#colEl' + index).show();
+            $('#colAc' + index).show();
+            $('#colGuard' + index).hide();
+            colRespuestaB.innerHTML = selecRespuestaBol.value;
+            colRespuestaTex.innerHTML = imputRespuestaTexto;
+            colRespuestaLink.innerHTML = imputRespuestaLinkR;
+        }
+    }
+
+    function editarElemento(id) {
+        let indexArray = id.split(' ');
+        let index = indexArray[1];
+
+        let colRespuestaB = document.getElementById("colC" + index);
+        let colRespuestaTex = document.getElementById("colR" + index);
+        let colRespuestaLink = document.getElementById("colL" + index);
+
+
+        let select = document.createElement("select");
+        let option = document.createElement('option');
+        select.id = "selectRespuestaB" + index;
+        select.className = "form-control";
+        option.value = '';
+        option.text = 'Seleccionar';
+        select.appendChild(option);
+        let option2 = document.createElement('option');
+        option2.value = 'true';
+        option2.text = 'Correcta';
+        if (colRespuestaB.innerHTML == 'true') {
+            option2.selected = true;
+        }
+        select.appendChild(option2);
+        let option3 = document.createElement('option');
+        option3.value = 'false';
+        option3.text = 'Incorrecta';
+        if (colRespuestaB.innerHTML == 'false') {
+            option3.selected = true;
+        }
+        select.appendChild(option3);
+
+        colRespuestaB.innerHTML = '';
+
+        colRespuestaB.appendChild(select);
+        colRespuestaTex.innerHTML = '<input class="form-control" type="text" id="imputRespuestaTex' + index + '" value="' + colRespuestaTex.innerHTML + '">';
+        colRespuestaLink.innerHTML = '<input class="form-control" type="text" id="imputRespuestaLink' + index + '" value="' + colRespuestaLink.innerHTML + '">';
+
+        $('#colEl' + index).hide();
+        $('#colAc' + index).hide();
+        $('#colGuard' + index).show();
     }
 </script>
