@@ -93,11 +93,11 @@ class SeccionesModulos extends ActiveRecord
             'seccSubpregunta' => Yii::t('app', 'Orden Secundaria'),
             'secNumeroPregunta' => Yii::t('app', 'Número de actividad'),
             'secTipoRespuesta' => Yii::t('app', 'Tipo de actividad'),
-            'seccAudioSubPregunta' => Yii::t('app', 'Id del audio para en la orden secundaria'),
-            'seccAudioPregunta' => Yii::t('app', 'Id del audio para la orden principal'),
+            'seccAudioSubPregunta' => Yii::t('app', 'URL del audio para la orden secundaria'),
+            'seccAudioPregunta' => Yii::t('app', 'URL del audio para la orden principal'),
             'secEstado' => Yii::t('app', 'Estado de la actividad'),
             'seccPreguntaAdicional' => Yii::t('app', 'Orden Terciaria'),
-            'seccAudioPreguntaAdicional' => Yii::t('app', 'Id del audio para en la orden terciaria'),
+            'seccAudioPreguntaAdicional' => Yii::t('app', 'URL del audio para en la orden terciaria'),
         ];
     }
 

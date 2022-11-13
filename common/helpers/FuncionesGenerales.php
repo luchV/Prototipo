@@ -134,4 +134,29 @@ class FuncionesGenerales
 
         return $respuesta;
     }
+
+    public static function obtenerEnlace($enlace)
+    {
+        if (isset($enlace) && $enlace != '') {
+            $componentesEnlace = explode('/', $enlace);
+            if (count($componentesEnlace) > 2) {
+                foreach ($componentesEnlace as  $value) {
+                    if (strlen($value) == 33) {
+                        $enlace = $value;
+                    }
+                }
+            }
+        }
+        return $enlace;
+    }
+
+    public static function ponerEnlace($enlace)
+    {
+        if (isset($enlace) && $enlace != '') {
+            if (strlen($enlace) == 33) {
+                $enlace = 'https://drive.google.com/file/d/' . $enlace . '/view';
+            }
+        }
+        return $enlace;
+    }
 }

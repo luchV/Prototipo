@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use common\helpers\ControlRoles;
+use common\helpers\FuncionesGenerales;
 use common\models\Roles;
 use common\models\Respuestas;
 
@@ -84,6 +85,10 @@ class ConfiguracionController extends Controller
                 $model->modCodigo = $idModulo;
                 $model->usuCodigo = Yii::$app->user->identity->usuCodigo;
 
+                $model->seccAudioPregunta = FuncionesGenerales::obtenerEnlace($model->seccAudioPregunta);
+                $model->seccAudioSubPregunta = FuncionesGenerales::obtenerEnlace($model->seccAudioPregunta);
+                $model->seccAudioPreguntaAdicional = FuncionesGenerales::obtenerEnlace($model->seccAudioPregunta);
+
                 if ($model->save()) {
                     //Campos de preguntas
                     self::GuardarRespuestas($model,  $_POST['elementosRespuestas']);
@@ -125,7 +130,7 @@ class ConfiguracionController extends Controller
             $modelAux->resNumero = $numeroPregunta . '';
             $modelAux->respuestaCorrecto = $infoRespuesta[1];
             $modelAux->respuestaTexto = $infoRespuesta[2];
-            $modelAux->imagen = $infoRespuesta[3];
+            $modelAux->imagen = FuncionesGenerales::obtenerEnlace($infoRespuesta[3]);
             $modelAux->secCodigo = $model->secCodigo;
             if ($modelAux->save()) {
                 $numeroPregunta++;
@@ -155,6 +160,10 @@ class ConfiguracionController extends Controller
 
         if ($modelS->load(Yii::$app->request->post())) {
             if (isset($_POST['elementosRespuestas'])) {
+
+                $modelS->seccAudioPregunta = FuncionesGenerales::obtenerEnlace($modelS->seccAudioPregunta);
+                $modelS->seccAudioSubPregunta = FuncionesGenerales::obtenerEnlace($modelS->seccAudioSubPregunta);
+                $modelS->seccAudioPreguntaAdicional = FuncionesGenerales::obtenerEnlace($modelS->seccAudioPreguntaAdicional);
                 if ($modelS->save()) {
                     //Campos de preguntas
                     self::GuardarRespuestas($modelS, $_POST['elementosRespuestas'], 'update', $modelS->secCodigo);
@@ -168,6 +177,9 @@ class ConfiguracionController extends Controller
         if (isset($_POST['activarPreguntaAdicional']) || $modelS->seccPreguntaAdicional != "") {
             $botonActivado = "checked";
         }
+        $modelS->seccAudioPregunta = FuncionesGenerales::ponerEnlace($modelS->seccAudioPregunta);
+        $modelS->seccAudioSubPregunta = FuncionesGenerales::ponerEnlace($modelS->seccAudioSubPregunta);
+        $modelS->seccAudioPreguntaAdicional = FuncionesGenerales::ponerEnlace($modelS->seccAudioPreguntaAdicional);
         return $this->render('update', [
             'model' => $modelS,
             'modelID' => $model,

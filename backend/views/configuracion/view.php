@@ -63,9 +63,14 @@ if ($model->secEstado == Params::ESTADOINACTIVO) {
                 'label' => 'Audio de la orden principal',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return '<audio controls>
-                                <source src="https://docs.google.com/uc?export=open&id=' .  $model->seccAudioPregunta . '" type="audio/mp3">
-                            </audio>';
+                    $audioCargado = $model->seccAudioPregunta;
+                    $respuesta = null;
+                    if (isset($audioCargado) && $audioCargado != '') {
+                        $respuesta = '<audio controls>
+                                        <source src="https://docs.google.com/uc?export=open&id=' . $audioCargado . '" type="audio/mp3">
+                                    </audio>';
+                    }
+                    return $respuesta;
                 },
             ],
             'seccSubpregunta',
@@ -74,9 +79,30 @@ if ($model->secEstado == Params::ESTADOINACTIVO) {
                 'label' => 'Audio de la orden secundaria',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return '<audio controls>
-                                <source src="https://docs.google.com/uc?export=open&id=' .  $model->seccAudioSubPregunta . '" type="audio/mp3">
-                            </audio>';
+                    $audioCargado = $model->seccAudioSubPregunta;
+                    $respuesta = null;
+                    if (isset($audioCargado) && $audioCargado != '') {
+                        $respuesta = '<audio controls>
+                                        <source src="https://docs.google.com/uc?export=open&id=' . $audioCargado . '" type="audio/mp3">
+                                    </audio>';
+                    }
+                    return $respuesta;
+                },
+            ],
+            'seccPreguntaAdicional',
+            [
+                'attribute' => 'seccAudioPreguntaAdicional',
+                'label' => 'Audio de la orden terciaria',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $audioCargado = $model->seccAudioPreguntaAdicional;
+                    $respuesta = null;
+                    if (isset($audioCargado) && $audioCargado != '') {
+                        $respuesta = '<audio controls>
+                                        <source src="https://docs.google.com/uc?export=open&id=' . $audioCargado . '" type="audio/mp3">
+                                    </audio>';
+                    }
+                    return $respuesta;
                 },
             ],
             [

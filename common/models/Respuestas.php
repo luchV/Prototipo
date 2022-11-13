@@ -66,7 +66,7 @@ class Respuestas extends ActiveRecord
             'resNumero' => Yii::t('app', 'Respuesta N.'),
             'respuestaCorrecto' => Yii::t('app', 'Tipo de respuesta'),
             'respuestaTexto' => Yii::t('app', 'Respuesta en Texto'),
-            'imagen' => Yii::t('app', 'Id de la imagen'),
+            'imagen' => Yii::t('app', 'URL de la imagen'),
         ];
     }
 }

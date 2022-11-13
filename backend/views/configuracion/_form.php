@@ -32,14 +32,12 @@ use common\widgets\ContenedorTablas;
             <?= $form->field($model, 'seccAudioPregunta') ?>
 
         </div>
-        <h6>*El ID solicitando es de Google drive en donde está ubicado el audio, ejemplo: <a href="https://drive.google.com/file/d/1bSv29qAfeWbyXkxhXprex1vgUUWW1xb9/preview">1bSv29qAfeWbyXkxhXprex1vgUUWW1xb9</a></h6>
         <div class="col-md-12">
             <?= $form->field($model, 'seccSubpregunta') ?>
         </div>
         <div class="col-md-12">
             <?= $form->field($model, 'seccAudioSubPregunta') ?>
         </div>
-        <h6>*El ID solicitando es de Google drive en donde está ubicado el audio, ejemplo: <a href="https://drive.google.com/file/d/1bSv29qAfeWbyXkxhXprex1vgUUWW1xb9/preview">1bSv29qAfeWbyXkxhXprex1vgUUWW1xb9</a></h6>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -59,7 +57,6 @@ use common\widgets\ContenedorTablas;
         <div class="col-md-12">
             <?= $form->field($model, 'seccAudioPreguntaAdicional') ?>
         </div>
-        <h6>*El ID solicitando es de Google drive en donde está ubicado el audio, ejemplo: <a href="https://drive.google.com/file/d/1bSv29qAfeWbyXkxhXprex1vgUUWW1xb9/preview">1bSv29qAfeWbyXkxhXprex1vgUUWW1xb9</a></h6>
     </div>
     <hr>
 
@@ -85,7 +82,6 @@ use common\widgets\ContenedorTablas;
                 <?= $form->field($modelRespuestas, 'imagen') ?>
             </div>
         </div>
-        <h6>*El ID solicitando es de Google drive en donde está ubicado la imagen, ejemplo: <a href="https://drive.google.com/uc?export=view&id=13vyXYYOSaL5EsHCG4lagkWefBqJ1VV4s">13vyXYYOSaL5EsHCG4lagkWefBqJ1VV4s</a></h6>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -125,7 +121,7 @@ use common\widgets\ContenedorTablas;
                                     <td>' . 'Respuesta ' . $value['resNumero'] . '<input type="hidden" name="elementosRespuestas[]" value="' . $dato . '"></td>
                                     <td>' . $value['respuestaCorrecto'] . '</td>
                                     <td>' . $value['respuestaTexto'] . '</td>
-                                    <td>' . $value['imagen'] . '</td>
+                                    <td>' . FuncionesGenerales::ponerEnlace($value['imagen']) . '</td>
                                     <td><button  class="btn btn-danger" onclick="quietarElemento(' . "'filaRespuesta " . $value['resNumero'] . "'" . ');" type="button">Eliminar</button></td>
                                 </tr>';
                     $index++;
