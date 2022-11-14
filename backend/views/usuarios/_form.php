@@ -24,16 +24,16 @@ if ($model->edad != "") {
   </h3>
   <div class="row">
     <div class="col-md-6">
-      <?= $form->field($model, 'nombre1')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras"]) ?>
+      <?= $form->field($model, 'nombre1')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras", 'autocomplete' => 'off']) ?>
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'nombre2')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras"]) ?>
+      <?= $form->field($model, 'nombre2')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras", 'autocomplete' => 'off']) ?>
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'apellido1')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras"]) ?>
+      <?= $form->field($model, 'apellido1')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras", 'autocomplete' => 'off']) ?>
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'apellido2')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras"]) ?>
+      <?= $form->field($model, 'apellido2')->textInput(["pattern" => "[A-Za-zñáéíóúÑÁÉÍÓÚ ]+", "title" => "Escribir solamente letras", 'autocomplete' => 'off']) ?>
     </div>
     <div class="col-md-6">
       <?= $form->field($model, 'edad')->textInput(["type" => "date", "min" => "1800-01-01", "max" => $fechaActual, "pattern" => "\d{4}-\d{2}-\d{2}"]) ?>
@@ -44,7 +44,7 @@ if ($model->edad != "") {
       <label id="edadNumero"><?= $edadCalculada ?></label>
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'cedula')->textInput(["minlength" => "10", "pattern" => "[0-9]+", "title" => "Escribir solamente numeros"]) ?>
+      <?= $form->field($model, 'cedula')->textInput(["minlength" => "10", "pattern" => "[0-9]+", "title" => "Escribir solamente numeros", 'autocomplete' => 'off']) ?>
     </div>
     <div class="col-md-6">
       <?= $form->field($model, 'tipoDiscapacidad')->dropDownList(FuncionesGenerales::TiposDiscapacidades(), array());
@@ -173,7 +173,7 @@ if ($model->edad != "") {
       <?php } ?>
     </div>
     <div class="col-md-6">
-      <?= $form->field($model, 'correo') ?>
+      <?= $form->field($model, 'correo')->textInput(['autocomplete' => 'off']) ?>
     </div>
     <?php if (isset($activado)) { ?>
       <div class="col-md-6">
@@ -188,7 +188,7 @@ if ($model->edad != "") {
     <?php } ?>
 
     <div class="col-md-6" id="campoContrasena" <?= isset($activado) ? ($activado != "checked" ? 'style="display: none;"' : "") : "" ?>>
-      <?= $form->field($model, 'contrasena')->textInput(["type" => "password"]) ?>
+      <?= $form->field($model, 'contrasena')->textInput(["type" => "password", 'autocomplete' => 'off']) ?>
     </div>
   </div>
   <hr>

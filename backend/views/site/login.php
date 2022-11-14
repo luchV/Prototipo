@@ -20,8 +20,8 @@ if ($mensajeError == "") {
 <h1><?= Html::encode($this->title) ?></h1>
 <p>Por favor ingresa los siguientes campos para iniciar sesión:</p>
 <?= $form->field($model, 'institucion')->dropDownList(Institucion::listarInstituciones()) ?>
-<?= $form->field($model, 'username')->textInput(['class' => 'form-control', 'placeholder' => 'Correo electrónico']) ?>
-<?= $form->field($model, 'password')->passwordInput(['class' => 'form-control', 'placeholder' => 'Contraseña']) ?>
+<?= $form->field($model, 'username')->textInput(['class' => 'form-control', 'placeholder' => 'Correo electrónico', 'autocomplete' => 'off']) ?>
+<?= $form->field($model, 'password')->passwordInput(['class' => 'form-control', 'placeholder' => 'Contraseña', 'autocomplete' => 'off']) ?>
 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 <p class="alertLogin" style="<?= $estilo ?? "" ?>"><?= $mensajeError ?></p>
 <?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary btn-login', 'name' => 'login-button']) ?>
