@@ -8,8 +8,15 @@
         }
         shuffle($arrayDesorden);
         $contRes = 0;
+        $countAux = 0;
         foreach ($arrayDesorden as $imagenes) {
+            if ($countAux > 3) {
+                $countAux = 0;
         ?>
+                <br />
+            <?php
+            }
+            ?>
             <label id="labRes<?= $contRes ?>" style="display:none;">
                 <label class="checkeable" style="margin: 2%;" id="labelRes<?= $contRes ?>">
                     <input type="radio" style="display:none;" id="capRes<?= $contRes ?>" onclick="uncheckRadio(this)" name="seleccionImagenRes<?= $contRes ?>" value='<?= $imagenes["respuestaTexto"] ?>' />
@@ -17,6 +24,7 @@
                 </label>
             </label>
         <?php
+            $countAux++;
             $contRes++;
         }
         ?>

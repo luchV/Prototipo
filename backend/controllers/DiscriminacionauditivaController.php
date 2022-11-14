@@ -104,19 +104,19 @@ class DiscriminacionauditivaController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosD'] = $_SESSION['totalCorrectosD']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresD'] = $_SESSION['totalErroresD']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -137,19 +137,19 @@ class DiscriminacionauditivaController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosD'] = $_SESSION['totalCorrectosD']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresD'] = $_SESSION['totalErroresD']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -170,19 +170,19 @@ class DiscriminacionauditivaController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosD'] = $_SESSION['totalCorrectosD']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresD'] = $_SESSION['totalErroresD']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -204,19 +204,19 @@ class DiscriminacionauditivaController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosD'] = $_SESSION['totalCorrectosD']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresD'] = $_SESSION['totalErroresD']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -239,7 +239,7 @@ class DiscriminacionauditivaController extends Controller
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
 
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosD'] = $_SESSION['totalCorrectosD']  + 1;
                 $seccionesUsuario = ConsultasGenerales::findModelSeccionCodigo($_POST['codigoS']);
                 $modelModulo = ConsultasGenerales::findModel($seccionesUsuario[0]->modCodigo);
@@ -260,18 +260,18 @@ class DiscriminacionauditivaController extends Controller
                     unset($_SESSION['totalErroresD']);
                     unset($_SESSION['FechaInicioD']);
                 } else {
-                    $resultado->transaccion = false;
+                    $resultado->correctoV = false;
                 }
             } else {
                 $_SESSION['totalErroresD'] = $_SESSION['totalErroresD']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();

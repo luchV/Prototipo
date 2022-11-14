@@ -16,7 +16,7 @@ use DateTime;
 /**
  * ConcienciaauditivaController implements the CRUD actions for Institucion model.
  */
-class MemoriaauditivaController extends Controller
+class SonidosfinalesController extends Controller
 {
     private $modCodigo = '';
 
@@ -29,12 +29,12 @@ class MemoriaauditivaController extends Controller
     public function behaviors()
     {
         foreach (Modulos::listarModulosCodigoFiltro() as $key => $value) {
-            if ($value == 'Memoria auditiva') {
+            if ($value == 'Sonidos finales (rimas)') {
                 $this->modCodigo = $key;
                 break;
             }
         }
-        $respuesta = ControlRoles::Roles("6");
+        $respuesta = ControlRoles::Roles("9");
         return [
             'verbs' => [
                 'class' => AccessControl::class,
@@ -88,7 +88,7 @@ class MemoriaauditivaController extends Controller
 
         $modelModulo = ConsultasGenerales::findModel($modelSeccion->modCodigo);
         $modelRespuestas = ConsultasGenerales::findModelRespuestaTodos($modelSeccion->secCodigo);
-        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresM', 'totalCorrectosM', 'FechaInicioM');
+        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresF', 'totalCorrectosF', 'FechaInicioF');
     }
 
     /**
@@ -105,10 +105,10 @@ class MemoriaauditivaController extends Controller
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
             if ($resultado->correctoV) {
-                $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
+                $_SESSION['totalCorrectosF'] = $_SESSION['totalCorrectosF']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
-                $_SESSION['totalErroresM'] = $_SESSION['totalErroresM']  + 1;
+                $_SESSION['totalErroresF'] = $_SESSION['totalErroresF']  + 1;
             }
         } catch (\SoapFault $e) {
             $resultado->correctoV = false;
@@ -138,10 +138,10 @@ class MemoriaauditivaController extends Controller
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
             if ($resultado->correctoV) {
-                $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
+                $_SESSION['totalCorrectosF'] = $_SESSION['totalCorrectosF']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
-                $_SESSION['totalErroresM'] = $_SESSION['totalErroresM']  + 1;
+                $_SESSION['totalErroresF'] = $_SESSION['totalErroresF']  + 1;
             }
         } catch (\SoapFault $e) {
             $resultado->correctoV = false;
@@ -171,10 +171,10 @@ class MemoriaauditivaController extends Controller
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
             if ($resultado->correctoV) {
-                $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
+                $_SESSION['totalCorrectosF'] = $_SESSION['totalCorrectosF']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
-                $_SESSION['totalErroresM'] = $_SESSION['totalErroresM']  + 1;
+                $_SESSION['totalErroresF'] = $_SESSION['totalErroresF']  + 1;
             }
         } catch (\SoapFault $e) {
             $resultado->correctoV = false;
@@ -205,10 +205,10 @@ class MemoriaauditivaController extends Controller
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
             if ($resultado->correctoV) {
-                $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
+                $_SESSION['totalCorrectosF'] = $_SESSION['totalCorrectosF']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
-                $_SESSION['totalErroresM'] = $_SESSION['totalErroresM']  + 1;
+                $_SESSION['totalErroresF'] = $_SESSION['totalErroresF']  + 1;
             }
         } catch (\SoapFault $e) {
             $resultado->correctoV = false;
@@ -225,8 +225,8 @@ class MemoriaauditivaController extends Controller
     }
 
     /**
-     * Valida la respuesta, si es correcta agrega uno a la variable de sesión totalCorrectosM, si es
-     * incorrecta agrega uno a la variable de sesión totalErroresM
+     * Valida la respuesta, si es correcta agrega uno a la variable de sesión totalCorrectosF, si es
+     * incorrecta agrega uno a la variable de sesión totalErroresF
      * 
      * @return El resultado de la acción.
      */
@@ -240,30 +240,30 @@ class MemoriaauditivaController extends Controller
             }
 
             if ($resultado->correctoV) {
-                $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
+                $_SESSION['totalCorrectosF'] = $_SESSION['totalCorrectosF']  + 1;
                 $seccionesUsuario = ConsultasGenerales::findModelSeccionCodigo($_POST['codigoS']);
                 $modelModulo = ConsultasGenerales::findModel($seccionesUsuario[0]->modCodigo);
                 $resultado->vista = $this->renderAjax('preguntaFinal', [
                     'modelModulo' => $modelModulo,
-                    'totalErrores' => $_SESSION['totalErroresM'],
-                    'totalCorrecto' => $_SESSION['totalCorrectosM'],
+                    'totalErrores' => $_SESSION['totalErroresF'],
+                    'totalCorrecto' => $_SESSION['totalCorrectosF'],
                     'codigoS' => $_POST['codigoS'],
                 ]);
 
-                $fechaInicio = $_SESSION['FechaInicioM'];
+                $fechaInicio = $_SESSION['FechaInicioF'];
                 $fechaActual = new DateTime("now");
                 $tiempoTrascurrido = $fechaInicio->diff($fechaActual);
                 $tiempoTrascurrido = (($tiempoTrascurrido->days * 24) * 60) + ($tiempoTrascurrido->i * 60) + $tiempoTrascurrido->s;
-                $registro = RegistroActividad::guardarRegistroActividad($_SESSION['totalCorrectosM'], $tiempoTrascurrido, $_SESSION['totalErroresM'], $_POST['codigoS'], $modelModulo->modCodigo);
+                $registro = RegistroActividad::guardarRegistroActividad($_SESSION['totalCorrectosF'], $tiempoTrascurrido, $_SESSION['totalErroresF'], $_POST['codigoS'], $modelModulo->modCodigo);
                 if ($registro->correcto) {
-                    unset($_SESSION['totalCorrectosM']);
-                    unset($_SESSION['totalErroresM']);
-                    unset($_SESSION['FechaInicioM']);
+                    unset($_SESSION['totalCorrectosF']);
+                    unset($_SESSION['totalErroresF']);
+                    unset($_SESSION['FechaInicioF']);
                 } else {
                     $resultado->correctoV = false;
                 }
             } else {
-                $_SESSION['totalErroresM'] = $_SESSION['totalErroresM']  + 1;
+                $_SESSION['totalErroresF'] = $_SESSION['totalErroresF']  + 1;
             }
         } catch (\SoapFault $e) {
             $resultado->correctoV = false;

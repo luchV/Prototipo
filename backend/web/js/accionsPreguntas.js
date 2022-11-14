@@ -34,9 +34,9 @@ function cambiarPregunta(controler, accion, tipoRespuesta, opcional = "") {
             try {
                 datos = result;
             } catch (err) {
-                datos.transaccion = false;
+                datos.correctoV = false;
             }
-            if (datos.transaccion) {
+            if (datos.correctoV) {
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
@@ -100,9 +100,9 @@ function cambiarPreguntaEspecialOrden(controler, accion, tipoRespuesta, opcional
             try {
                 datos = result;
             } catch (err) {
-                datos.transaccion = false;
+                datos.correctoV = false;
             }
-            if (datos.transaccion) {
+            if (datos.correctoV) {
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
@@ -152,9 +152,9 @@ function cambiarPreguntaSinOrden(controler, accion, tipoRespuesta, opcional = ""
             try {
                 datos = result;
             } catch (err) {
-                datos.transaccion = false;
+                datos.correctoV = false;
             }
-            if (datos.transaccion) {
+            if (datos.correctoV) {
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
@@ -198,9 +198,9 @@ function cambiarPreguntaEspecialSinOrden(controler, accion, tipoRespuesta, opcio
             try {
                 datos = result;
             } catch (err) {
-                datos.transaccion = false;
+                datos.correctoV = false;
             }
-            if (datos.transaccion) {
+            if (datos.correctoV) {
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
@@ -222,6 +222,21 @@ function MuestraMensajes(campo) {
     $("#mocrofono").hide();
     for (var i = 0; i < cont; i++) {
         $("#labRes" + i).hide();
+    }
+    reproducir('Intentalo de nuevo', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
+}
+function MuestraMensajes2(campo) {
+    let cont = document.getElementById('cantidadOpciones').value;
+    document.getElementById(campo).style.display = "grid";
+    document.querySelector("#checkAvanzado").checked = false;
+    document.getElementById("reconocimientoVoz").style.display = "none";
+    document.getElementById("btn_next").style.display = "none";
+    $("#mocrofono").hide();
+    $("#btmContinuar").hide();
+    $("#btmRepetir").hide();
+    for (var i = 0; i < cont; i++) {
+        $("#labRes" + i).hide();
+        $("#lab" + i).hide();
     }
     reproducir('Intentalo de nuevo', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
 }
@@ -419,8 +434,33 @@ async function repetirImagenes8(cantidad, tipoRespuesta) {
     $('#btmRepetir').show();
     $('#btmContinuar').show();
 }
+async function repetirImagenes9(cantidad, tipoRespuesta) {
+    $('#btmComenzar').hide();
+    $('#btmRepetir').hide();
+    $('#btmContinuar').hide();
+    $('#subPregunta').hide();
+    $('#preguntaAdicional').hide();
+    $('#MensajeRespuesta').hide();
+    $('#pregunta').show();
 
-function siguientePregunta(cantidad, tipoRespuestas) {
+    let campoIcono = document.getElementById('iconoButtonPregunta');
+    campoIcono.className = 'fas fa-volume-up tamanoIcono';
+    $reproducirAudioI = document.getElementById('audioPegunta');
+    valor = $reproducirAudioI.duration;
+    $reproducirAudioI.play();
+    await sleep((valor + 1) * 1000);
+    campoIcono.className = 'fas fa-volume-off tamanoIcono';
+    for (let aux = 0; aux < cantidad; aux++) {
+        $('#lab' + aux).show();
+        let campoChecked = document.getElementById("cap" + aux);
+        if (campoChecked.checked) {
+            campoChecked.checked = false;
+        }
+
+    }
+    $('#btmContinuar').show();
+}
+async function siguientePregunta(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
         case 'imagen':
             for (let aux = 0; aux < cantidad; aux++) {
@@ -435,7 +475,6 @@ function siguientePregunta(cantidad, tipoRespuestas) {
             }
             $('#preguntaAdicional').show();
             $('#subPregunta').hide();
-
             break;
         default:
             for (let aux = 0; aux < cantidad; aux++) {
@@ -459,6 +498,8 @@ function siguientePregunta(cantidad, tipoRespuestas) {
     $('#btmContinuar').hide();
     $('#btn_next').show();
     $('#pregunta').hide();
+
+    reproducirAudioIcono('iconoButtonSubPregunta', 'audioSupPegunta');
 }
 function siguientePregunta3(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
@@ -504,6 +545,8 @@ function siguientePregunta3(cantidad, tipoRespuestas) {
     $('#btn_next').show();
     $('#pregunta').hide();
     $('#subPregunta').show();
+
+    reproducirAudioIcono('iconoButtonSubPregunta', 'audioSupPegunta');
 }
 async function siguientePregunta4(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
@@ -552,9 +595,13 @@ async function siguientePregunta4(cantidad, tipoRespuestas) {
     $('#preguntaAdicional').show();
     $('#btmRepetir').hide();
 
-    let campoIcono2 = document.getElementById('iconoButtonPreguntaAdicional');
+    reproducirAudioIcono('iconoButtonPreguntaAdicional', 'audioPreguntaAdicional');
+}
+
+async function reproducirAudioIcono(idIcono, idSonido) {
+    let campoIcono2 = document.getElementById(idIcono);
     campoIcono2.className = 'fas fa-volume-up tamanoIcono';
-    $reproducirAudioI = document.getElementById('audioPreguntaAdicional');
+    $reproducirAudioI = document.getElementById(idSonido);
     valor = $reproducirAudioI.duration;
     $reproducirAudioI.play();
     await sleep((valor + 1) * 1000);
@@ -605,6 +652,7 @@ function siguientePregunta2(cantidad, tipoRespuestas) {
     $('#subPregunta').hide();
     $('#btmRepetir').hide();
 
+    reproducirAudioIcono('iconoButtonPregunta', 'audioPegunta');
 }
 function siguientePregunta5(cantidad, tipoRespuestas) {
     switch (tipoRespuestas) {
@@ -650,6 +698,8 @@ function siguientePregunta5(cantidad, tipoRespuestas) {
     $('#btn_next').show();
     $('#pregunta').show();
     $('#subPregunta').hide();
+
+    reproducirAudioIcono('iconoButtonPregunta', 'audioPegunta');
 }
 
 function siguientePregunta6(cantidad, tipoRespuestas) {
@@ -696,6 +746,101 @@ function siguientePregunta6(cantidad, tipoRespuestas) {
     $('#btn_next').show();
     $('#pregunta').show();
     $('#subPregunta').hide();
+    reproducirAudioIcono('iconoButtonPregunta', 'audioPegunta');
+}
+function siguientePregunta7(cantidad, tipoRespuestas) {
+    let respuestasAux = new Array(0);
+    var respuestas = new Array(0);
+    let contador = 0;
+    let cont = document.getElementById('cantidadOpciones').value;
+
+    for (let i = 0; i < cont; i++) {
+        if (document.getElementById('cap' + i).checked) {
+            let valor = document.getElementById('cap' + i).value.split(' ');
+            respuestasAux[valor[(valor.length - 1)]] = valor[0];
+            contador++;
+        }
+    }
+    contador = 0;
+    respuestasAux.forEach(function (item) {
+        respuestas[contador] = item;
+        contador++;
+    });
+
+    if (contador == 0) {
+        respuestas = [0];
+    }
+    let data = {
+        respuestas: respuestas,
+        codigoS: $('#codigoPregunta').val(),
+    }
+    $.post("index.php?r=sonidosiniciales/validar-imagenes", data, function (result, status, xhr) {
+        if (status == "success") {
+            var datos = new Array(0);
+            try {
+                datos = result;
+            } catch (err) {
+                datos.correctoV = false;
+            }
+            if (datos.correctoV) {
+                for (let aux = 0; aux < cantidad; aux++) {
+                    $('#lab' + aux).hide();
+                    let campoChecked = document.getElementById("cap" + aux);
+                    if (campoChecked.checked) {
+                        campoChecked.checked = false;
+                    }
+                }
+
+                switch (tipoRespuestas) {
+                    case 'imagen':
+                        for (let aux = 0; aux < datos.totalRespuestas; aux++) {
+                            $('#labRes' + aux).show();
+                            let campoChecked = document.getElementById("capRes" + aux);
+                            if (campoChecked.checked) {
+                                campoChecked.checked = false;
+                            }
+                        }
+                        $('#mocrofono').hide();
+                        break;
+                    case 'voz':
+                        for (let aux = 0; aux < datos.totalRespuestas; aux++) {
+                            $('#labRes' + aux).hide();
+                            let campoChecked = document.getElementById("capRes" + aux);
+                            if (campoChecked.checked) {
+                                campoChecked.checked = false;
+                            }
+                        }
+                        $('#mocrofono').show();
+                        $('#reconocimientoVoz').show();
+                        document.getElementById("checkAvanzado").checked = true;
+                        break;
+                    case 'ambos':
+                        for (let aux = 0; aux < datos.totalRespuestas; aux++) {
+                            $('#labRes' + aux).show();
+                            let campoChecked = document.getElementById("capRes" + aux);
+                            if (campoChecked.checked) {
+                                campoChecked.checked = false;
+                            }
+                        }
+                        $('#mocrofono').show();
+                        $('#reconocimientoVoz').hide();
+                        break;
+                }
+                $('#btmRepetir').hide();
+                $('#btmContinuar').hide();
+                $('#btn_next').show();
+                $('#pregunta').hide();
+                $('#subPregunta').show();
+                reproducirAudioIcono('iconoButtonSubPregunta', 'audioSupPegunta');
+            } else {
+                MuestraMensajes2("MensajeRespuesta");
+            }
+        } else if (status == "error") {
+            MuestraMensajes2("MensajeRespuesta");
+        }
+    }).fail(function () {
+        MuestraMensajes2("MensajeRespuesta");
+    });
 }
 
 async function reproducirAudioCargado(idAudio, idButonCambio, iconoAnterior, iconoNuevo) {

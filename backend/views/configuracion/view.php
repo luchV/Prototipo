@@ -114,9 +114,16 @@ if ($model->secEstado == Params::ESTADOINACTIVO) {
                     $respuestas = Respuestas::find()->where(['secCodigo' => $model->secCodigo])->orderBy('resNumero')->all();
                     foreach ($respuestas as $value) {
                         $respuestasMostrar .= "<strong>" . "Respuesta " . $value['resNumero'] . "<br/></strong>";
-                        $respuestasMostrar .= 'Tipo de respuesta: ' . FuncionesGenerales::TiposRespuestas()[$value['respuestaCorrecto']] . '<br/>'  .
-                            'Respuesta en Texto: ' . $value['respuestaTexto'] .  '<br/>' .
-                            'Imagen: <img src="https://drive.google.com/uc?export=view&id=' . $value['imagen'] . '" height="151px" width="151px" hspace="25"><br/>';
+                        if (isset($value['respuestaCorrectoEspecial']) && $value['respuestaCorrectoEspecial'] != '') {
+                            $respuestasMostrar .= 'Tipo de respuesta para seleccionar primero: ' . FuncionesGenerales::TiposRespuestas()[$value['respuestaCorrectoEspecial']] . '<br/>'  .
+                                'Tipo de respuesta: ' . FuncionesGenerales::TiposRespuestas()[$value['respuestaCorrecto']] . '<br/>'  .
+                                'Respuesta en Texto: ' . $value['respuestaTexto'] .  '<br/>' .
+                                'Imagen: <img src="https://drive.google.com/uc?export=view&id=' . $value['imagen'] . '" height="151px" width="151px" hspace="25"><br/>';
+                        } else {
+                            $respuestasMostrar .= 'Tipo de respuesta: ' . FuncionesGenerales::TiposRespuestas()[$value['respuestaCorrecto']] . '<br/>'  .
+                                'Respuesta en Texto: ' . $value['respuestaTexto'] .  '<br/>' .
+                                'Imagen: <img src="https://drive.google.com/uc?export=view&id=' . $value['imagen'] . '" height="151px" width="151px" hspace="25"><br/>';
+                        }
                     }
                     return $respuestasMostrar;
                 },

@@ -17,8 +17,12 @@ $this->params['breadcrumbs'][] = $this->title;
 $soloVoz = '';
 if ($modelSeccion->secTipoRespuesta == 'voz') {
     $soloVoz = 'disabled';
+    $textoComienzo = 'Desactivar micrófono';
 }
-
+$funcionEnvioRespuestas = 'cambiarPreguntaSinOrden';
+if ($modelSeccion->secTipoRespuesta == 'ambos') {
+    $funcionEnvioRespuestas = 'cambiarPreguntaEspecialSinOrden';
+}
 $textoBotton = 'Siguiente';
 if ($accion == 'pregunta-final') {
     $textoBotton = 'Finalizar';
@@ -29,24 +33,11 @@ if ($accion == 'pregunta-final') {
     <input id="codigoPregunta" name="codigoPregunta" type='hidden' value="<?= $modelSeccion->secCodigo ?>">
     <div class="Menus-create">
 
-        <?php if ($accion != 'pregunta-final') { ?>
-            <!-- Un widget que se utiliza para mostrar el botón "Intentar de nuevo". -->
-            <?= IntentaloNuevamente::widget([
-                'funcionRepetir' => 'mostrarCampos',
-                'numeroTotal' => count($modelRespuestas),
-                'TipoRespuestas' => $modelSeccion->secTipoRespuesta,
-                'textoMostrar' => 'Buen trabajo',
-                'iconoMostrar' => 'fas fa-arrow-right',
-                'textoBoton' => 'Siguiente',
-            ]); ?>
-        <?php } ?>
-
-
         <!-- Un widget que se utiliza para mostrar el siguiente botón. -->
         <?= BotonSiguiente::widget([
             'textoBotton' => $textoBotton,
-            'funcionSiguiente' => 'cambiarPregunta',
-            'controllador' => 'concienciaauditiva',
+            'funcionSiguiente' => $funcionEnvioRespuestas,
+            'controllador' => 'sonidosfinales',
             'accion' => $accion,
             'secTipoRespuesta' => $modelSeccion->secTipoRespuesta,
         ]); ?>
@@ -79,21 +70,11 @@ if ($accion == 'pregunta-final') {
             'textoCampo' => $modelSeccion->seccSubpregunta,
         ]); ?>
 
-        <!-- Un widget que se utiliza para mostrar el audio y el texto de la Pregunta adicional. -->
-        <?= CampoAudio::widget([
-            'idDivGeneral' => 'preguntaAdicional',
-            'audioCargado' => $modelSeccion->seccAudioPreguntaAdicional,
-            'ocultarCampo' => 'style="display:none;"',
-            'idAudio' => 'audioPreguntaAdicional',
-            'idIconoButton' => 'iconoButtonPreguntaAdicional',
-            'idLabel' => 'preguntaAdicionalID',
-            'textoCampo' => $modelSeccion->seccPreguntaAdicional,
-        ]); ?>
 
         <!-- Un widget que se utiliza para mostrar el micrófono y el texto. -->
         <?= CampoVoz::widget([
-            'textoCampo1' => 'Desactivar micrófono',
-            'funcionVoz' => 'activarMicroCambioTexto',
+            'textoCampo1' => $textoComienzo ?? 'Activar micrófono',
+            'funcionVoz' => 'activarMicroCambioTexto3',
             'totalRespuestas' => count($modelRespuestas),
             'ocultarCampoGeneral' => 'style="display:none;"',
             'oculptarCampoMicro' => 'style="display:none;"',
@@ -105,20 +86,33 @@ if ($accion == 'pregunta-final') {
         <div class="row">
             <div class="col-md-12 text-center">
                 <?php
+                $arrayDesorden = [];
+                //Desordenar
+                foreach ($modelRespuestas as $imagenes) {
+                    array_push($arrayDesorden, ['respuestaTexto' => $imagenes["respuestaTexto"], 'imagen' => $imagenes["imagen"]]);
+                }
+                shuffle($arrayDesorden);
+                $countAux = 0;
+
                 $cont = 0;
                 foreach ($modelRespuestas as $imagenes) {
-                    if (filter_var($imagenes->respuestaCorrecto, FILTER_VALIDATE_BOOLEAN)) {
+                    if ($countAux > 3) {
+                        $countAux = 0;
                 ?>
-                        <label id="lab<?= $cont ?>" style="display:none;">
-                            <button id="idButton<?= $cont ?>" class="btnPersonalizado" onclick='reproducir("<?= $imagenes["respuestaTexto"] ?>", "iconoButton<?= $cont ?>","fas fa-volume-off tamanoIcono", "fas fa-volume-up tamanoIcono")'><em id="iconoButton<?= $cont ?>" class="fas fa-volume-off tamanoIcono"></em></button>
-                            <label style="margin: 2%;" id="label<?= $cont ?>">
-                                <input type="radio" style="display:none;" id="cap<?= $cont ?>" name="seleccionImagen<?= $cont ?>" value='<?= $imagenes["respuestaTexto"] ?>' />
-                                <img src='https://drive.google.com/uc?export=view&id=<?= $imagenes["imagen"] ?>' height="151px" width="151px" hspace="25">
-                            </label>
-                        </label>
-                <?php
-                        $cont++;
+                        <br />
+                    <?php
                     }
+                    ?>
+                    <label id="lab<?= $cont ?>" style="display:none;">
+                        <button id="idButton<?= $cont ?>" class="btnPersonalizado" onclick='reproducir("<?= $imagenes["respuestaTexto"] ?>", "iconoButton<?= $cont ?>","fas fa-volume-off tamanoIcono", "fas fa-volume-up tamanoIcono")'><em id="iconoButton<?= $cont ?>" class="fas fa-volume-off tamanoIcono"></em></button>
+                        <label style="margin: 2%;" id="label<?= $cont ?>">
+                            <input type="radio" style="display:none;" id="cap<?= $cont ?>" name="seleccionImagen<?= $cont ?>" value='<?= $imagenes["respuestaTexto"] ?>' />
+                            <img src='https://drive.google.com/uc?export=view&id=<?= $imagenes["imagen"] ?>' height="151px" width="151px" hspace="25">
+                        </label>
+                    </label>
+                <?php
+                    $cont++;
+                    $countAux++;
                 }
                 ?>
                 <input id="cantidadOpciones" style="display:none;" value="<?= ($cont - 1) ?>">
@@ -147,13 +141,14 @@ if ($accion == 'pregunta-final') {
             'iconoMostrar' => 'fas fa-arrow-right',
             'textoBoton' => $textoBotton . ' ',
             'idMensajes' => 'mostrarMensajeInformativo',
+            'idLabel' => 'buenTrabajo',
         ]); ?>
     </div>
 
     <!-- Un widget que se utiliza para mostrar el botones. -->
     <?= BotonesCRC::widget([
         'funcionRepetir' => 'repetirImagenes',
-        'funcionContinuar' => 'siguientePregunta',
+        'funcionContinuar' => 'siguientePregunta3',
         'totalFotos' => $cont,
         'totalFotosSegundo' => count($modelRespuestas),
         'secTipoRespuesta' => $modelSeccion->secTipoRespuesta,

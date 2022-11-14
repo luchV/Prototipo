@@ -71,17 +71,17 @@ class SeccionesmenuController extends Controller
     public function actionPregunta2($respuestas)
     {
         $resultado = new \stdClass;
-        $resultado->transaccion = false;
+        $resultado->correctoV = false;
         try {
             $Campos = Seccionesmenu::listarSecciones(Params::ins_codigo, "1");
             foreach ($Campos[0]["secc_respuestas"] as $opciones) {
                 if (strcasecmp($respuestas, $opciones["text"]) == 0) {
                     if ($opciones["correcto"]) {
-                        $resultado->transaccion = true;
+                        $resultado->correctoV = true;
                     }
                 }
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $resultado->vista = $this->renderAjax('Menu1Seccion1', [
                     'modelo' => $Campos[1],
                     'controller' => "seccionesmenu",

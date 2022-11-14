@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 /*-- pricing --*/
 .agileits-pricing-grid {
-  width: 50%; /* For old syntax, otherwise collapses. */
+  width: 40%; /* For old syntax, otherwise collapses. */
   -webkit-flex: 1; /* Chrome */
   margin: auto;
   transition: 0.5s all;

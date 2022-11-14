@@ -104,19 +104,19 @@ class SonidosinicialesController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -137,19 +137,19 @@ class SonidosinicialesController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -170,19 +170,40 @@ class SonidosinicialesController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
+            $resultado->errorDescripcion = $e->getMessage();
+            $resultado->errorCodigo = $e->getCode();
+            $resultado->errorLinea = $e->getLine();
+        }
+        return $this->asJson($resultado);
+    }
+
+    public function actionValidarImagenes()
+    {
+        try {
+            $resultado =  ConsultasGenerales::vaidarCorrectoSinOrdenEspecial();
+            if (!$resultado->correctoV) {
+                $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
+            }
+        } catch (\SoapFault $e) {
+            $resultado->correctoV = false;
+            $resultado->errorDescripcion = $e->getMessage();
+            $resultado->errorCodigo = $e->getCode();
+            $resultado->errorLinea = $e->getLine();
+        } catch (\Exception $e) {
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -204,19 +225,19 @@ class SonidosinicialesController extends Controller
             } else {
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -239,7 +260,7 @@ class SonidosinicialesController extends Controller
                 $resultado = ConsultasGenerales::vaidarCorrecto();
             }
 
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
                 $seccionesUsuario = ConsultasGenerales::findModelSeccionCodigo($_POST['codigoS']);
                 $modelModulo = ConsultasGenerales::findModel($seccionesUsuario[0]->modCodigo);
@@ -260,18 +281,18 @@ class SonidosinicialesController extends Controller
                     unset($_SESSION['totalErroresS']);
                     unset($_SESSION['FechaInicioS']);
                 } else {
-                    $resultado->transaccion = false;
+                    $resultado->correctoV = false;
                 }
             } else {
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();

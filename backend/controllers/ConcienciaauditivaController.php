@@ -101,19 +101,19 @@ class ConcienciaauditivaController extends Controller
     {
         try {
             $resultado = ConsultasGenerales::vaidarCorrecto();
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresC'] = $_SESSION['totalErroresC']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -130,19 +130,19 @@ class ConcienciaauditivaController extends Controller
     {
         try {
             $resultado = ConsultasGenerales::vaidarCorrecto();
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresC'] = $_SESSION['totalErroresC']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -159,19 +159,19 @@ class ConcienciaauditivaController extends Controller
     {
         try {
             $resultado = ConsultasGenerales::vaidarCorrecto();
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresC'] = $_SESSION['totalErroresC']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -189,19 +189,19 @@ class ConcienciaauditivaController extends Controller
     {
         try {
             $resultado = ConsultasGenerales::vaidarCorrecto();
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
             } else {
                 $_SESSION['totalErroresC'] = $_SESSION['totalErroresC']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
@@ -220,7 +220,7 @@ class ConcienciaauditivaController extends Controller
         try {
             $resultado = ConsultasGenerales::vaidarCorrecto();
 
-            if ($resultado->transaccion) {
+            if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $seccionesUsuario = ConsultasGenerales::findModelSeccionCodigo($_POST['codigoS']);
                 $modelModulo = ConsultasGenerales::findModel($seccionesUsuario[0]->modCodigo);
@@ -241,18 +241,18 @@ class ConcienciaauditivaController extends Controller
                     unset($_SESSION['totalErroresC']);
                     unset($_SESSION['FechaInicio']);
                 } else {
-                    $resultado->transaccion = false;
+                    $resultado->correctoV = false;
                 }
             } else {
                 $_SESSION['totalErroresC'] = $_SESSION['totalErroresC']  + 1;
             }
         } catch (\SoapFault $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();
         } catch (\Exception $e) {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
             $resultado->errorDescripcion = $e->getMessage();
             $resultado->errorCodigo = $e->getCode();
             $resultado->errorLinea = $e->getLine();

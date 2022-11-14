@@ -91,7 +91,7 @@ class ConfiguracionController extends Controller
 
                 if ($model->save()) {
                     //Campos de preguntas
-                    self::GuardarRespuestas($model,  $_POST['elementosRespuestas']);
+                    self::GuardarRespuestas($model,  $_POST['elementosRespuestas'], $model->secNumeroPregunta, $modelID->modNombre);
                     return $this->redirect(['update', 'id' => $idModulo]);
                 }
                 $error = 'Se produjo un error al momento de realizar la acción.';
@@ -113,7 +113,7 @@ class ConfiguracionController extends Controller
         ]);
     }
 
-    private function GuardarRespuestas($model, $tablaDatos, $accion = 'create', $id = "")
+    private function GuardarRespuestas($model, $tablaDatos, $numeroPreguntaSecc, $nombreModelo, $accion = 'create', $id = "")
     {
 
         if ($accion == 'update') {
@@ -123,17 +123,35 @@ class ConfiguracionController extends Controller
             }
         }
         $numeroPregunta = 1;
-        foreach ($tablaDatos as $elemento) {
-            $infoRespuesta = explode("&", $elemento);
-            $modelAux = new Respuestas();
-            $modelAux->resCodigo = bin2hex(openssl_random_pseudo_bytes(20));
-            $modelAux->resNumero = $numeroPregunta . '';
-            $modelAux->respuestaCorrecto = $infoRespuesta[1];
-            $modelAux->respuestaTexto = $infoRespuesta[2];
-            $modelAux->imagen = FuncionesGenerales::obtenerEnlace($infoRespuesta[3]);
-            $modelAux->secCodigo = $model->secCodigo;
-            if ($modelAux->save()) {
-                $numeroPregunta++;
+
+        if ($numeroPreguntaSecc == '3' && $nombreModelo == 'Sonidos iniciales') {
+            foreach ($tablaDatos as $elemento) {
+                $infoRespuesta = explode("&", $elemento);
+                $modelAux = new Respuestas();
+                $modelAux->resCodigo = bin2hex(openssl_random_pseudo_bytes(20));
+                $modelAux->resNumero = $numeroPregunta . '';
+                $modelAux->respuestaCorrectoEspecial = $infoRespuesta[1];
+                $modelAux->respuestaCorrecto = $infoRespuesta[2];
+                $modelAux->respuestaTexto = $infoRespuesta[3];
+                $modelAux->imagen = FuncionesGenerales::obtenerEnlace($infoRespuesta[4]);
+                $modelAux->secCodigo = $model->secCodigo;
+                if ($modelAux->save()) {
+                    $numeroPregunta++;
+                }
+            }
+        } else {
+            foreach ($tablaDatos as $elemento) {
+                $infoRespuesta = explode("&", $elemento);
+                $modelAux = new Respuestas();
+                $modelAux->resCodigo = bin2hex(openssl_random_pseudo_bytes(20));
+                $modelAux->resNumero = $numeroPregunta . '';
+                $modelAux->respuestaCorrecto = $infoRespuesta[1];
+                $modelAux->respuestaTexto = $infoRespuesta[2];
+                $modelAux->imagen = FuncionesGenerales::obtenerEnlace($infoRespuesta[3]);
+                $modelAux->secCodigo = $model->secCodigo;
+                if ($modelAux->save()) {
+                    $numeroPregunta++;
+                }
             }
         }
     }
@@ -166,7 +184,7 @@ class ConfiguracionController extends Controller
                 $modelS->seccAudioPreguntaAdicional = FuncionesGenerales::obtenerEnlace($modelS->seccAudioPreguntaAdicional);
                 if ($modelS->save()) {
                     //Campos de preguntas
-                    self::GuardarRespuestas($modelS, $_POST['elementosRespuestas'], 'update', $modelS->secCodigo);
+                    self::GuardarRespuestas($modelS, $_POST['elementosRespuestas'], $modelS->secNumeroPregunta, $model->modNombre, 'update', $modelS->secCodigo);
                     return $this->redirect(['update', 'id' => $model->modCodigo]);
                 }
                 $error = 'Se produjo un error al momento de realizar la acción.';

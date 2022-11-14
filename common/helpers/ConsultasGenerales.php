@@ -90,6 +90,21 @@ class ConsultasGenerales
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    /**
+     * Finds the SeccionesModulos model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $_id
+     * @return Respuestas the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    static function findModelRespuestaConteoEspecial($id)
+    {
+        if (($model = Respuestas::find()->where(['secCodigo' => $id, 'respuestaCorrectoEspecial' => 'true'])->orderBy('resNumero')->all()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 
     /**
      * Representa una vista basada en el valor de una variable.
@@ -130,10 +145,6 @@ class ConsultasGenerales
         $_SESSION[$totalErrores] = $_SESSION[$totalErrores] ?? 0;
         $_SESSION[$totalCorrectos] = $_SESSION[$totalCorrectos] ??  0;
         $_SESSION[$fechaInicio] = $_SESSION[$fechaInicio] ?? new DateTime("now");
-
-        $_SESSION['totalErroresC'] = $_SESSION['totalErroresC'] ?? 0;
-        $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC'] ??  0;
-        $_SESSION['FechaInicio'] = $_SESSION['FechaInicio'] ?? new DateTime("now");
 
         return $render->render($pregunta, [
             'modelSeccion' => $modelSeccion,
@@ -190,7 +201,7 @@ class ConsultasGenerales
     static function vaidarCorrecto()
     {
         $resultado = new \stdClass;
-        $resultado->transaccion = false;
+        $resultado->correctoV = false;
         $seccionesUsuario = self::findModelRespuestaConteoR($_POST['codigoS']);
         $repuestas = $_POST['respuestas'];
         $repuestas = array_filter($repuestas, "strlen");
@@ -198,10 +209,10 @@ class ConsultasGenerales
         if (count($repuestas) == count((array)$seccionesUsuario)) {
             foreach ($repuestas as $opciones) {
                 if (strcasecmp($opciones, $seccionesUsuario[$contador]->respuestaTexto) == 0) {
-                    $resultado->transaccion = true;
+                    $resultado->correctoV = true;
                     $contador++;
                 } else {
-                    $resultado->transaccion = false;
+                    $resultado->correctoV = false;
                     break;
                 }
             }
@@ -218,7 +229,7 @@ class ConsultasGenerales
     static function vaidarCorrectoSinOrden()
     {
         $resultado = new \stdClass;
-        $resultado->transaccion = true;
+        $resultado->correctoV = true;
         $seccionesUsuario = self::findModelRespuestaConteoR($_POST['codigoS']);
         $repuestas = $_POST['respuestas'];
         $repuestas = array_filter($repuestas, "strlen");
@@ -233,15 +244,53 @@ class ConsultasGenerales
                     }
                 }
                 if (!$auxiliar) {
-                    $resultado->transaccion = false;
+                    $resultado->correctoV = false;
                     break;
                 } else {
                     $auxiliar = false;
                 }
             }
         } else {
-            $resultado->transaccion = false;
+            $resultado->correctoV = false;
         }
+        return $resultado;
+    }
+
+    /**
+     * Toma una matriz de cadenas y compara cada cadena con una cadena en una base de datos. Si todas
+     * las cadenas coinciden, devuelve verdadero. Si alguna de las cadenas no coincide, devuelve falso.
+     * 
+     * @return El resultado de la función es un objeto stdClass.
+     */
+    static function vaidarCorrectoSinOrdenEspecial()
+    {
+        $resultado = new \stdClass;
+        $resultado->correctoV = true;
+        $seccionesUsuario = self::findModelRespuestaConteoEspecial($_POST['codigoS']);
+        $repuestas = $_POST['respuestas'];
+        $repuestas = array_filter($repuestas, "strlen");
+        $resultado->totalRespuestas = count((array)$seccionesUsuario);
+        $auxiliar = false;
+        if (count($repuestas) == count((array)$seccionesUsuario)) {
+            foreach ($repuestas as $opciones) {
+                foreach ($seccionesUsuario as $opciones2) {
+                    if (strcasecmp($opciones, $opciones2->respuestaTexto) == 0) {
+                        if ($opciones2->respuestaTexto) {
+                            $auxiliar = true;
+                        }
+                    }
+                }
+                if (!$auxiliar) {
+                    $resultado->correctoV = false;
+                    break;
+                } else {
+                    $auxiliar = false;
+                }
+            }
+        } else {
+            $resultado->correctoV = false;
+        }
+
         return $resultado;
     }
 }

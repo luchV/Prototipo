@@ -32,6 +32,7 @@ class Respuestas extends ActiveRecord
             'resCodigo',
             'resNumero',
             'respuestaCorrecto',
+            'respuestaCorrectoEspecial',
             'respuestaTexto',
             'imagen',
             'secCodigo',
@@ -49,6 +50,7 @@ class Respuestas extends ActiveRecord
                     'resCodigo',
                     'resNumero',
                     'respuestaCorrecto',
+                    'respuestaCorrectoEspecial',
                     'respuestaTexto',
                     'imagen',
                     'secCodigo',
@@ -65,6 +67,7 @@ class Respuestas extends ActiveRecord
         return [
             'resNumero' => Yii::t('app', 'Respuesta N.'),
             'respuestaCorrecto' => Yii::t('app', 'Tipo de respuesta'),
+            'respuestaCorrectoEspecial' => Yii::t('app', 'Tipo de respuesta para seleccionar primero'),
             'respuestaTexto' => Yii::t('app', 'Respuesta en Texto'),
             'imagen' => Yii::t('app', 'URL de la imagen'),
         ];
