@@ -116,7 +116,7 @@ if ($accion == 'pregunta-final') {
     <audio id='audioSupPegunta' preload="metadata">
         <source src="https://docs.google.com/uc?export=open&id=<?= $modelSeccion->seccAudioSubPregunta  ?>" type="audio/mp3">
     </audio>
-    <button class="btnPersonalizado" id="btmSubPregunta" onclick="reproducirAudioCargado('audioSupPegunta','iconoButtonSubPregunta','fas fa-volume-off tamanoIcono','fas fa-volume-up tamanoIcono')">
+    <button class="btn btn-primary text-center btnPersonalizado" id="btmSubPregunta" onclick="reproducirAudioCargado('audioSupPegunta','iconoButtonSubPregunta','fas fa-volume-off tamanoIcono','fas fa-volume-up tamanoIcono')">
         <em id="iconoButtonSubPregunta" class="fas fa-volume-off tamanoIcono"></em>
     </button>
     </br>

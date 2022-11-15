@@ -96,7 +96,7 @@ if ($accion == 'pregunta-final') {
                     if (filter_var($imagenes->respuestaCorrecto, FILTER_VALIDATE_BOOLEAN)) {
                 ?>
                         <label id="lab<?= $cont ?>">
-                            <label style="margin: 2%;" id="label<?= $cont ?>">
+                            <label class="color-fotos" style="margin: 2%;" id="label<?= $cont ?>">
                                 <input type="radio" style="display:none;" id="cap<?= $cont ?>" name="seleccionImagen<?= $cont ?>" value='<?= $imagenes["respuestaTexto"] ?>' />
                                 <img src='https://drive.google.com/uc?export=view&id=<?= $imagenes["imagen"] ?>' height="151px" width="151px" hspace="25">
                             </label>

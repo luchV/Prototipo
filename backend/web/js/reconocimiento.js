@@ -20,7 +20,7 @@ function realizarReconocimiento() {
 	let cont = document.getElementById('cantidadOpciones').value;
 	if (activo) {
 		recognition.abort();
-		escucha.className = 'fas fa-microphone-alt';
+		escucha.className = 'fas fa-microphone-alt tamanoIcono2';
 		activo = false;
 		let seleccionCorrecta = false;
 		for (var i = 0; i < cont; i++) {
@@ -39,7 +39,7 @@ function realizarReconocimiento() {
 			document.getElementById("errorMensaje").style.display = "none";
 		}
 	} else {
-		escucha.className = 'fas fa-microphone-alt-slash';
+		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;
 		recognition.start();
 	}
@@ -50,7 +50,7 @@ function realizarReconocimientoMultipleOrdenado() {
 	let cont = document.getElementById('cantidadOpcionesRespuesta').value;
 	if (activo) {
 		recognition.abort();
-		escucha.className = 'fas fa-microphone-alt';
+		escucha.className = 'fas fa-microphone-alt tamanoIcono2';
 		activo = false;
 		let seleccionCorrecta = false;
 		for (var i = 0; i < cont; i++) {
@@ -73,7 +73,7 @@ function realizarReconocimientoMultipleOrdenado() {
 			document.getElementById("errorMensaje").style.display = "none";
 		}
 	} else {
-		escucha.className = 'fas fa-microphone-alt-slash';
+		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;
 		recognition.start();
 	}
@@ -82,10 +82,10 @@ function realizarReconocimientSoloVoz() {
 	let escucha = document.querySelector('#start_img');
 	if (activo) {
 		recognition.abort();
-		escucha.className = 'fas fa-microphone-alt';
+		escucha.className = 'fas fa-microphone-alt tamanoIcono2';
 		activo = false;
 	} else {
-		escucha.className = 'fas fa-microphone-alt-slash';
+		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;
 		recognition.start();
 	}
@@ -94,9 +94,9 @@ function realizarReconocimientSoloVoz() {
 function activar(checkAvanzado) {
 	let textError = document.getElementById('error');
 	if (checkAvanzado.checked) {
-		document.getElementById("reconocimientoVoz").style.display = "grid";
+		$('#reconocimientoVoz').show();
 	} else {
-		document.getElementById("reconocimientoVoz").style.display = "none";
+		$('#reconocimientoVoz').hide();
 		textError.textContent = '';
 		texto.innerHTML = '';
 	}

@@ -1,6 +1,6 @@
 :root {
     /*color para la ventana*/
-    --color-doby: #eee;
+    --color-doby: #e9dcbe;
     /*color para borde*/
     --primary: #eee;
     /*color para letras de botón*/
@@ -8,7 +8,7 @@
     /*color para letras de generales*/
     --text-letras: #ffff;
     /*color para botón*/
-    --primary-bottom: rgb(0, 112, 180);
+    --primary-bottom: #739A57;
     /*color para cuando se presiona el botón*/
     --second-bottom: #45c4c8;
     /*color del boton de inicio*/
@@ -30,13 +30,13 @@
     /*Color de menu letras principal*/
     --color-letras-header: #000;
     /*Color barra principal*/
-    --color-barra-principal: #1783db;
+    --color-barra-principal: #66328d;
     /*Color barra secundaria*/
-    --color-barra-secundaria: #fff;
+    --color-barra-secundaria: #FFFCF5;;
     /*Color de menu letras secundario*/
     --color-letras-secundaria: #000;
     /*Color del dondo de la imagen*/
-    --color-fondo-img: #1783db;
+    --color-fondo-img: #66328d;
 
     /*color oso*/
     --cara: #fff;
@@ -54,5 +54,5 @@
 
     /*color fondo seleccion imagen*/
     --border-imagen: #f5d3aa;
-    --fondo-imagen: #fdf8c2;
+    --fondo-imagen: #B674E8;
 }

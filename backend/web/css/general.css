@@ -27,6 +27,24 @@
   text-align: initial;
   font-weight: bold;
 }
+@media (min-width: 768px) {
+  .col-md-3-2 {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+.col-md-3-2 {
+  -ms-flex: 0 0 25%;
+  flex: 0 0 75%;
+  text-align: initial;
+  font-weight: bold;
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
 
 .col-md-4 {
   -ms-flex: 0 0 33.333333%;
@@ -106,15 +124,38 @@
 }
 
 .btnPersonalizado {
-  background: var(--color-doby);
-  border: transparent;
+  text-decoration: none;
+  border-radius: 60px;
+  box-shadow: 0px 1px 3px #666666;
+  text-shadow: 9px 7px 12px #666666;
+  border: solid #3c7a0c 2px;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#418488), to(#b674e8));
+  transition: all 0.2s linear;
+}
+.btnPersonalizado:hover {
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#22585b), to(#b16be7));
 }
 
 .btnPersonalizado2 {
-  font-size: 300%;
-  background: var(--color-doby);
-  border: transparent;
-  cursor: auto !important;
+  text-decoration: none;
+  border-radius: 20px;
+  box-shadow: 0px 1px 3px #666666;
+  text-shadow: 9px 7px 12px #666666;
+  border: solid #3c7a0c 2px;
+  background-image: linear-gradient(
+    to right bottom,
+    #8c67a4 50%,
+    #362845 50.1%
+  );
+  transition: all 0.2s linear;
+  padding: 1.3em;
+}
+.btnPersonalizado2:hover {
+  background-image: linear-gradient(
+    to right bottom,
+    #835a9d 50%,
+    #352546 50.1%
+  );
 }
 
 img {
@@ -134,12 +175,17 @@ img {
 }
 
 .checkeable {
+  box-shadow: 0px 0px 50px 0px rgb(0 0 0 / 20%);
+  border-radius: 30px;
+  padding: 0.6em;
+  background: #dde874;
   margin: 2%;
 }
 
 .checkeable input:checked + img {
   border-color: var(--border-imagen);
   background: var(--fondo-imagen);
+  border-radius: 30px;
 }
 
 input[type="checkbox"] {
@@ -181,6 +227,8 @@ input[type="checkbox"] {
   overflow: hidden;
   text-indent: 35px;
   transition: text-indent 0s;
+
+  background: -webkit-linear-gradient(left bottom, #0855a7 50%, #ab434d 50%);
 }
 
 .checkbox-JASoft input[type="checkbox"]:checked + label {
@@ -189,7 +237,6 @@ input[type="checkbox"] {
 }
 
 .checkbox-JASoft:after {
-  content: "NO";
   font: 12px/30px Arial, sans-serif;
   color: #aaa;
   position: absolute;
@@ -200,7 +247,6 @@ input[type="checkbox"] {
 }
 
 .checkbox-JASoft:before {
-  content: "SÍ";
   font: 12px/30px Arial, sans-serif;
   color: lime;
   position: absolute;
@@ -292,7 +338,74 @@ input[type="checkbox"] {
 
 .textoPreguntas {
   font-size: 25px;
+  display: contents;
 }
 .tamanoIcono {
   font-size: 25px;
+}
+.tamanoIcono2 {
+  font-size: 30px;
+}
+.tamanoIcono2 {
+  font-size: 30px;
+}
+.breadcrumb {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: var(--color-doby);
+  border-radius: 0.25rem;
+  box-shadow: 0px 0px 50px 0px rgb(92 23 23 / 69%);
+}
+
+.estiloGlobal {
+  margin: 30px;
+  padding: 20px;
+  box-shadow: 0px 0px 50px 0px rgb(0 0 0 / 20%);
+  background: var(--color-doby);
+  overflow: auto;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+  background: #f5f8ff;
+}
+
+.modal-content {
+  background-color: var(--color-doby);
+}
+
+.estilo-Personalizado-B {
+  font-size: 2rem;
+  text-decoration: none;
+  border-radius: 60px;
+  box-shadow: 0px 1px 3px #666666;
+  text-shadow: 9px 7px 12px #666666;
+  border: solid #3c7a0c 2px;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#418488), to(#3c7a0c));
+  transition: all 0.2s linear;
+}
+.estilo-Personalizado-B:hover {
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#22585b), to(#39750c));
+}
+
+.color-fotos {
+  box-shadow: 0px 0px 50px 0px rgb(0 0 0 / 20%);
+  border-radius: 30px;
+  padding: 0.6em;
+  background: #dde874;
+}
+
+.fotosMicrofono {
+  text-decoration: none;
+  box-shadow: 0px 1px 3px #666666;
+  text-shadow: 9px 7px 12px #666666;
+  border: solid #e8d5a0 2px;
+  background: #EBDBB0;
+  transition: all 0.2s linear;
+  padding: 0.7em;
 }

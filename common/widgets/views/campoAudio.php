@@ -6,7 +6,7 @@
     <?php } ?>
     <div class="col-md-12">
         <?php if (isset($audioCargado) && $audioCargado != '') { ?>
-            <button class="btnPersonalizado" onclick="reproducirAudioCargado('<?= $idAudio ?>','<?= $idIconoButton ?>','fas fa-volume-off tamanoIcono','fas fa-volume-up tamanoIcono')"><em id='<?= $idIconoButton ?>' class="fas fa-volume-off tamanoIcono"></em></button>
+            <button class="btn btn-primary text-center btnPersonalizado" onclick="reproducirAudioCargado('<?= $idAudio ?>','<?= $idIconoButton ?>','fas fa-volume-off tamanoIcono','fas fa-volume-up tamanoIcono')"><em id='<?= $idIconoButton ?>' class="fas fa-volume-off tamanoIcono"></em></button>
             &nbsp;&nbsp;
         <?php } ?>
         <label id="<?= $idLabel ?>" name="<?= $idLabel ?>" class="textoPreguntas">

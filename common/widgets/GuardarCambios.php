@@ -11,7 +11,7 @@ class GuardarCambios extends Widget
 {
 
   /**
-   * @var \yii\mongodb\ActiveRecord
+   * @var \yii\bd\ActiveRecord
    */
   public $model;
 

@@ -25,6 +25,12 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
+    <style type="text/css">
+        body {
+            background: #694188;
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column h-100" id="body">
@@ -77,7 +83,9 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="estiloGlobal">
+            <?= $content ?>
+        </div>
     </main>
 
     <footer class="footer mt-auto py-3 text-muted">

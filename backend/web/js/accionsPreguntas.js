@@ -217,7 +217,7 @@ function MuestraMensajes(campo) {
     let cont = document.getElementById('cantidadOpcionesRespuesta').value;
     document.getElementById(campo).style.display = "grid";
     document.querySelector("#checkAvanzado").checked = false;
-    document.getElementById("reconocimientoVoz").style.display = "none";
+    $('#reconocimientoVoz').hide();
     document.getElementById("btn_next").style.display = "none";
     $("#mocrofono").hide();
     for (var i = 0; i < cont; i++) {
@@ -229,7 +229,7 @@ function MuestraMensajes2(campo) {
     let cont = document.getElementById('cantidadOpciones').value;
     document.getElementById(campo).style.display = "grid";
     document.querySelector("#checkAvanzado").checked = false;
-    document.getElementById("reconocimientoVoz").style.display = "none";
+    $('#reconocimientoVoz').hide();
     document.getElementById("btn_next").style.display = "none";
     $("#mocrofono").hide();
     $("#btmContinuar").hide();
@@ -871,14 +871,13 @@ function activarMicroCambioTexto(checkAvanzado, cantidad) {
     if (checkAvanzado.checked) {
         $('#subPregunta').show();
         $('#preguntaAdicional').hide();
-        document.getElementById('idtextoLabel').innerHTML = 'Desactivar micrófono';
+
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).hide();
         }
     } else {
         $('#subPregunta').hide();
         $('#preguntaAdicional').show();
-        document.getElementById('idtextoLabel').innerHTML = 'Activar micrófono';
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).show();
         }
@@ -887,12 +886,10 @@ function activarMicroCambioTexto(checkAvanzado, cantidad) {
 function activarMicroCambioTexto2(checkAvanzado, cantidad) {
     activar(checkAvanzado);
     if (checkAvanzado.checked) {
-        document.getElementById('idtextoLabel').innerHTML = 'Desactivar micrófono';
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).hide();
         }
     } else {
-        document.getElementById('idtextoLabel').innerHTML = 'Activar micrófono';
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).show();
         }
@@ -901,9 +898,4 @@ function activarMicroCambioTexto2(checkAvanzado, cantidad) {
 
 function activarMicroCambioTexto3(checkAvanzado, cantidad) {
     activar(checkAvanzado);
-    if (checkAvanzado.checked) {
-        document.getElementById('idtextoLabel').innerHTML = 'Desactivar micrófono';
-    } else {
-        document.getElementById('idtextoLabel').innerHTML = 'Activar micrófono';
-    }
 }

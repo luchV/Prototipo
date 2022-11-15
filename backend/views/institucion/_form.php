@@ -18,7 +18,7 @@ use common\widgets\GuardarCambios;
         <div class="col-md-9">
             <?= $form->field($model, 'ubicación') ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3-2">
             <?=
             $form->field($model, 'insEstado')->dropDownList(FuncionesGenerales::TiposEstados(), array(
                 'name' => 'insEstado',

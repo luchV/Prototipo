@@ -25,7 +25,7 @@ class IntentaloNuevamente extends Widget
     /**
      * @var string
      */
-    public $iconoMostrar = 'fas fa-undo-alt fa-3x';
+    public $iconoMostrar = 'fas fa-undo-alt';
     /**
      * @var string
      */

@@ -9,16 +9,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   width: 40%; /* For old syntax, otherwise collapses. */
   -webkit-flex: 1; /* Chrome */
   margin: auto;
-  transition: 0.5s all;
 }
-.agileits-pricing-grid:hover {
-  transform: scale(1.06);
-  -webkit-transform: scale(1.06);
-  -moz-transform: scale(1.06);
-  -o-transform: scale(1.06);
-  -ms-transform: scale(1.06);
-  z-index: 1;
-}
+
 .pricing-top {
   padding: 2em 0 0;
   background: #e04646;
