@@ -37,7 +37,7 @@ use yii\grid\GridView;
               },
             ],
             [
-              'label' => 'Cedula usuario',
+              'label' => 'Cédula usuario',
               'value' => function ($model) {
                 return $model->cedula;
               },

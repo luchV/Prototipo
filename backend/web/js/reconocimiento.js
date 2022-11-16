@@ -1,4 +1,4 @@
-const texto = document.getElementById('texto');
+texto = document.getElementById('texto');
 var activo = false;
 
 if (!("webkitSpeechRecognition" in window)) {
@@ -60,7 +60,7 @@ function realizarReconocimientoMultipleOrdenado() {
 					document.querySelector('#capRes' + i).checked = false;
 				} else {
 					document.querySelector('#capRes' + i).checked = true;
-					uncheckRadio(document.querySelector('#capRes' + i)); 
+					uncheckRadio(document.querySelector('#capRes' + i));
 				}
 				seleccionCorrecta = true;
 			}
@@ -84,6 +84,8 @@ function realizarReconocimientSoloVoz() {
 		recognition.abort();
 		escucha.className = 'fas fa-microphone-alt tamanoIcono2';
 		activo = false;
+		let Vtexto = document.getElementById('texto');
+		Vtexto.innerHTML = texto.innerHTML;
 	} else {
 		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;

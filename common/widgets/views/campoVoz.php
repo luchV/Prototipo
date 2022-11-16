@@ -1,14 +1,14 @@
 <div id="mocrofono" <?= $ocultarCampoGeneral ?>>
     <br>
     <Label id="idtextoLabel" class="fotosMicrofono" title="Activar Fotos">
-        <em class='fa fa-picture-o tamanoIcono' style="color: #0855a7;"></em>
+        <em class='fa fa-picture-o tamanoIcono' style="color: var(--color-foto-icono);"></em>
     </Label>
     <div <?= $claseCheck ?>>
         <input type="checkbox" id="checkAvanzado" value="Valor" onclick="<?= $funcionVoz ?>(this,<?= $totalRespuestas ?>)" <?= $soloVoz ?> <?= $vozActiva ?> />
         <label for="checkAvanzado"></label>
     </div>
     <Label id="idtextoLabel" class="fotosMicrofono" title="Activar micrófono">
-        <em class='fas fa-microphone tamanoIcono' style="color: #ab434d;"></em>
+        <em class='fas fa-microphone tamanoIcono' style="color: var(--color-microfono-icono);"></em>
     </Label>
 
     <div id="reconocimientoVoz" <?= $oculptarCampoMicro ?> style="cursor: pointer;">

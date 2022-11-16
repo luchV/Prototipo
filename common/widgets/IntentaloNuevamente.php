@@ -40,6 +40,16 @@ class IntentaloNuevamente extends Widget
      */
     public $idLabel = 'intentaloNuevo';
 
+    /**
+     * @var string
+     */
+    public $habilitarTexto = false;
+
+    /**
+     * @var string
+     */
+    public $habilitarBoton = false;
+
     public function run()
     {
         return $this->render('intentaloNuevamente', [
@@ -51,6 +61,8 @@ class IntentaloNuevamente extends Widget
             'textoBoton' => $this->textoBoton,
             'idMensajes' => $this->idMensajes,
             'idLabel' => $this->idLabel,
+            'habilitarTexto' => $this->habilitarTexto,
+            'habilitarBoton' => $this->habilitarBoton,
         ]);
     }
 }

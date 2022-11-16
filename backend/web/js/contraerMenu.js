@@ -6,6 +6,7 @@ $(document).ready(function () {
   if (document.getElementById("body")) {
     if (estado == "activo") {
       body.classList.add("body_move");
+      contenedor.classList.add("conten_move");
       side_menu.classList.add("menu__side_move");
       ponerCampo(elementosNombres);
       ponerCampo(elementosTitulo);

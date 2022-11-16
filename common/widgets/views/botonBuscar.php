@@ -5,7 +5,7 @@
 </div>
 <div class="form-group col-lg-4 col-sm-5 col-12" style="padding-left: 0px;text-align: initial;">
     <div class="input-group">
-        <div class="input-group-prepend" onclick="MostrarDetalleUsuario()">
+        <div class="input-group-prepend" onclick="MostrarDetalleUsuario()" style="cursor: pointer;">
             <div class="input-group-text">
                 <em class="fa fa-search"></em>
             </div>

@@ -1,58 +1,129 @@
 :root {
-    /*color para la ventana*/
-    --color-doby: #e9dcbe;
-    /*color para borde*/
-    --primary: #eee;
-    /*color para letras de botón*/
-    --text-bottom: #ffff;
-    /*color para letras de generales*/
-    --text-letras: #ffff;
-    /*color para botón*/
-    --primary-bottom: #739A57;
-    /*color para cuando se presiona el botón*/
-    --second-bottom: #45c4c8;
-    /*color del boton de inicio*/
-    --bottom-segundo: #3cb16f;
-    /*color del borbe boton de inicio*/
-    --bottom-segundo-dorder: #3cb16f;
-    /*color para cuando esta activo el botón*/
-    --primary-dark: #ffff;
-    /*color de la caja*/
-    --caja: #fff;
-    /*color del sombreado de la caja*/
-    --caja-sombreado: rgba(0, 0, 0, 0.15);
-    /*color del cuadro de texto*/
-    --cuadro-texto: #252323;
-    /*color h1*/
-    --cuadro-h1: #0f0106;
-    /*color alerta*/
-    --alerta-color: #f00;
-    /*Color de menu letras principal*/
-    --color-letras-header: #000;
-    /*Color barra principal*/
-    --color-barra-principal: #66328d;
-    /*Color barra secundaria*/
-    --color-barra-secundaria: #FFFCF5;;
-    /*Color de menu letras secundario*/
-    --color-letras-secundaria: #000;
-    /*Color del dondo de la imagen*/
-    --color-fondo-img: #66328d;
+  /*color para la ventana*/
+  --color-doby: #e9dcbe;
+  /*color para borde*/
+  --primary: #eee;
+  /*color para letras de botón*/
+  --text-bottom: #ffff;
+  /*color para letras de generales*/
+  --text-letras: #ffff;
+  /*color para botón*/
+  --primary-bottom: #739a57;
+  /*color para cuando se presiona el botón*/
+  --second-bottom: #45c4c8;
+  /*color del boton de inicio*/
+  --bottom-segundo: #3cb16f;
+  /*color del borbe boton de inicio*/
+  --bottom-segundo-dorder: #3cb16f;
+  /*color para cuando esta activo el botón*/
+  --primary-dark: #ffff;
+  /*color de la caja*/
+  --caja: #fff;
+  /*color del sombreado de la caja*/
+  --caja-sombreado: rgba(0, 0, 0, 0.15);
+  /*color del cuadro de texto*/
+  --cuadro-texto: #252323;
+  /*color h1*/
+  --cuadro-h1: #0f0106;
+  /*color alerta*/
+  --alerta-color: #f00;
+  /*Color de menu letras principal*/
+  --color-letras-header: #000;
+  /*Color barra principal*/
+  --color-barra-principal: #66328d;
+  /*Color barra secundaria*/
+  --color-barra-secundaria: #fffcf5;
+  /*Color de menu letras secundario*/
+  --color-letras-secundaria: #000;
+  /*Color del dondo de la imagen*/
+  --color-fondo-img: #66328d;
 
-    /*color oso*/
-    --cara: #fff;
-    --oido-interno: #000;
-    --oido-externo: #fff;
-    --ojo-exterior: #000;
-    --ojo-medio: #fff;
-    --ojo-interior: #000;
-    --nariz: #000;
-    --cuerpo: #fff;
-    --manos: #000;
-    --pies: #000;
-    --pies-dedos: #222;
-    --pies-planta: #222;
+  /*color oso*/
+  --cara: #fff;
+  --oido-interno: #000;
+  --oido-externo: #fff;
+  --ojo-exterior: #000;
+  --ojo-medio: #fff;
+  --ojo-interior: #000;
+  --nariz: #000;
+  --cuerpo: #fff;
+  --manos: #000;
+  --pies: #000;
+  --pies-dedos: #222;
+  --pies-planta: #222;
 
-    /*color fondo seleccion imagen*/
-    --border-imagen: #f5d3aa;
-    --fondo-imagen: #B674E8;
+  /*color fondo seleccion imagen*/
+  --border-imagen: #f5d3aa;
+  --fondo-imagen: #b674e8;
+
+  /*Imagenes de fondo*/
+  --imagen-doby-inicio: url(img/Bienvenida.jpg);
+  --imagen-doby-paginas: url(../img/Body.jpg);
+
+  /******************Colores de actividades******************/
+  /*Fondo de botones*/
+  --fondo-botones: #8f2ed9;
+
+  /*Fondo de botones en ejecuiones*/
+  --fondo-botones-ejecucion: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#418488),
+    to(#3c7a0c)
+  );
+  --fondo-botones-boder-ejecucion: #3c7a0c;
+  --fondo-botones-ejecucion-movimiento: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#22585b),
+    to(#39750c)
+  );
+
+  /*Fondo de parlantes*/
+  --fondo-parlantes: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#418488),
+    to(#b674e8)
+  );
+  --fondo-borde-parlantes: #3c7a0c;
+  --fondo-parlantes-movimiento: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#22585b),
+    to(#b16be7)
+  );
+
+  /*Fondo de botones*/
+  --fondo-fotos-normal: #dde874;
+
+  /*Fondo de microfono*/
+  --fondo-microfono: linear-gradient(
+    to right bottom,
+    #8c67a4 50%,
+    #362845 50.1%
+  );
+  --fondo-microfono-border: #3c7a0c;
+  --fondo-microfono-movimiento: linear-gradient(
+    to right bottom,
+    #835a9d 50%,
+    #352546 50.1%
+  );
+
+  /*Colores de selección micro o foto*/
+  --color-check-micro-foto: -webkit-linear-gradient(
+    left bottom,
+    #0855a7 50%,
+    #ab434d 50%
+  );
+  --color-microfono-icono: #ab434d;
+  --color-foto-icono: #0855a7;
+
+  /*Colores pantalla final*/
+  --color-body: #fff;
+  --color-iconos-pantalla: #c21ce0;
 }

@@ -40,18 +40,19 @@ function cambiarPregunta(controler, accion, tipoRespuesta, opcional = "") {
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
-                MuestraMensajes("MensajeRespuesta");
+                MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
             }
         } else if (status == "error") {
-            MuestraMensajes("MensajeRespuesta");
+            MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
         }
     }).fail(function () {
-        MuestraMensajes("MensajeRespuesta");
+        MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
     });
 }
 function ocultarTodo() {
     $("#mostrarMensajeInformativo").show();
-    reproducir(document.getElementById('buenTrabajo').innerHTML.trim(), "iconoRepetir", "fas fa-volume-off tamanoIcono", "fas fa-volume-up tamanoIcono")
+    $("#mostrarMensajeInformativo2").show();
+    reproducirAudioCargado('idBuenTrabajo', "iconoRepetir", "fas fa-volume-off tamanoIcono", "fas fa-volume-up tamanoIcono")
 
     $('#btmComenzar').hide();
     $('#btmRepetir').hide();
@@ -59,6 +60,7 @@ function ocultarTodo() {
     $('#subPregunta').hide();
     $('#preguntaAdicional').hide();
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     $('#pregunta').hide();
     $('#idFotosGlobales').hide();
     $('#mocrofono').hide();
@@ -106,13 +108,13 @@ function cambiarPreguntaEspecialOrden(controler, accion, tipoRespuesta, opcional
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
-                MuestraMensajes("MensajeRespuesta");
+                MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
             }
         } else if (status == "error") {
-            MuestraMensajes("MensajeRespuesta");
+            MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
         }
     }).fail(function () {
-        MuestraMensajes("MensajeRespuesta");
+        MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
     });
 }
 function cambiarPreguntaSinOrden(controler, accion, tipoRespuesta, opcional = "") {
@@ -158,13 +160,13 @@ function cambiarPreguntaSinOrden(controler, accion, tipoRespuesta, opcional = ""
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
-                MuestraMensajes("MensajeRespuesta");
+                MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
             }
         } else if (status == "error") {
-            MuestraMensajes("MensajeRespuesta");
+            MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
         }
     }).fail(function () {
-        MuestraMensajes("MensajeRespuesta");
+        MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
     });
 }
 function cambiarPreguntaEspecialSinOrden(controler, accion, tipoRespuesta, opcional = "") {
@@ -204,18 +206,19 @@ function cambiarPreguntaEspecialSinOrden(controler, accion, tipoRespuesta, opcio
                 vistaSiguiente = datos.vista;
                 ocultarTodo();
             } else {
-                MuestraMensajes("MensajeRespuesta");
+                MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
             }
         } else if (status == "error") {
-            MuestraMensajes("MensajeRespuesta");
+            MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
         }
     }).fail(function () {
-        MuestraMensajes("MensajeRespuesta");
+        MuestraMensajes("MensajeRespuesta","MensajeRespuesta2");
     });
 }
-function MuestraMensajes(campo) {
+function MuestraMensajes(campo, campo2) {
     let cont = document.getElementById('cantidadOpcionesRespuesta').value;
-    document.getElementById(campo).style.display = "grid";
+    $('#' + campo).show();
+    $('#' + campo2).show();
     document.querySelector("#checkAvanzado").checked = false;
     $('#reconocimientoVoz').hide();
     document.getElementById("btn_next").style.display = "none";
@@ -223,11 +226,12 @@ function MuestraMensajes(campo) {
     for (var i = 0; i < cont; i++) {
         $("#labRes" + i).hide();
     }
-    reproducir('Intentalo de nuevo', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
+    reproducirAudioCargado('idCambioAudioC', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
 }
-function MuestraMensajes2(campo) {
+function MuestraMensajes2(campo, campo2) {
     let cont = document.getElementById('cantidadOpciones').value;
-    document.getElementById(campo).style.display = "grid";
+    $('#' + campo).show();
+    $('#' + campo2).show();
     document.querySelector("#checkAvanzado").checked = false;
     $('#reconocimientoVoz').hide();
     document.getElementById("btn_next").style.display = "none";
@@ -238,11 +242,12 @@ function MuestraMensajes2(campo) {
         $("#labRes" + i).hide();
         $("#lab" + i).hide();
     }
-    reproducir('Intentalo de nuevo', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
+    reproducirAudioCargado('idCambioAudioC', "iconoRepetir", 'fas fa-volume-off tamanoIcono', 'fas fa-volume-up tamanoIcono');
 }
 function volverIntentar() {
     let cont = document.getElementById('cantidadOpciones').value;
-    document.getElementById("MensajeRespuesta").style.display = "none";
+    $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     document.getElementById("btn_next").style.display = "grid";
     $("#checkAvanzado").removeAttr('disabled');
     for (var i = 0; i < cont; i++) {
@@ -274,6 +279,7 @@ async function repetirImagenes(cantidad, tipoRespuesta) {
     $('#subPregunta').hide();
     $('#preguntaAdicional').hide();
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     $('#pregunta').show();
     for (let aux = 0; aux < cantidad; aux++) {
         $('#lab' + aux).hide();
@@ -297,6 +303,7 @@ async function repetirImagenes(cantidad, tipoRespuesta) {
 }
 async function repetirImagenes2(cantidad, tipoRespuesta) {
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     if (tipoRespuesta == 'voz' || tipoRespuesta == 'ambos') {
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).hide();
@@ -321,6 +328,7 @@ async function repetirImagenes2(cantidad, tipoRespuesta) {
 }
 async function repetirImagenes3(cantidad, tipoRespuesta) {
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     if (tipoRespuesta == 'imagen') {
         for (let aux = 0; aux < cantidad; aux++) {
             $('#labRes' + aux).show();
@@ -356,6 +364,8 @@ async function repetirImagenes5(cantidad, tipoRespuesta) {
     $('#btmContinuar').hide();
     $('#subPregunta').hide();
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
+    $('#btmComenzar').hide();
     $('#pregunta').show();
     let campoIcono = document.getElementById('iconoButtonPregunta');
     campoIcono.className = 'fas fa-volume-up tamanoIcono';
@@ -379,6 +389,7 @@ async function repetirImagenes7(cantidad, tipoRespuesta) {
     $('#btmContinuar').hide();
     $('#preguntaAdicional').hide();
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     $('#pregunta').show();
     $('#subPregunta').show();
     $('#btmSubPregunta').show();
@@ -410,6 +421,7 @@ async function repetirImagenes8(cantidad, tipoRespuesta) {
     $('#btmRepetir').hide();
     $('#btmContinuar').hide();
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     $('#pregunta').show();
     $('#subPregunta').show();
     for (let aux = 0; aux < cantidad; aux++) {
@@ -441,6 +453,7 @@ async function repetirImagenes9(cantidad, tipoRespuesta) {
     $('#subPregunta').hide();
     $('#preguntaAdicional').hide();
     $('#MensajeRespuesta').hide();
+    $('#MensajeRespuesta2').hide();
     $('#pregunta').show();
 
     let campoIcono = document.getElementById('iconoButtonPregunta');
@@ -544,6 +557,7 @@ function siguientePregunta3(cantidad, tipoRespuestas) {
     $('#btmContinuar').hide();
     $('#btn_next').show();
     $('#pregunta').hide();
+    $('#btmRepetir').hide();
     $('#subPregunta').show();
 
     reproducirAudioIcono('iconoButtonSubPregunta', 'audioSupPegunta');
@@ -833,13 +847,13 @@ function siguientePregunta7(cantidad, tipoRespuestas) {
                 $('#subPregunta').show();
                 reproducirAudioIcono('iconoButtonSubPregunta', 'audioSupPegunta');
             } else {
-                MuestraMensajes2("MensajeRespuesta");
+                MuestraMensajes2("MensajeRespuesta","MensajeRespuesta2");
             }
         } else if (status == "error") {
-            MuestraMensajes2("MensajeRespuesta");
+            MuestraMensajes2("MensajeRespuesta","MensajeRespuesta2");
         }
     }).fail(function () {
-        MuestraMensajes2("MensajeRespuesta");
+        MuestraMensajes2("MensajeRespuesta","MensajeRespuesta2");
     });
 }
 

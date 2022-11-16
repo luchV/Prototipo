@@ -83,14 +83,14 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <div class="estiloGlobal">
+        <div class="estiloGlobal" id="contentID">
             <?= $content ?>
         </div>
     </main>
 
     <footer class="footer mt-auto py-3 text-muted">
         <div class="container">
-            <p class="float-left">&copy; <?= Params::NOMBREPROGRAMA ?> <?= date('Y') ?></p>
+            <p class="float-left" style="margin-bottom: 0rem;">&copy; <?= Params::NOMBREPROGRAMA ?> <?= date('Y') ?></p>
             <p class="float-right"> Powered by Luis Vásconez</p>
         </div>
     </footer>

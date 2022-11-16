@@ -10,7 +10,7 @@
         $contRes = 0;
         $countAux = 0;
         foreach ($arrayDesorden as $imagenes) {
-            if ($countAux > 3) {
+            if ($countAux > 6) {
                 $countAux = 0;
         ?>
                 <br />
