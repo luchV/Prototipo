@@ -1,5 +1,5 @@
-<div id="mocrofono" <?= $ocultarCampoGeneral ?>>
-    <br>
+<div id="mocrofono" <?= $ocultarCampoGeneral ?> <?= $funcionActiva != 'realizarReconocimientSoloVoz' ? $difetenteEstilo : '' ?>>
+    <br />
     <Label id="idtextoLabel" class="fotosMicrofono" title="Activar Fotos">
         <em class='fa fa-picture-o tamanoIcono' style="color: var(--color-foto-icono);"></em>
     </Label>
@@ -12,7 +12,7 @@
     </Label>
 
     <div id="reconocimientoVoz" <?= $oculptarCampoMicro ?> style="cursor: pointer;">
-        <br>
+        &nbsp;&nbsp;
         <button class="btn btn-primary text-center btnPersonalizado2" onclick="<?= $funcionActiva ?>()"><em id="start_img" style="cursor: pointer;" class="fas fa-microphone-alt tamanoIcono2"></em></button>
         <label id="texto" style="display:none;" name="texto"></label>
         <div id="errorMensaje" style="display:none;">
@@ -20,4 +20,3 @@
         </div>
     </div>
 </div>
-<br>

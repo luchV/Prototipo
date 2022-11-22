@@ -5,6 +5,7 @@ namespace common\helpers;
 use backend\models\search\ModulosSearch;
 use backend\models\search\SeccionesSearch;
 use common\models\Params;
+use common\models\RegistroActividad;
 use common\models\Respuestas;
 use DateTime;
 use yii\web\NotFoundHttpException;
@@ -117,7 +118,7 @@ class ConsultasGenerales
      * 
      * @return La función de representación devuelve una cadena.
      */
-    static function renderPreguntas($render, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, $totalErrores, $totalCorrectos, $fechaInicio)
+    static function renderPreguntas($render, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, $totalErrores, $totalCorrectos, $fechaInicio, $moduloSesion, $seccionSesion)
     {
         switch ($modelSeccion->secNumeroPregunta) {
             case '1':
@@ -142,9 +143,12 @@ class ConsultasGenerales
                 ]);
                 break;
         }
+        self::terminarSesiones();
         $_SESSION[$totalErrores] = $_SESSION[$totalErrores] ?? 0;
         $_SESSION[$totalCorrectos] = $_SESSION[$totalCorrectos] ??  0;
         $_SESSION[$fechaInicio] = $_SESSION[$fechaInicio] ?? new DateTime("now");
+        $_SESSION[$moduloSesion] = $modelModulo->modCodigo;
+        $_SESSION[$seccionSesion] = $modelSeccion->secCodigo;
 
         return $render->render($pregunta, [
             'modelSeccion' => $modelSeccion,
@@ -152,6 +156,39 @@ class ConsultasGenerales
             'modelRespuestas' => $modelRespuestas,
             'accion' => "pregunta" . ($seccionesUsuario[1]->secNumeroPregunta ?? '-final'),
         ]);
+    }
+    private static function genealTerminarS($totalCorrectos, $fechaInicioS, $totalErrores, $moduloSesion, $seccionSesion)
+    {
+        $fechaInicio = $_SESSION[$fechaInicioS];
+        $fechaActual = new DateTime("now");
+        $tiempoTrascurrido = $fechaInicio->diff($fechaActual);
+        $tiempoTrascurrido = (($tiempoTrascurrido->days * 24) * 60) + ($tiempoTrascurrido->i * 60) + $tiempoTrascurrido->s;
+        $registro = RegistroActividad::guardarRegistroActividad($_SESSION[$totalCorrectos], $tiempoTrascurrido, $_SESSION[$totalErrores], $_SESSION[$seccionSesion], $_SESSION[$moduloSesion]);
+        if ($registro->correcto) {
+            unset($_SESSION[$totalCorrectos]);
+            unset($_SESSION[$totalErrores]);
+            unset($_SESSION[$fechaInicioS]);
+            unset($_SESSION[$moduloSesion]);
+            unset($_SESSION[$seccionSesion]);
+        }
+    }
+    public static function terminarSesiones()
+    {
+        if (isset($_SESSION['FechaInicio'])) {
+            self::genealTerminarS('totalCorrectosC', 'FechaInicio', 'totalErroresC', 'moduloActivoC', 'seccionActivoC');
+        }
+        if (isset($_SESSION['FechaInicioD'])) {
+            self::genealTerminarS('totalCorrectosD', 'FechaInicioD', 'totalErroresD', 'moduloActivoD', 'seccionActivoD');
+        }
+        if (isset($_SESSION['FechaInicioM'])) {
+            self::genealTerminarS('totalCorrectosM', 'FechaInicioM', 'totalErroresM', 'moduloActivoM', 'seccionActivoM');
+        }
+        if (isset($_SESSION['FechaInicioF'])) {
+            self::genealTerminarS('totalCorrectosF', 'FechaInicioF', 'totalErroresF', 'moduloActivoF', 'seccionActivoF');
+        }
+        if (isset($_SESSION['FechaInicioS'])) {
+            self::genealTerminarS('totalCorrectosS', 'FechaInicioS', 'totalErroresS', 'moduloActivoS', 'seccionActivoS');
+        }
     }
 
     /**
@@ -198,11 +235,12 @@ class ConsultasGenerales
      * 
      * @return El resultado de la función es un objeto stdClass.
      */
-    static function vaidarCorrecto()
+    static function vaidarCorrecto($seccionSesion)
     {
         $resultado = new \stdClass;
         $resultado->correctoV = false;
         $seccionesUsuario = self::findModelRespuestaConteoR($_POST['codigoS']);
+        $_SESSION[$seccionSesion] = $_POST['codigoS'];
         $repuestas = $_POST['respuestas'];
         $repuestas = array_filter($repuestas, "strlen");
         $contador = 0;
@@ -226,11 +264,12 @@ class ConsultasGenerales
      * 
      * @return El resultado de la función es un objeto stdClass.
      */
-    static function vaidarCorrectoSinOrden()
+    static function vaidarCorrectoSinOrden($seccionSesion)
     {
         $resultado = new \stdClass;
         $resultado->correctoV = true;
         $seccionesUsuario = self::findModelRespuestaConteoR($_POST['codigoS']);
+        $_SESSION[$seccionSesion] = $_POST['codigoS'];
         $repuestas = $_POST['respuestas'];
         $repuestas = array_filter($repuestas, "strlen");
         $auxiliar = false;
@@ -262,11 +301,12 @@ class ConsultasGenerales
      * 
      * @return El resultado de la función es un objeto stdClass.
      */
-    static function vaidarCorrectoSinOrdenEspecial()
+    static function vaidarCorrectoSinOrdenEspecial($seccionSesion)
     {
         $resultado = new \stdClass;
         $resultado->correctoV = true;
         $seccionesUsuario = self::findModelRespuestaConteoEspecial($_POST['codigoS']);
+        $_SESSION[$seccionSesion] = $_POST['codigoS'];
         $repuestas = $_POST['respuestas'];
         $repuestas = array_filter($repuestas, "strlen");
         $resultado->totalRespuestas = count((array)$seccionesUsuario);

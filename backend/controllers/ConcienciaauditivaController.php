@@ -89,7 +89,7 @@ class ConcienciaauditivaController extends Controller
 
         $modelModulo = ConsultasGenerales::findModel($modelSeccion->modCodigo);
         $modelRespuestas = ConsultasGenerales::findModelRespuestaTodos($modelSeccion->secCodigo);
-        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresC', 'totalCorrectosC', 'FechaInicio');
+        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresC', 'totalCorrectosC', 'FechaInicio', 'moduloActivoC', 'seccionActivoC');
     }
 
     /**
@@ -100,7 +100,7 @@ class ConcienciaauditivaController extends Controller
     public function actionPregunta2()
     {
         try {
-            $resultado = ConsultasGenerales::vaidarCorrecto();
+            $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoC');
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
@@ -129,7 +129,7 @@ class ConcienciaauditivaController extends Controller
     public function actionPregunta3()
     {
         try {
-            $resultado = ConsultasGenerales::vaidarCorrecto();
+            $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoC');
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
@@ -158,7 +158,7 @@ class ConcienciaauditivaController extends Controller
     public function actionPregunta4()
     {
         try {
-            $resultado = ConsultasGenerales::vaidarCorrecto();
+            $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoC');
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
@@ -188,7 +188,7 @@ class ConcienciaauditivaController extends Controller
     public function actionPregunta5()
     {
         try {
-            $resultado = ConsultasGenerales::vaidarCorrecto();
+            $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoC');
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
                 $resultado->vista = ConsultasGenerales::obtenerVistaRender($this, $this->modCodigo);
@@ -218,7 +218,7 @@ class ConcienciaauditivaController extends Controller
     public function actionPreguntaFinal()
     {
         try {
-            $resultado = ConsultasGenerales::vaidarCorrecto();
+            $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoC');
 
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosC'] = $_SESSION['totalCorrectosC']  + 1;
@@ -240,6 +240,8 @@ class ConcienciaauditivaController extends Controller
                     unset($_SESSION['totalCorrectosC']);
                     unset($_SESSION['totalErroresC']);
                     unset($_SESSION['FechaInicio']);
+                    unset($_SESSION['moduloActivoC']);
+                    unset($_SESSION['seccionActivoC']);
                 } else {
                     $resultado->correctoV = false;
                 }

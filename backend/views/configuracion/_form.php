@@ -5,8 +5,17 @@ use yii\bootstrap4\ActiveForm;
 use common\widgets\GuardarCambios;
 use common\widgets\ContenedorTablas;
 
+$estiloRespuestas = '';
+$estiloMensaje = 'display: none;';
+$mensajeMuestra = "";
+if (isset($modelRespuestaMuestra)) {
+    if (count($modelRespuestaMuestra) > 5) {
+        $estiloRespuestas = 'display:none;';
+        $mensajeMuestra = "Solo puede ingresar un máximo de 6 respuestas en la actividad";
+        $estiloMensaje = "";
+    }
+}
 ?>
-
 
 <?php $form = ActiveForm::begin(); ?>
 <div class="configuracion-form">
@@ -64,46 +73,50 @@ use common\widgets\ContenedorTablas;
         Módulo de respuestas
     </h3>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <?= $form->field($modelRespuestas, 'resNumero')->textInput(['value' => ('Respuesta ' . ($totalRespuestas + 1)), 'disabled' => true]) ?>
-            </div>
-        </div>
-        <?php if (($totalPreguntas == 3 || $totalPreguntas == 5) && $modelID->modNombre == 'Sonidos iniciales') { ?>
+    <div id="campoRespuestas" style="<?= $estiloRespuestas ?>">
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <?= $form->field($modelRespuestas, 'respuestaCorrectoEspecial')->dropDownList(FuncionesGenerales::TiposRespuestas(), array()); ?>
+                    <?= $form->field($modelRespuestas, 'resNumero')->textInput(['value' => ('Respuesta ' . ($totalRespuestas + 1)), 'disabled' => true]) ?>
                 </div>
             </div>
-        <?php } ?>
-        <div class="col-md-6">
-            <div class="form-group">
-                <?= $form->field($modelRespuestas, 'respuestaCorrecto')->dropDownList(FuncionesGenerales::TiposRespuestas(), array()); ?>
+            <?php if (($totalPreguntas == 3 || $totalPreguntas == 5) && $modelID->modNombre == 'Sonidos iniciales') { ?>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?= $form->field($modelRespuestas, 'respuestaCorrectoEspecial')->dropDownList(FuncionesGenerales::TiposRespuestas(), array()); ?>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <?= $form->field($modelRespuestas, 'respuestaCorrecto')->dropDownList(FuncionesGenerales::TiposRespuestas(), array()); ?>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <?= $form->field($modelRespuestas, 'imagen') ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <?= $form->field($modelRespuestas, 'imagen') ?>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <?= $form->field($modelRespuestas, 'respuestaTexto') ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <?= $form->field($modelRespuestas, 'respuestaTexto') ?>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            </br>
-            <button class="btn btn-primary" onclick="agregarRespuesta();" type="button">Agregar respuesta</button>
+        <div class="row">
+            <div class="col-md-12">
+                </br>
+                <button class="btn btn-primary" onclick="agregarRespuesta();" type="button">Agregar respuesta</button>
+            </div>
         </div>
+        </br>
     </div>
-    </br>
+    <div class="alert alert-primary" name='mensajeI' id="mensajeI" role="alert" style="<?= $estiloMensaje ?>"><?= $mensajeMuestra ?></div>
+
     <div class="alert alert-danger" name='error' id="error" role="alert" style="display: none;"><?= $errorMensaje ?></div>
     </br>
     <div style="color:#dc3545;font-size:80%" id="errorRespuestas"></div>
@@ -259,6 +272,12 @@ use common\widgets\ContenedorTablas;
                 $('#respuestas-respuestatexto').val('');
                 $('#respuestas-imagen').val('');
             }
+            var nFilas = $("#tablaRespuestas tr").length;
+            if ((nFilas - 1) > 5) {
+                $("#campoRespuestas").hide();
+                $("#mensajeI").show();
+                document.getElementById('mensajeI').innerHTML='Solo puede ingresar un máximo de 6 respuestas en la actividad';
+            }
         } else {
             $("#errorRespuestas").html('Para ingresar una respuesta se debe llegar todos los campos.');
         }
@@ -268,6 +287,12 @@ use common\widgets\ContenedorTablas;
         let row = document.getElementById(id);
         row.parentNode.removeChild(row);
         if ($('#elementosRespuestas').val() === undefined) {}
+
+        var nFilas = $("#tablaRespuestas tr").length;
+        if ((nFilas - 1) < 6) {
+            $("#campoRespuestas").show();
+            $("#mensajeI").hide();
+        }
     }
 
     function guardarElemento(id) {

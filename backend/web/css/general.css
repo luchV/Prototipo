@@ -371,8 +371,8 @@ input[type="checkbox"] {
 }
 
 .table-bordered {
-  border: 1px solid #dee2e6;
-  background: #f5f8ff;
+  border: 1px solid var(--color-tabla-fonto-border);
+  background: var(--color-tabla-fonto);
 }
 
 .modal-content {
@@ -398,7 +398,7 @@ input[type="checkbox"] {
   box-shadow: 0px 0px 50px 0px rgb(0 0 0 / 20%);
   border-radius: 30px;
   padding: 0.6em;
-  background: #dde874;
+  background: var(--fondo-fotos-primeras);
 }
 
 .fotosMicrofono {
@@ -466,4 +466,8 @@ input[type="checkbox"] {
 
 .modal-backdrop {
   width: 0vw;
+}
+
+.conjunto-Microfono {
+  display: -webkit-inline-box;
 }

@@ -15,7 +15,9 @@ $this->title = $modelModulo->modNombre;
 $this->params['breadcrumbs'][] = $this->title;
 
 $soloVoz = '';
+$funcionSoloVoz = 'realizarReconocimientoMultipleOrdenado';
 if ($modelSeccion->secTipoRespuesta == 'voz') {
+    $funcionSoloVoz = 'realizarReconocimientSoloVoz';
     $soloVoz = 'disabled';
     $textoComienzo = 'Desactivar micrófono';
 }
@@ -68,7 +70,7 @@ if ($accion == 'pregunta-final') {
                 'totalRespuestas' => count($modelRespuestas),
                 'ocultarCampoGeneral' => 'style="display:none;"',
                 'oculptarCampoMicro' => 'style="display:none;"',
-                'funcionActiva' => 'realizarReconocimientSoloVoz',
+                'funcionActiva' => $funcionSoloVoz,
                 'soloVoz' => $soloVoz,
             ]); ?>
             <br>
@@ -86,7 +88,7 @@ if ($accion == 'pregunta-final') {
 
                     $cont = 0;
                     foreach ($modelRespuestas as $imagenes) {
-                        if ($countAux > 3) {
+                        if ($countAux > 5) {
                             $countAux = 0;
                     ?>
                             <br />

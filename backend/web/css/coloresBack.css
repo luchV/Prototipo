@@ -1,6 +1,6 @@
 :root {
   /*color para la ventana*/
-  --color-doby: #e9dcbe;
+  --color-doby: #e0cdf3;
   /*color para borde*/
   --primary: #eee;
   /*color para letras de botón*/
@@ -58,7 +58,11 @@
 
   /*Imagenes de fondo*/
   --imagen-doby-inicio: url(img/Bienvenida.jpg);
-  --imagen-doby-paginas: url(../img/Body.jpg);
+  --imagen-doby-paginas: url(img/Body.jpg);
+
+  /*Imagenes de fondo*/
+  --color-tabla-fonto: #f5f8ff;
+  --color-tabla-fonto-border: #dee2e6;
 
   /******************Colores de actividades******************/
   /*Fondo de botones*/
@@ -99,7 +103,8 @@
   );
 
   /*Fondo de botones*/
-  --fondo-fotos-normal: #dde874;
+  --fondo-fotos-normal: #eee;
+  --fondo-fotos-primeras: #dde874;
 
   /*Fondo de microfono*/
   --fondo-microfono: linear-gradient(

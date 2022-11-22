@@ -31,13 +31,6 @@ function realizarReconocimiento() {
 				document.querySelector('#cap' + i).checked = false;
 			}
 		}
-		if (!seleccionCorrecta) {
-			document.getElementById("errorMensaje").style.display = "grid";
-			textError.textContent = 'No se seleccionó ninguna opción, vuelva a intentarlo.';
-		} else {
-			textError.textContent = '';
-			document.getElementById("errorMensaje").style.display = "none";
-		}
 	} else {
 		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;
@@ -54,24 +47,21 @@ function realizarReconocimientoMultipleOrdenado() {
 		activo = false;
 		let seleccionCorrecta = false;
 		for (var i = 0; i < cont; i++) {
-			let valorBusqueda = (document.getElementById('capRes' + i).value).split(' ');
-			if ((texto.innerHTML).localeCompare(valorBusqueda[0], undefined, { sensitivity: 'base' }) == 0) {
-				if (document.querySelector('#capRes' + i).checked) {
-					document.querySelector('#capRes' + i).checked = false;
-				} else {
-					document.querySelector('#capRes' + i).checked = true;
-					uncheckRadio(document.querySelector('#capRes' + i));
+			if (texto.innerHTML != "") {
+				let valorBusqueda = (document.getElementById('capRes' + i).value).split(' ');
+				if ((texto.innerHTML).localeCompare(valorBusqueda[0], undefined, { sensitivity: 'base' }) == 0) {
+					if (document.querySelector('#capRes' + i).checked) {
+						document.querySelector('#capRes' + i).checked = false;
+					} else {
+						document.querySelector('#capRes' + i).checked = true;
+						uncheckRadio(document.querySelector('#capRes' + i));
+					}
+					texto.innerHTML="";
+					seleccionCorrecta = true;
 				}
-				seleccionCorrecta = true;
 			}
 		}
-		if (!seleccionCorrecta) {
-			document.getElementById("errorMensaje").style.display = "grid";
-			textError.textContent = 'No se seleccionó ninguna opción, vuelva a intentarlo.';
-		} else {
-			textError.textContent = '';
-			document.getElementById("errorMensaje").style.display = "none";
-		}
+
 	} else {
 		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;

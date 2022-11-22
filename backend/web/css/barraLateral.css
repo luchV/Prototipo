@@ -15,10 +15,6 @@ body {
 
 main {
   padding: 20px;
-  background-image: var(--imagen-doby-paginas);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
 }
 
 header {

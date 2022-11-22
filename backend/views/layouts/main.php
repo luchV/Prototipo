@@ -28,7 +28,10 @@ AppAsset::register($this);
 
     <style type="text/css">
         body {
-            background: #694188;
+            background-image: var(--imagen-doby-paginas);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
         }
     </style>
 </head>

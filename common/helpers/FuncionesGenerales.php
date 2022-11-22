@@ -130,7 +130,7 @@ class FuncionesGenerales
         $fecha_hoy =  new DateTime(date('Y/m/d', strtotime($fechaEjecucion))); // Creo un objeto DateTime de la fecha de hoy
         $edad = date_diff($fecha_hoy, $fecha_nac); // La funcion ayuda a calcular la diferencia, esto seria un objeto
         $respuesta->edad = $edad;
-        $respuesta->edadTexto = "{$edad->format('%Y')} años, {$edad->format('%m')} meses y {$edad->format('%d')} dias";
+        $respuesta->edadTexto = "{$edad->format('%Y')} años, {$edad->format('%m')} meses y {$edad->format('%d')} días";
 
         return $respuesta;
     }

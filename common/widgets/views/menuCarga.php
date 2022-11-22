@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\ConsultasGenerales;
 use common\models\Modulos;
 use common\models\TieneModulosUsuarios;
 use common\models\Params;
@@ -40,7 +41,7 @@ if (!is_null($usu)) {
   }
   usort($rolesReportes, "storey_sort");
   foreach ($rolesReportes as $ingreso) {
-      array_push($menus, $ingreso);
+    array_push($menus, $ingreso);
   }
 
   $MenusCargados = '';

@@ -56,7 +56,12 @@ class CampoVoz extends Widget
      * @var string
      */
     public $claseCheck = 'class="checkbox-JASoft"';
-    
+
+    /**
+     * @var string
+     */
+    public $difetenteEstilo = 'class="conjunto-Microfono"';
+
     /**
      * {@inheritdoc}
      */
@@ -73,6 +78,7 @@ class CampoVoz extends Widget
             'soloVoz' => $this->soloVoz,
             'vozActiva' => $this->vozActiva,
             'claseCheck' => $this->claseCheck,
+            'difetenteEstilo' => $this->difetenteEstilo,
         ]);
     }
 }

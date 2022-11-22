@@ -2,7 +2,10 @@
 
 /** @var yii\web\View $this */
 
+use common\helpers\ConsultasGenerales;
+
 $this->title = 'My Yii Application';
+ConsultasGenerales::terminarSesiones();
 ?>
 <style type="text/css">
     body {

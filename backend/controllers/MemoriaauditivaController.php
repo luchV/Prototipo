@@ -88,7 +88,7 @@ class MemoriaauditivaController extends Controller
 
         $modelModulo = ConsultasGenerales::findModel($modelSeccion->modCodigo);
         $modelRespuestas = ConsultasGenerales::findModelRespuestaTodos($modelSeccion->secCodigo);
-        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresM', 'totalCorrectosM', 'FechaInicioM');
+        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresM', 'totalCorrectosM', 'FechaInicioM', 'moduloActivoM', 'seccionActivoM');
     }
 
     /**
@@ -100,9 +100,9 @@ class MemoriaauditivaController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoM');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoM');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
@@ -133,9 +133,9 @@ class MemoriaauditivaController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoM');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoM');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
@@ -166,9 +166,9 @@ class MemoriaauditivaController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoM');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoM');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
@@ -200,9 +200,9 @@ class MemoriaauditivaController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoM');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoM');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosM'] = $_SESSION['totalCorrectosM']  + 1;
@@ -234,9 +234,9 @@ class MemoriaauditivaController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoM');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoM');
             }
 
             if ($resultado->correctoV) {
@@ -259,6 +259,8 @@ class MemoriaauditivaController extends Controller
                     unset($_SESSION['totalCorrectosM']);
                     unset($_SESSION['totalErroresM']);
                     unset($_SESSION['FechaInicioM']);
+                    unset($_SESSION['moduloActivoM']);
+                    unset($_SESSION['seccionActivoM']);
                 } else {
                     $resultado->correctoV = false;
                 }

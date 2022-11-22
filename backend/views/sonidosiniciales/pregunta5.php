@@ -88,7 +88,7 @@ $modelRespuestasSuper = ConsultasGenerales::findModelRespuestaConteoEspecial($mo
                     $cont = 0;
                     $countAux = 0;
                     foreach ($arrayDesorden as $imagenes) {
-                        if ($countAux > 3) {
+                        if ($countAux > 5) {
                             $countAux = 0;
                     ?>
                             <br />

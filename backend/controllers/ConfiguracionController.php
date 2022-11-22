@@ -124,7 +124,7 @@ class ConfiguracionController extends Controller
         }
         $numeroPregunta = 1;
 
-        if ($numeroPreguntaSecc == '3' && $nombreModelo == 'Sonidos iniciales') {
+        if (($numeroPreguntaSecc == '3' || $numeroPreguntaSecc == '5') && $nombreModelo == 'Sonidos iniciales') {
             foreach ($tablaDatos as $elemento) {
                 $infoRespuesta = explode("&", $elemento);
                 $modelAux = new Respuestas();

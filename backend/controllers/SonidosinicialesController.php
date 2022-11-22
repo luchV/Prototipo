@@ -88,7 +88,7 @@ class SonidosinicialesController extends Controller
 
         $modelModulo = ConsultasGenerales::findModel($modelSeccion->modCodigo);
         $modelRespuestas = ConsultasGenerales::findModelRespuestaTodos($modelSeccion->secCodigo);
-        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresS', 'totalCorrectosS', 'FechaInicioS');
+        return ConsultasGenerales::renderPreguntas($this, $modelSeccion, $modelModulo, $modelRespuestas, $seccionesUsuario, 'totalErroresS', 'totalCorrectosS', 'FechaInicioS', 'moduloActivoS', 'seccionActivoS');
     }
 
     /**
@@ -100,9 +100,9 @@ class SonidosinicialesController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoS');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoS');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
@@ -133,9 +133,9 @@ class SonidosinicialesController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoS');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoS');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
@@ -166,9 +166,9 @@ class SonidosinicialesController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoS');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoS');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
@@ -193,7 +193,7 @@ class SonidosinicialesController extends Controller
     public function actionValidarImagenes()
     {
         try {
-            $resultado =  ConsultasGenerales::vaidarCorrectoSinOrdenEspecial();
+            $resultado =  ConsultasGenerales::vaidarCorrectoSinOrdenEspecial('seccionActivoS');
             if (!$resultado->correctoV) {
                 $_SESSION['totalErroresS'] = $_SESSION['totalErroresS']  + 1;
             }
@@ -221,9 +221,9 @@ class SonidosinicialesController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoS');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoS');
             }
             if ($resultado->correctoV) {
                 $_SESSION['totalCorrectosS'] = $_SESSION['totalCorrectosS']  + 1;
@@ -255,9 +255,9 @@ class SonidosinicialesController extends Controller
     {
         try {
             if (isset($_POST['sinOrden']) && $_POST['sinOrden']) {
-                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden();
+                $resultado =  ConsultasGenerales::vaidarCorrectoSinOrden('seccionActivoS');
             } else {
-                $resultado = ConsultasGenerales::vaidarCorrecto();
+                $resultado = ConsultasGenerales::vaidarCorrecto('seccionActivoS');
             }
 
             if ($resultado->correctoV) {
@@ -280,6 +280,8 @@ class SonidosinicialesController extends Controller
                     unset($_SESSION['totalCorrectosS']);
                     unset($_SESSION['totalErroresS']);
                     unset($_SESSION['FechaInicioS']);
+                    unset($_SESSION['moduloActivoS']);
+                    unset($_SESSION['seccionActivoS']);
                 } else {
                     $resultado->correctoV = false;
                 }
