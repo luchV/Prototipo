@@ -87,7 +87,9 @@ function activar(checkAvanzado) {
 	let textError = document.getElementById('error');
 	if (checkAvanzado.checked) {
 		$('#reconocimientoVoz').show();
+		document.getElementById('idtextoLabelVoz').style.display = "none";
 	} else {
+		document.getElementById('idtextoLabelVoz').style.display = "inline-table";
 		$('#reconocimientoVoz').hide();
 		textError.textContent = '';
 		texto.innerHTML = '';
