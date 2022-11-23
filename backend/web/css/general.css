@@ -471,3 +471,7 @@ input[type="checkbox"] {
 .conjunto-Microfono {
   display: -webkit-inline-box;
 }
+.required::before {
+  content:" *";
+  color: red;
+}
