@@ -95,10 +95,10 @@ class SiteController extends Controller
                         $error = "El usuario no tiene un encargado, </br> por favor comuníquese con un administrador.";
                     }
                 } else {
-                    $error = "La contraseña están incorrecta.";
+                    $error = "La contraseña está incorrecta.";
                 }
             } else {
-                $error = "El correo están incorrecto.";
+                $error = "El correo está incorrecto.";
             }
         }
         return $this->render('login', [

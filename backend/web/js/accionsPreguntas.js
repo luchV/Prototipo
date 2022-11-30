@@ -912,4 +912,11 @@ function activarMicroCambioTexto2(checkAvanzado, cantidad) {
 
 function activarMicroCambioTexto3(checkAvanzado, cantidad) {
     activar(checkAvanzado);
+    if (checkAvanzado.checked) {
+        document.getElementById('idtextoLabelVoz').style.display = "none";
+
+    } else {
+        document.getElementById('idtextoLabelVoz').style.display = "inline-table";
+
+    }
 }

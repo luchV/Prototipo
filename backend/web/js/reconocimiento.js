@@ -1,10 +1,12 @@
 texto = document.getElementById('texto');
 var activo = false;
 
+/* Comprobando si el navegador es compatible con la API de reconocimiento de voz. */
 if (!("webkitSpeechRecognition" in window)) {
 	let textError = document.querySelector('.error');
 	textError.textContent = 'Disculpas, no puedes usar el reconocimiento de voz en tu navegador.';
 }
+/* El código que se utiliza para reconocer la voz. */
 let recognition = new webkitSpeechRecognition();
 recognition.lang = 'es-VE';
 recognition.continuous = true;
@@ -68,10 +70,14 @@ function realizarReconocimientoMultipleOrdenado() {
 		recognition.start();
 	}
 }
+/**
+ * Si el micrófono está activo, escuchar lo que se hable. Si el micrófono
+ * no está activo, muestre el texto que se pronunció.
+ */
 function realizarReconocimientSoloVoz() {
 	let escucha = document.querySelector('#start_img');
 	if (activo) {
-		recognition.abort();
+		recognition.abort(); //cancela el reconocimiento de voz
 		escucha.className = 'fas fa-microphone-alt tamanoIcono2';
 		activo = false;
 		let Vtexto = document.getElementById('texto');
@@ -79,7 +85,7 @@ function realizarReconocimientSoloVoz() {
 	} else {
 		escucha.className = 'fas fa-microphone-alt-slash tamanoIcono2';
 		activo = true;
-		recognition.start();
+		recognition.start(); //ejecuta el reconocimiento de voz
 	}
 }
 
@@ -87,9 +93,7 @@ function activar(checkAvanzado) {
 	let textError = document.getElementById('error');
 	if (checkAvanzado.checked) {
 		$('#reconocimientoVoz').show();
-		document.getElementById('idtextoLabelVoz').style.display = "none";
 	} else {
-		document.getElementById('idtextoLabelVoz').style.display = "inline-table";
 		$('#reconocimientoVoz').hide();
 		textError.textContent = '';
 		texto.innerHTML = '';
