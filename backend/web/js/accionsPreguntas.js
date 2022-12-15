@@ -255,6 +255,12 @@ function volverIntentar() {
         document.querySelector("#cap" + i).checked = false;
     }
 }
+
+/**
+ * Si el botón de opción está marcado, agregue un espacio y el número de la respuesta al valor del
+ * botón de opción.
+ * @param rbutton - El botón de opción en el que se hizo clic.
+ */
 var era;
 var previo = null;
 var contadorRespuestas = 1;
